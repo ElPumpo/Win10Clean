@@ -29,22 +29,25 @@ Partial Class Home
         Me.HomeGroupBtn = New System.Windows.Forms.Button()
         Me.CloseBtn = New System.Windows.Forms.Button()
         Me.Button4 = New System.Windows.Forms.Button()
+        Me.GameDVRBtn = New System.Windows.Forms.Button()
+        Me.CheckUpdatesBtn = New System.Windows.Forms.Button()
+        Me.AboutBtn = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'DelLibBtn
         '
-        Me.DelLibBtn.Location = New System.Drawing.Point(12, 144)
+        Me.DelLibBtn.Location = New System.Drawing.Point(12, 86)
         Me.DelLibBtn.Name = "DelLibBtn"
-        Me.DelLibBtn.Size = New System.Drawing.Size(221, 60)
+        Me.DelLibBtn.Size = New System.Drawing.Size(221, 31)
         Me.DelLibBtn.TabIndex = 0
         Me.DelLibBtn.Text = "Remove libary folders in My PC"
         Me.DelLibBtn.UseVisualStyleBackColor = True
         '
         'OneDriveBtn
         '
-        Me.OneDriveBtn.Location = New System.Drawing.Point(12, 210)
+        Me.OneDriveBtn.Location = New System.Drawing.Point(12, 123)
         Me.OneDriveBtn.Name = "OneDriveBtn"
-        Me.OneDriveBtn.Size = New System.Drawing.Size(221, 32)
+        Me.OneDriveBtn.Size = New System.Drawing.Size(221, 31)
         Me.OneDriveBtn.TabIndex = 1
         Me.OneDriveBtn.Text = "Uninstall OneDrive"
         Me.OneDriveBtn.UseVisualStyleBackColor = True
@@ -53,32 +56,32 @@ Partial Class Home
         '
         Me.DefenderBtn.Location = New System.Drawing.Point(12, 12)
         Me.DefenderBtn.Name = "DefenderBtn"
-        Me.DefenderBtn.Size = New System.Drawing.Size(221, 60)
+        Me.DefenderBtn.Size = New System.Drawing.Size(221, 31)
         Me.DefenderBtn.TabIndex = 2
         Me.DefenderBtn.Text = "Disable Windows Defender"
         Me.DefenderBtn.UseVisualStyleBackColor = True
         '
         'MeteroBtn
         '
-        Me.MeteroBtn.Location = New System.Drawing.Point(12, 78)
+        Me.MeteroBtn.Location = New System.Drawing.Point(12, 49)
         Me.MeteroBtn.Name = "MeteroBtn"
-        Me.MeteroBtn.Size = New System.Drawing.Size(221, 60)
+        Me.MeteroBtn.Size = New System.Drawing.Size(221, 31)
         Me.MeteroBtn.TabIndex = 3
         Me.MeteroBtn.Text = "Uninstall Metero apps"
         Me.MeteroBtn.UseVisualStyleBackColor = True
         '
         'HomeGroupBtn
         '
-        Me.HomeGroupBtn.Location = New System.Drawing.Point(12, 248)
+        Me.HomeGroupBtn.Location = New System.Drawing.Point(12, 160)
         Me.HomeGroupBtn.Name = "HomeGroupBtn"
-        Me.HomeGroupBtn.Size = New System.Drawing.Size(221, 32)
+        Me.HomeGroupBtn.Size = New System.Drawing.Size(221, 31)
         Me.HomeGroupBtn.TabIndex = 4
         Me.HomeGroupBtn.Text = "Disable HomeGroup"
         Me.HomeGroupBtn.UseVisualStyleBackColor = True
         '
         'CloseBtn
         '
-        Me.CloseBtn.Location = New System.Drawing.Point(12, 286)
+        Me.CloseBtn.Location = New System.Drawing.Point(12, 271)
         Me.CloseBtn.Name = "CloseBtn"
         Me.CloseBtn.Size = New System.Drawing.Size(105, 31)
         Me.CloseBtn.TabIndex = 5
@@ -87,19 +90,49 @@ Partial Class Home
         '
         'Button4
         '
-        Me.Button4.Location = New System.Drawing.Point(123, 286)
+        Me.Button4.Location = New System.Drawing.Point(123, 234)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(110, 31)
         Me.Button4.TabIndex = 6
-        Me.Button4.Text = "Undo"
+        Me.Button4.Text = "to be changed"
         Me.Button4.UseVisualStyleBackColor = True
+        '
+        'GameDVRBtn
+        '
+        Me.GameDVRBtn.Location = New System.Drawing.Point(12, 197)
+        Me.GameDVRBtn.Name = "GameDVRBtn"
+        Me.GameDVRBtn.Size = New System.Drawing.Size(221, 31)
+        Me.GameDVRBtn.TabIndex = 7
+        Me.GameDVRBtn.Text = "Disable GameDVR"
+        Me.GameDVRBtn.UseVisualStyleBackColor = True
+        '
+        'CheckUpdatesBtn
+        '
+        Me.CheckUpdatesBtn.Location = New System.Drawing.Point(12, 234)
+        Me.CheckUpdatesBtn.Name = "CheckUpdatesBtn"
+        Me.CheckUpdatesBtn.Size = New System.Drawing.Size(105, 31)
+        Me.CheckUpdatesBtn.TabIndex = 8
+        Me.CheckUpdatesBtn.Text = "Updates"
+        Me.CheckUpdatesBtn.UseVisualStyleBackColor = True
+        '
+        'AboutBtn
+        '
+        Me.AboutBtn.Location = New System.Drawing.Point(123, 271)
+        Me.AboutBtn.Name = "AboutBtn"
+        Me.AboutBtn.Size = New System.Drawing.Size(110, 31)
+        Me.AboutBtn.TabIndex = 9
+        Me.AboutBtn.Text = "About"
+        Me.AboutBtn.UseVisualStyleBackColor = True
         '
         'Home
         '
         Me.AcceptButton = Me.CloseBtn
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(245, 329)
+        Me.ClientSize = New System.Drawing.Size(245, 314)
+        Me.Controls.Add(Me.AboutBtn)
+        Me.Controls.Add(Me.CheckUpdatesBtn)
+        Me.Controls.Add(Me.GameDVRBtn)
         Me.Controls.Add(Me.Button4)
         Me.Controls.Add(Me.CloseBtn)
         Me.Controls.Add(Me.HomeGroupBtn)
@@ -124,4 +157,7 @@ Partial Class Home
     Friend WithEvents HomeGroupBtn As Button
     Friend WithEvents CloseBtn As Button
     Friend WithEvents Button4 As Button
+    Friend WithEvents GameDVRBtn As Button
+    Friend WithEvents CheckUpdatesBtn As Button
+    Friend WithEvents AboutBtn As Button
 End Class

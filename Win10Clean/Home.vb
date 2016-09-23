@@ -33,6 +33,33 @@ Public Class Home
     Private Sub DelLibBtn_Click(sender As Object, e As EventArgs) Handles DelLibBtn.Click
         Enabled = False
 
+        Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
+            Case MsgBoxResult.Yes
+                HideLibs()
+        End Select
+
+        Enabled = True
+    End Sub
+
+    Private Sub OneDriveBtn_Click(sender As Object, e As EventArgs) Handles OneDriveBtn.Click
+
+        Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
+            Case MsgBoxResult.Yes
+                UninstallOneDrive()
+        End Select
+    End Sub
+
+    Private Sub UninstallOneDrive()
+        Dim OnePath As String = Nothing
+        If Environment.Is64BitOperatingSystem = True Then
+            OnePath = Environment.GetFolderPath(Environment.SpecialFolder.SystemX86) + "\OneDriveSetup.exe"
+        Else
+            OnePath = Environment.GetFolderPath(Environment.SpecialFolder.System) + "\OneDriveSetup.exe"
+        End If
+        Process.Start(OnePath, "/uninstall")
+    End Sub
+
+    Private Sub HideLibs()
         Static LibReg As RegistryKey
         Static LibKey As String = "SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\"
         For Each key As String In LibGUID
@@ -40,14 +67,8 @@ Public Class Home
             Console.WriteLine("key='" + FinalKey + "',val='" + LibVal + "'")
             LibReg = Registry.LocalMachine.OpenSubKey(FinalKey, True)
 
-
-
             LibReg.SetValue("ThisPCPolicy", LibVal)
-
             LibReg.Close()
         Next
-
-        Enabled = True
-
     End Sub
 End Class

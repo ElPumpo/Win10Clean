@@ -9,7 +9,7 @@ Imports System.Runtime.InteropServices
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("Win10Clean")>
-<Assembly: AssemblyDescription("")>
+<Assembly: AssemblyDescription("Cleanup your Windows 10 enviroment")>
 <Assembly: AssemblyCompany("Hawaii_Beach")>
 <Assembly: AssemblyProduct("Win10Clean")>
 <Assembly: AssemblyCopyright("Copyright ©  2016")>
