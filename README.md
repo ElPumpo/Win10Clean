@@ -17,3 +17,4 @@ Here is progress, here is the list of what needs to be done and what is. This is
 - [x] GameDVR disabler (uninstalling the Xbox app doesn't stop it)
 - [ ] Undo / "go back" button
 - [ ] Treat possible errors, and seal of code (with Try, Catch)
+- [ ] Project icon
