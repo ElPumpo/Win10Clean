@@ -1,4 +1,5 @@
-﻿Imports Microsoft.Win32
+﻿Imports System.IO
+Imports Microsoft.Win32
 
 Public Class Home
 
@@ -49,7 +50,20 @@ Public Class Home
         End Select
     End Sub
 
+    Private Sub AboutBtn_Click(sender As Object, e As EventArgs) Handles AboutBtn.Click
+        MessageBox.Show("Made by Hawaii_Beach, the project is hosted on GitHub", "About", MessageBoxButtons.OK)
+    End Sub
+
+    Private Sub GameDVRBtn_Click(sender As Object, e As EventArgs) Handles GameDVRBtn.Click
+    End Sub
+
     Private Sub UninstallOneDrive()
+        Try
+            Process.GetProcessesByName("OneDrive")(0).Kill()
+        Catch ex As Exception
+            ' ignore errors
+        End Try
+
         Dim OnePath As String = Nothing
         If Environment.Is64BitOperatingSystem = True Then
             OnePath = Environment.GetFolderPath(Environment.SpecialFolder.SystemX86) + "\OneDriveSetup.exe"
@@ -57,6 +71,40 @@ Public Class Home
             OnePath = Environment.GetFolderPath(Environment.SpecialFolder.System) + "\OneDriveSetup.exe"
         End If
         Process.Start(OnePath, "/uninstall")
+
+        ' All the folders to be deleted
+        Dim OnePaths() As String =
+        {
+            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\OneDrive",
+            Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.System)) + "OneDriveTemp",
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\Microsoft\OneDrive",
+            Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\Microsoft OneDrive"
+        }
+
+        For Each dir As String In OnePaths
+            If (Directory.Exists(dir)) Then
+                Try
+                    Directory.Delete(dir, True)
+                Catch ex As Exception
+                    ' ignore errors
+                End Try
+            End If
+        Next
+
+        Dim OneKeys() As String =
+        {
+            "CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}",
+            "Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}"
+        }
+        For Each keys As String In OneKeys
+            Try
+                Registry.ClassesRoot.DeleteSubKeyTree(keys)
+            Catch ex As Exception
+                ' ignore errors
+            End Try
+
+        Next
+
     End Sub
 
     Private Sub HideLibs()

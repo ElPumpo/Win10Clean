@@ -54,7 +54,6 @@ Public Class Metero
     End Sub
 
     Private Sub UninstallApp(AppName As String)
-        MessageBox.Show(AppBox.SelectedIndex)
         Using PowerScript As PowerShell = PowerShell.Create()
             PowerScript.AddScript("Get-AppxPackage " + AppBox.SelectedItem.ToString + "| Remove-AppxPackage")
             PowerScript.Invoke()
