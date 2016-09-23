@@ -53,6 +53,19 @@ Public Class Home
     End Sub
 
     Private Sub GameDVRBtn_Click(sender As Object, e As EventArgs) Handles GameDVRBtn.Click
+        Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
+            Case MsgBoxResult.Yes
+                Enabled = False
+                Try
+                    Static Key As Object = Registry.CurrentUser.OpenSubKey("SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR", True)
+                    Key.SetValue("AppCaptureEnabled", 0, RegistryValueKind.DWord)
+                    Key.Close()
+                    MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Catch ex As Exception
+                    MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+                Enabled = True
+        End Select
     End Sub
 
     Private Sub UninstallOneDrive()

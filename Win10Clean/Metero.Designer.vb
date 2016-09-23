@@ -76,7 +76,7 @@ Partial Class Metero
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Name = "Metero"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Metero"
+        Me.Text = "Handle Win10 / metero apps"
         Me.ResumeLayout(False)
 
     End Sub

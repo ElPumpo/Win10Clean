@@ -67,7 +67,7 @@ Partial Class Home
         Me.MeteroBtn.Name = "MeteroBtn"
         Me.MeteroBtn.Size = New System.Drawing.Size(221, 31)
         Me.MeteroBtn.TabIndex = 3
-        Me.MeteroBtn.Text = "Uninstall Metero apps"
+        Me.MeteroBtn.Text = "Uninstall Win10 / metero apps"
         Me.MeteroBtn.UseVisualStyleBackColor = True
         '
         'HomeGroupBtn
