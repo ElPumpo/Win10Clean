@@ -20,16 +20,16 @@ Imports System.Runtime.InteropServices
 'The following GUID is for the ID of the typelib if this project is exposed to COM
 <Assembly: Guid("d781cd6d-11a5-4c6b-aacd-6d03ecb6d1d8")>
 
-' Version information for an assembly consists of the following four values:
+' Version information for an assembly consists of the following three values:
 '
 '      Major Version
 '      Minor Version 
-'      Build Number
-'      Revision
+'      Patch
 '
+' Following the Semantic Versioning 2.0.0 standard; see http://semver.org/spec/v2.0.0.html.
 ' You can specify all the values or you can default the Build and Revision Numbers 
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.0.0.0")>
-<Assembly: AssemblyFileVersion("1.0.0.0")>
+<Assembly: AssemblyVersion("0.5.0")>
+<Assembly: AssemblyFileVersion("0.5.0")>

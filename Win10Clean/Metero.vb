@@ -43,6 +43,7 @@ Public Class Metero
             Select Case MsgBox("Are you sure you want to uninstall " + AppBox.SelectedItem + "?", MsgBoxStyle.YesNo)
                 Case MsgBoxResult.Yes
                     UninstallApp(AppBox.SelectedItem)
+                    MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End Select
         End If
         Enabled = True

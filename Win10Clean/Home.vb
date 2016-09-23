@@ -45,11 +45,12 @@ Public Class Home
         Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes
                 UninstallOneDrive()
+                MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Select
     End Sub
 
     Private Sub AboutBtn_Click(sender As Object, e As EventArgs) Handles AboutBtn.Click
-        MessageBox.Show("Made by Hawaii_Beach, the project is hosted on GitHub", "About", MessageBoxButtons.OK)
+        MessageBox.Show("Made by Hawaii_Beach, the project is hosted on GitHub. Licensed by GPLv3", "About", MessageBoxButtons.OK)
     End Sub
 
     Private Sub GameDVRBtn_Click(sender As Object, e As EventArgs) Handles GameDVRBtn.Click
@@ -131,7 +132,6 @@ Public Class Home
             End Try
 
         Next
-
     End Sub
 
     Private Sub HideLibs()
@@ -147,5 +147,8 @@ Public Class Home
             LibReg.SetValue("ThisPCPolicy", LibVal)
             LibReg.Close()
         Next
+
+        MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
     End Sub
 End Class
