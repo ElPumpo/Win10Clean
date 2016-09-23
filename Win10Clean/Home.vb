@@ -68,6 +68,22 @@ Public Class Home
         End Select
     End Sub
 
+    Private Sub DefenderBtn_Click(sender As Object, e As EventArgs) Handles DefenderBtn.Click
+        Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
+            Case MsgBoxResult.Yes
+                Enabled = False
+                Try
+                    Static Key As Object = Registry.LocalMachine.OpenSubKey("SOFTWARE\Policies\Microsoft\Windows Defender", True)
+                    Key.SetValue("DisableAntiSpyware", 1, RegistryValueKind.DWord) ' 0x00000001
+                    Key.Close()
+                    MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Catch ex As Exception
+                    MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+                Enabled = True
+        End Select
+    End Sub
+
     Private Sub UninstallOneDrive()
         Try
             Process.GetProcessesByName("OneDrive")(0).Kill()
