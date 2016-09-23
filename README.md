@@ -13,7 +13,8 @@ Here is progress, here is the list of what needs to be done and what is. This is
 - [x] Remove misc folders from My Pc
 - [ ] Update checker
 - [ ] Ability to disable HomeGroup (cuz i don't use it)
-- [ ] Windows Defender disabler (cuz i'm using malwarebytes)
+- [x] Windows Defender disabler (cuz i'm using malwarebytes) - 171f008
 - [x] GameDVR disabler (uninstalling the Xbox app doesn't stop it)
 - [ ] Undo / "go back" button
 - [ ] Treat possible errors, and seal of code (with Try, Catch)
+- [ ] Project icon
