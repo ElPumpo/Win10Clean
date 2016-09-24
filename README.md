@@ -11,6 +11,10 @@ It does not have any functions to disable Windows 10 spying, for that stuff you'
 #Download
 Runnable executables are available [here](https://github.com/ElPumpo/Win10Clean/releases).
 
+#Requirements
++ Windows 10, 8.1 and 8 are all supported
++ .NET framework 4.6
+
 # Todo
 Here is progress, here is the list of what needs to be done and what is. This is not stuff I need to come up solutions with, I already have what I need - I am currently porting code over.
 - [x] OneDrive uninstaller
