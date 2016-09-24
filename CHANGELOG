@@ -1,0 +1,11 @@
+# Change Log
+All notable changes to this project will be documented in this file.
+
+## [Unreleased]
+### Added
+- You can now disable HomeGroup.
+- Added tooltips for extended information.
+
+### Changed
+- A lot of actions including modifing the registry has been improved.
+- Improved debugging.
