@@ -22,6 +22,7 @@ Partial Class Home
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.DelLibBtn = New System.Windows.Forms.Button()
         Me.OneDriveBtn = New System.Windows.Forms.Button()
         Me.DefenderBtn = New System.Windows.Forms.Button()
@@ -32,6 +33,7 @@ Partial Class Home
         Me.GameDVRBtn = New System.Windows.Forms.Button()
         Me.CheckUpdatesBtn = New System.Windows.Forms.Button()
         Me.AboutBtn = New System.Windows.Forms.Button()
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.SuspendLayout()
         '
         'DelLibBtn
@@ -41,6 +43,7 @@ Partial Class Home
         Me.DelLibBtn.Size = New System.Drawing.Size(221, 31)
         Me.DelLibBtn.TabIndex = 0
         Me.DelLibBtn.Text = "Remove libary folders in My PC"
+        Me.ToolTip1.SetToolTip(Me.DelLibBtn, "Remove unnecessary folders in Explorer and My PC")
         Me.DelLibBtn.UseVisualStyleBackColor = True
         '
         'OneDriveBtn
@@ -50,6 +53,7 @@ Partial Class Home
         Me.OneDriveBtn.Size = New System.Drawing.Size(221, 31)
         Me.OneDriveBtn.TabIndex = 1
         Me.OneDriveBtn.Text = "Uninstall OneDrive"
+        Me.ToolTip1.SetToolTip(Me.OneDriveBtn, "Complete uninstall of OneDrive, quick and no trouble")
         Me.OneDriveBtn.UseVisualStyleBackColor = True
         '
         'DefenderBtn
@@ -59,6 +63,7 @@ Partial Class Home
         Me.DefenderBtn.Size = New System.Drawing.Size(221, 31)
         Me.DefenderBtn.TabIndex = 2
         Me.DefenderBtn.Text = "Disable Windows Defender"
+        Me.ToolTip1.SetToolTip(Me.DefenderBtn, "Please only disable Defender if you have another strong anti-malware program")
         Me.DefenderBtn.UseVisualStyleBackColor = True
         '
         'MeteroBtn
@@ -68,6 +73,7 @@ Partial Class Home
         Me.MeteroBtn.Size = New System.Drawing.Size(221, 31)
         Me.MeteroBtn.TabIndex = 3
         Me.MeteroBtn.Text = "Uninstall Win10 / metero apps"
+        Me.ToolTip1.SetToolTip(Me.MeteroBtn, "List of installed apps for current user")
         Me.MeteroBtn.UseVisualStyleBackColor = True
         '
         'HomeGroupBtn
@@ -104,6 +110,7 @@ Partial Class Home
         Me.GameDVRBtn.Size = New System.Drawing.Size(221, 31)
         Me.GameDVRBtn.TabIndex = 7
         Me.GameDVRBtn.Text = "Disable GameDVR"
+        Me.ToolTip1.SetToolTip(Me.GameDVRBtn, "Disable that new Windows 10 overlay when you're starting fancy games" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10))
         Me.GameDVRBtn.UseVisualStyleBackColor = True
         '
         'CheckUpdatesBtn
@@ -160,4 +167,5 @@ Partial Class Home
     Friend WithEvents GameDVRBtn As Button
     Friend WithEvents CheckUpdatesBtn As Button
     Friend WithEvents AboutBtn As Button
+    Friend WithEvents ToolTip1 As ToolTip
 End Class

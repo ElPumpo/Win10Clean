@@ -56,7 +56,7 @@ Public Class Metero
 
     Private Sub UninstallApp(AppName As String)
         Using PowerScript As PowerShell = PowerShell.Create()
-            PowerScript.AddScript("Get-AppxPackage " + AppBox.SelectedItem.ToString + "| Remove-AppxPackage")
+            PowerScript.AddScript("Get-AppxPackage " + AppName + " | Remove-AppxPackage")
             PowerScript.Invoke()
         End Using
         RefreshList()
@@ -70,13 +70,11 @@ Public Class Metero
             Dim cleanStr As String = Nothing
             For Each line As PSObject In PowerScript.Invoke()
                 cleanStr = line.ToString.Trim()
-                If Not cleanStr Is String.Empty Then
-                    If Not cleanStr.Contains("---") Then
-                        If Not cleanStr = "Name" Then
-                            AppBox.Items.Add(cleanStr)
-                        End If
-
+                If Not cleanStr Is String.Empty AndAlso Not cleanStr.Contains("---") Then
+                    If Not cleanStr = "Name" Then
+                        AppBox.Items.Add(cleanStr)
                     End If
+
                 End If
             Next
         End Using
