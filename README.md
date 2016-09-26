@@ -29,7 +29,7 @@ Here is progress, here is the list of what needs to be done and what is. This is
 - [ ] Project icon
 
 #License
-Win10Clean - Cleanup your Windows 10 enviroment
+Win10Clean - Cleanup your Windows 10 environment
 
 Copyright (C) 2016 Hawaii_Beach
 
