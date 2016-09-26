@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - You can now disable HomeGroup.
 - Added tooltips for extended information.
+- Added fancy icons by famfamfam, http://famfamfam.com.
+- Added a about class with legal stuff.
 
 ### Changed
 - A lot of actions including modifing the registry has been improved.
