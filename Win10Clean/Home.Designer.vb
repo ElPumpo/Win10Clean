@@ -41,7 +41,7 @@ Partial Class Home
         Me.DelLibBtn.Location = New System.Drawing.Point(12, 86)
         Me.DelLibBtn.Name = "DelLibBtn"
         Me.DelLibBtn.Size = New System.Drawing.Size(221, 31)
-        Me.DelLibBtn.TabIndex = 0
+        Me.DelLibBtn.TabIndex = 3
         Me.DelLibBtn.Text = "Remove libary folders in My PC"
         Me.ToolTip1.SetToolTip(Me.DelLibBtn, "Remove unnecessary folders in Explorer and My PC")
         Me.DelLibBtn.UseVisualStyleBackColor = True
@@ -51,7 +51,7 @@ Partial Class Home
         Me.OneDriveBtn.Location = New System.Drawing.Point(12, 123)
         Me.OneDriveBtn.Name = "OneDriveBtn"
         Me.OneDriveBtn.Size = New System.Drawing.Size(221, 31)
-        Me.OneDriveBtn.TabIndex = 1
+        Me.OneDriveBtn.TabIndex = 4
         Me.OneDriveBtn.Text = "Uninstall OneDrive"
         Me.ToolTip1.SetToolTip(Me.OneDriveBtn, "Complete uninstall of OneDrive, quick and no trouble")
         Me.OneDriveBtn.UseVisualStyleBackColor = True
@@ -61,7 +61,7 @@ Partial Class Home
         Me.DefenderBtn.Location = New System.Drawing.Point(12, 12)
         Me.DefenderBtn.Name = "DefenderBtn"
         Me.DefenderBtn.Size = New System.Drawing.Size(221, 31)
-        Me.DefenderBtn.TabIndex = 2
+        Me.DefenderBtn.TabIndex = 1
         Me.DefenderBtn.Text = "Disable Windows Defender"
         Me.ToolTip1.SetToolTip(Me.DefenderBtn, "Please only disable Defender if you have another strong anti-malware program")
         Me.DefenderBtn.UseVisualStyleBackColor = True
@@ -71,7 +71,7 @@ Partial Class Home
         Me.MeteroBtn.Location = New System.Drawing.Point(12, 49)
         Me.MeteroBtn.Name = "MeteroBtn"
         Me.MeteroBtn.Size = New System.Drawing.Size(221, 31)
-        Me.MeteroBtn.TabIndex = 3
+        Me.MeteroBtn.TabIndex = 2
         Me.MeteroBtn.Text = "Uninstall Win10 / metero apps"
         Me.ToolTip1.SetToolTip(Me.MeteroBtn, "List of installed apps for current user")
         Me.MeteroBtn.UseVisualStyleBackColor = True
@@ -81,7 +81,7 @@ Partial Class Home
         Me.HomeGroupBtn.Location = New System.Drawing.Point(12, 160)
         Me.HomeGroupBtn.Name = "HomeGroupBtn"
         Me.HomeGroupBtn.Size = New System.Drawing.Size(221, 31)
-        Me.HomeGroupBtn.TabIndex = 4
+        Me.HomeGroupBtn.TabIndex = 5
         Me.HomeGroupBtn.Text = "Disable HomeGroup"
         Me.ToolTip1.SetToolTip(Me.HomeGroupBtn, "Please leave your current HomeGroup first!")
         Me.HomeGroupBtn.UseVisualStyleBackColor = True
@@ -91,7 +91,7 @@ Partial Class Home
         Me.CloseBtn.Location = New System.Drawing.Point(12, 271)
         Me.CloseBtn.Name = "CloseBtn"
         Me.CloseBtn.Size = New System.Drawing.Size(105, 31)
-        Me.CloseBtn.TabIndex = 5
+        Me.CloseBtn.TabIndex = 9
         Me.CloseBtn.Text = "Close"
         Me.CloseBtn.UseVisualStyleBackColor = True
         '
@@ -100,7 +100,7 @@ Partial Class Home
         Me.Button4.Location = New System.Drawing.Point(123, 234)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(110, 31)
-        Me.Button4.TabIndex = 6
+        Me.Button4.TabIndex = 8
         Me.Button4.Text = "to be changed"
         Me.Button4.UseVisualStyleBackColor = True
         '
@@ -109,7 +109,7 @@ Partial Class Home
         Me.GameDVRBtn.Location = New System.Drawing.Point(12, 197)
         Me.GameDVRBtn.Name = "GameDVRBtn"
         Me.GameDVRBtn.Size = New System.Drawing.Size(221, 31)
-        Me.GameDVRBtn.TabIndex = 7
+        Me.GameDVRBtn.TabIndex = 6
         Me.GameDVRBtn.Text = "Disable GameDVR"
         Me.ToolTip1.SetToolTip(Me.GameDVRBtn, "Disable that new Windows 10 overlay when you start your fancy games" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10))
         Me.GameDVRBtn.UseVisualStyleBackColor = True
@@ -119,7 +119,7 @@ Partial Class Home
         Me.CheckUpdatesBtn.Location = New System.Drawing.Point(12, 234)
         Me.CheckUpdatesBtn.Name = "CheckUpdatesBtn"
         Me.CheckUpdatesBtn.Size = New System.Drawing.Size(105, 31)
-        Me.CheckUpdatesBtn.TabIndex = 8
+        Me.CheckUpdatesBtn.TabIndex = 7
         Me.CheckUpdatesBtn.Text = "Updates"
         Me.CheckUpdatesBtn.UseVisualStyleBackColor = True
         '
@@ -128,7 +128,7 @@ Partial Class Home
         Me.AboutBtn.Location = New System.Drawing.Point(123, 271)
         Me.AboutBtn.Name = "AboutBtn"
         Me.AboutBtn.Size = New System.Drawing.Size(110, 31)
-        Me.AboutBtn.TabIndex = 9
+        Me.AboutBtn.TabIndex = 10
         Me.AboutBtn.Text = "About"
         Me.AboutBtn.UseVisualStyleBackColor = True
         '

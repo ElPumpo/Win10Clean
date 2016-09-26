@@ -91,11 +91,11 @@ Public Class Home
                     Static Key As RegistryKey
                     Dim RegKey As String = "SOFTWARE\Policies\Microsoft\Windows Defender"
                     Dim RegVal() As String = {"0x00000001", 1}
-                    Console.WriteLine("key='" + RegKey + "',val='" + RegVal(0) + "',type='" + RegistryValueKind.DWord.ToString() + "'")
                     Key = Registry.LocalMachine.OpenSubKey(RegKey, True)
 
                     Key.SetValue("DisableAntiSpyware", RegVal(1), RegistryValueKind.DWord)
                     Key.Close()
+                    Console.WriteLine("key='" + RegKey + "',val='" + RegVal(0) + "',type='" + RegistryValueKind.DWord.ToString() + "'")
                     MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Catch ex As Exception
                     MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -128,7 +128,7 @@ Public Class Home
 
             Process.GetProcessesByName(ProcessName)(0).Kill()
         Catch ex As Exception
-            Console.WriteLine("Could Not kill process:  " + ProcessName)
+            Console.WriteLine("Could not kill process:  " + ProcessName)
             ' ignore errors
         End Try
 
@@ -180,12 +180,17 @@ Public Class Home
         Static LibKey As String = "SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\"
         Dim LibGUID() As String = {"{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}", "{7d83ee9b-2244-4e70-b1f5-5393042af1e4}", "{f42ee2d3-909f-4907-8871-4c22fc0bf756}", "{0ddd015d-b06c-45d5-8c4c-f59713854639}", "{a0c69a99-21c8-4671-8703-7934162fcf1d}", "{35286a68-3c57-41a1-bbb1-0eae73d76c95}"}
         For Each key As String In LibGUID
-            Dim FinalKey = LibKey + key + "\PropertyBag"
-            Console.WriteLine("key='" + FinalKey + "',val='" + LibVal + "',type='" + RegistryValueKind.String.ToString + "'")
-            LibReg = Registry.LocalMachine.OpenSubKey(FinalKey, True)
+            Try
+                Dim FinalKey = LibKey + key + "\PropertyBag"
+                LibReg = Registry.LocalMachine.OpenSubKey(FinalKey, True)
 
-            LibReg.SetValue("ThisPCPolicy", LibVal)
-            LibReg.Close()
+                LibReg.SetValue("ThisPCPolicy", LibVal)
+                LibReg.Close()
+                Console.WriteLine("key='" + FinalKey + "',val='" + LibVal + "',type='" + RegistryValueKind.String.ToString + "'")
+            Catch ex As Exception
+                MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+
         Next
 
         MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)

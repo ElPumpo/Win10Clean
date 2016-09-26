@@ -18,8 +18,6 @@ Public Class Metero
     'You should have received a copy Of the GNU General Public License
     'along with this program.  If Not, see <http://www.gnu.org/licenses/>.
 
-    Dim AppList As New List(Of String)
-
     Private Sub BackBtn_Click(sender As Object, e As EventArgs) Handles BackBtn.Click
         Home.Show()
         Close()
@@ -52,6 +50,7 @@ Public Class Metero
     End Sub
 
     Private Sub RefreshList()
+        ' Leads to higher memory usage over time
         AppBox.Items.Clear()
         FindApps()
     End Sub
@@ -66,7 +65,7 @@ Public Class Metero
 
     Private Sub FindApps()
         Using PowerScript As PowerShell = PowerShell.Create()
-            PowerScript.AddScript("Get-AppxPackage | Select Name | Out-String -stream")
+            PowerScript.AddScript("Get-AppxPackage | Select Name | Out-String -Stream")
 
             ' Cleanup output and do not include weird stuff
             Dim cleanStr As String = Nothing
