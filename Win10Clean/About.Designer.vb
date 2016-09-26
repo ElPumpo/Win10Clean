@@ -32,7 +32,7 @@ Partial Class About
         Me.CloseBtn.Location = New System.Drawing.Point(390, 296)
         Me.CloseBtn.Name = "CloseBtn"
         Me.CloseBtn.Size = New System.Drawing.Size(78, 23)
-        Me.CloseBtn.TabIndex = 2
+        Me.CloseBtn.TabIndex = 1
         Me.CloseBtn.Text = "Go back"
         Me.CloseBtn.UseVisualStyleBackColor = True
         '
@@ -42,7 +42,7 @@ Partial Class About
         Me.RichTextBox1.Name = "RichTextBox1"
         Me.RichTextBox1.ReadOnly = True
         Me.RichTextBox1.Size = New System.Drawing.Size(456, 278)
-        Me.RichTextBox1.TabIndex = 3
+        Me.RichTextBox1.TabIndex = 2
         Me.RichTextBox1.Text = resources.GetString("RichTextBox1.Text")
         '
         'About

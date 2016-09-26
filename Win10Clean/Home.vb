@@ -52,7 +52,6 @@ Public Class Home
     End Sub
 
     Private Sub AboutBtn_Click(sender As Object, e As EventArgs) Handles AboutBtn.Click
-        'MessageBox.Show("Made by Hawaii_Beach, version " + OfflineVer + ", the project is hosted on GitHub. Licensed under GPLv3", "About", MessageBoxButtons.OK)
         About.Show()
         Enabled = False
     End Sub
