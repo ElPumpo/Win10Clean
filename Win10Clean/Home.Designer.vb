@@ -83,6 +83,7 @@ Partial Class Home
         Me.HomeGroupBtn.Size = New System.Drawing.Size(221, 31)
         Me.HomeGroupBtn.TabIndex = 4
         Me.HomeGroupBtn.Text = "Disable HomeGroup"
+        Me.ToolTip1.SetToolTip(Me.HomeGroupBtn, "Please leave your current HomeGroup first!")
         Me.HomeGroupBtn.UseVisualStyleBackColor = True
         '
         'CloseBtn
@@ -110,7 +111,7 @@ Partial Class Home
         Me.GameDVRBtn.Size = New System.Drawing.Size(221, 31)
         Me.GameDVRBtn.TabIndex = 7
         Me.GameDVRBtn.Text = "Disable GameDVR"
-        Me.ToolTip1.SetToolTip(Me.GameDVRBtn, "Disable that new Windows 10 overlay when you're starting fancy games" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10))
+        Me.ToolTip1.SetToolTip(Me.GameDVRBtn, "Disable that new Windows 10 overlay when you start your fancy games" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10))
         Me.GameDVRBtn.UseVisualStyleBackColor = True
         '
         'CheckUpdatesBtn

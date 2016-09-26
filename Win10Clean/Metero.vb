@@ -2,7 +2,7 @@
 
 Public Class Metero
 
-    'Win10Clean - Cleanup your Windows 10 enviroment
+    'Win10Clean - Cleanup your Windows 10 environment
     'Copyright (C) 2016 Hawaii_Beach
 
     'This program Is free software: you can redistribute it And/Or modify
@@ -45,6 +45,8 @@ Public Class Metero
                     UninstallApp(AppBox.SelectedItem)
                     MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End Select
+        Else
+            MsgBox("Please select a app!", MsgBoxStyle.Exclamation)
         End If
         Enabled = True
     End Sub

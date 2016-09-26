@@ -22,10 +22,12 @@ Partial Class Metero
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.AppBox = New System.Windows.Forms.ListBox()
-        Me.RefreshBtn = New System.Windows.Forms.Button()
         Me.BackBtn = New System.Windows.Forms.Button()
         Me.UninstallBtn = New System.Windows.Forms.Button()
+        Me.RefreshBtn = New System.Windows.Forms.Button()
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.SuspendLayout()
         '
         'AppBox
@@ -37,32 +39,35 @@ Partial Class Metero
         Me.AppBox.Size = New System.Drawing.Size(405, 196)
         Me.AppBox.TabIndex = 1
         '
-        'RefreshBtn
-        '
-        Me.RefreshBtn.Location = New System.Drawing.Point(342, 214)
-        Me.RefreshBtn.Name = "RefreshBtn"
-        Me.RefreshBtn.Size = New System.Drawing.Size(75, 27)
-        Me.RefreshBtn.TabIndex = 2
-        Me.RefreshBtn.Text = "Refresh"
-        Me.RefreshBtn.UseVisualStyleBackColor = True
-        '
         'BackBtn
         '
-        Me.BackBtn.Location = New System.Drawing.Point(261, 214)
+        Me.BackBtn.Image = Global.Win10Clean.My.Resources.Resources.arrow_left
+        Me.BackBtn.Location = New System.Drawing.Point(12, 214)
         Me.BackBtn.Name = "BackBtn"
-        Me.BackBtn.Size = New System.Drawing.Size(75, 27)
+        Me.BackBtn.Size = New System.Drawing.Size(34, 34)
         Me.BackBtn.TabIndex = 3
-        Me.BackBtn.Text = "Go back"
+        Me.ToolTip1.SetToolTip(Me.BackBtn, "Go back")
         Me.BackBtn.UseVisualStyleBackColor = True
         '
         'UninstallBtn
         '
-        Me.UninstallBtn.Location = New System.Drawing.Point(12, 214)
+        Me.UninstallBtn.Image = Global.Win10Clean.My.Resources.Resources.bin
+        Me.UninstallBtn.Location = New System.Drawing.Point(383, 214)
         Me.UninstallBtn.Name = "UninstallBtn"
-        Me.UninstallBtn.Size = New System.Drawing.Size(75, 27)
+        Me.UninstallBtn.Size = New System.Drawing.Size(34, 34)
         Me.UninstallBtn.TabIndex = 4
-        Me.UninstallBtn.Text = "Uninstall"
+        Me.ToolTip1.SetToolTip(Me.UninstallBtn, "Uninstall selected app")
         Me.UninstallBtn.UseVisualStyleBackColor = True
+        '
+        'RefreshBtn
+        '
+        Me.RefreshBtn.Image = Global.Win10Clean.My.Resources.Resources.arrow_refresh
+        Me.RefreshBtn.Location = New System.Drawing.Point(343, 214)
+        Me.RefreshBtn.Name = "RefreshBtn"
+        Me.RefreshBtn.Size = New System.Drawing.Size(34, 34)
+        Me.RefreshBtn.TabIndex = 2
+        Me.ToolTip1.SetToolTip(Me.RefreshBtn, "Refresh")
+        Me.RefreshBtn.UseVisualStyleBackColor = True
         '
         'Metero
         '
@@ -85,4 +90,5 @@ Partial Class Metero
     Friend WithEvents RefreshBtn As Button
     Friend WithEvents BackBtn As Button
     Friend WithEvents UninstallBtn As Button
+    Friend WithEvents ToolTip1 As ToolTip
 End Class

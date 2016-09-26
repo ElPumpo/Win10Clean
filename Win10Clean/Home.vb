@@ -1,9 +1,10 @@
 ﻿Imports System.IO
+Imports System.Management.Automation
 Imports Microsoft.Win32
 
 Public Class Home
 
-    'Win10Clean - Cleanup your Windows 10 enviroment
+    'Win10Clean - Cleanup your Windows 10 environment
     'Copyright (C) 2016 Hawaii_Beach
 
     'This program Is free software: you can redistribute it And/Or modify
@@ -19,6 +20,7 @@ Public Class Home
     'You should have received a copy Of the GNU General Public License
     'along with this program.  If Not, see <http://www.gnu.org/licenses/>.
 
+    Dim OfflineVer As String = My.Application.Info.Version.Major.ToString + "." + My.Application.Info.Version.Minor.ToString + "." + My.Application.Info.Version.Build.ToString
 
     Private Sub CloseBtn_Click(sender As Object, e As EventArgs) Handles CloseBtn.Click
         Application.Exit()
@@ -50,7 +52,9 @@ Public Class Home
     End Sub
 
     Private Sub AboutBtn_Click(sender As Object, e As EventArgs) Handles AboutBtn.Click
-        MessageBox.Show("Made by Hawaii_Beach, the project is hosted on GitHub. Licensed under GPLv3", "About", MessageBoxButtons.OK)
+        'MessageBox.Show("Made by Hawaii_Beach, version " + OfflineVer + ", the project is hosted on GitHub. Licensed under GPLv3", "About", MessageBoxButtons.OK)
+        About.Show()
+        Enabled = False
     End Sub
 
     Private Sub GameDVRBtn_Click(sender As Object, e As EventArgs) Handles GameDVRBtn.Click
@@ -100,10 +104,31 @@ Public Class Home
         End Select
     End Sub
 
+    Private Sub HomeGroupBtn_Click(sender As Object, e As EventArgs) Handles HomeGroupBtn.Click
+        Enabled = False
+
+        Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
+            Case MsgBoxResult.Yes
+
+                ' run cmd commands via powershell, smart ha?
+                Using PowerScript As PowerShell = PowerShell.Create()
+                    PowerScript.AddScript("cmd /c ""sc config ""HomeGroupProvider"" start= disabled""")
+                    PowerScript.AddScript("cmd /c ""sc stop ""HomeGroupProvider""""")
+                    PowerScript.Invoke()
+                End Using
+                MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End Select
+
+        Enabled = True
+    End Sub
+
     Private Sub UninstallOneDrive()
+        Dim ProcessName As String = "OneDrive"
         Try
-            Process.GetProcessesByName("OneDrive")(0).Kill()
+
+            Process.GetProcessesByName(ProcessName)(0).Kill()
         Catch ex As Exception
+            Console.WriteLine("Could Not kill process:  " + ProcessName)
             ' ignore errors
         End Try
 
