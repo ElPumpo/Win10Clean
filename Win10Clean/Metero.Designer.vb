@@ -45,7 +45,7 @@ Partial Class Metero
         Me.BackBtn.Location = New System.Drawing.Point(12, 214)
         Me.BackBtn.Name = "BackBtn"
         Me.BackBtn.Size = New System.Drawing.Size(34, 34)
-        Me.BackBtn.TabIndex = 3
+        Me.BackBtn.TabIndex = 2
         Me.ToolTip1.SetToolTip(Me.BackBtn, "Go back")
         Me.BackBtn.UseVisualStyleBackColor = True
         '
@@ -65,7 +65,7 @@ Partial Class Metero
         Me.RefreshBtn.Location = New System.Drawing.Point(343, 214)
         Me.RefreshBtn.Name = "RefreshBtn"
         Me.RefreshBtn.Size = New System.Drawing.Size(34, 34)
-        Me.RefreshBtn.TabIndex = 2
+        Me.RefreshBtn.TabIndex = 3
         Me.ToolTip1.SetToolTip(Me.RefreshBtn, "Refresh")
         Me.RefreshBtn.UseVisualStyleBackColor = True
         '
