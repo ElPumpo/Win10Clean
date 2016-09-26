@@ -8,10 +8,10 @@ But I wanted to make it into a real executable instead of about 7 different scri
 
 It does not have any functions to disable Windows 10 spying, for that stuff you'll have to look somewhere else.
 
-#Download
+# Download
 Runnable executables are available [here](https://github.com/ElPumpo/Win10Clean/releases).
 
-#Requirements
+# Requirements
 + Windows 10, 8.1 and 8 are all supported
 + .NET framework 4.6
 
@@ -28,7 +28,9 @@ Here is progress, here is the list of what needs to be done and what is. This is
 - [ ] Treat possible errors, and seal of code (with Try, Catch)
 - [ ] Project icon
 
-#License
+# Legal
+
+### License
 Win10Clean - Cleanup your Windows 10 environment
 
 Copyright (C) 2016 Hawaii_Beach
@@ -45,3 +47,6 @@ GNU General Public License For more details.
 
 You should have received a copy Of the GNU General Public License
 along with this program.  If Not, see <http://www.gnu.org/licenses/>.
+
+### Icons by famfamfam
+Icons by famfamfam <http://famfamfam.com> are licensed under CC BY 2.5
