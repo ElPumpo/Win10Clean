@@ -15,5 +15,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - A lot of actions including modifing the registry has been improved.
 - Improved debugging.
 
+### Fixed
+- Fixed the tabbing index, or whenever you try to scroll the GUI using a keyboard.
+
 ## [0.5.0] - 2016-09-23
 Initial public release
