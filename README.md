@@ -8,6 +8,9 @@ But I wanted to make it into a real executable instead of about 7 different scri
 
 It does not have any functions to disable Windows 10 spying, for that stuff you'll have to look somewhere else.
 
+![alt tag](http://i.imgur.com/5NHvxQA.png)
+![alt tag](http://i.imgur.com/fIJxlu2.png)
+
 # Download
 Runnable executables are available [here](https://github.com/ElPumpo/Win10Clean/releases).
 
