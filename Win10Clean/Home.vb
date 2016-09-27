@@ -121,10 +121,6 @@ Public Class Home
         Enabled = True
     End Sub
 
-    Private Sub CheckUpdatesBtn_Click(sender As Object, e As EventArgs) Handles CheckUpdatesBtn.Click
-
-    End Sub
-
     Private Sub UninstallOneDrive()
         Dim ProcessName As String = "OneDrive"
         Try
