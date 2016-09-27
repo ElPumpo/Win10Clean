@@ -29,30 +29,33 @@ Partial Class About
         '
         'CloseBtn
         '
-        Me.CloseBtn.Location = New System.Drawing.Point(390, 296)
+        Me.CloseBtn.Location = New System.Drawing.Point(292, 240)
+        Me.CloseBtn.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.CloseBtn.Name = "CloseBtn"
-        Me.CloseBtn.Size = New System.Drawing.Size(78, 23)
+        Me.CloseBtn.Size = New System.Drawing.Size(58, 19)
         Me.CloseBtn.TabIndex = 1
         Me.CloseBtn.Text = "Go back"
         Me.CloseBtn.UseVisualStyleBackColor = True
         '
         'RichTextBox1
         '
-        Me.RichTextBox1.Location = New System.Drawing.Point(12, 12)
+        Me.RichTextBox1.Location = New System.Drawing.Point(9, 10)
+        Me.RichTextBox1.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.RichTextBox1.Name = "RichTextBox1"
         Me.RichTextBox1.ReadOnly = True
-        Me.RichTextBox1.Size = New System.Drawing.Size(456, 278)
+        Me.RichTextBox1.Size = New System.Drawing.Size(343, 227)
         Me.RichTextBox1.TabIndex = 2
         Me.RichTextBox1.Text = resources.GetString("RichTextBox1.Text")
         '
         'About
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(480, 331)
+        Me.ClientSize = New System.Drawing.Size(360, 269)
         Me.Controls.Add(Me.RichTextBox1)
         Me.Controls.Add(Me.CloseBtn)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
+        Me.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.Name = "About"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "About"
