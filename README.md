@@ -12,7 +12,7 @@ It does not have any functions to disable Windows 10 spying, for that stuff you'
 ![alt tag](http://i.imgur.com/fIJxlu2.png)
 
 # Download
-Runnable executables are available [here](https://github.com/ElPumpo/Win10Clean/releases).
+Runnable executables are available for download [here](https://github.com/ElPumpo/Win10Clean/releases).
 
 # Requirements
 + Windows 10, 8.1 and 8 are all supported
