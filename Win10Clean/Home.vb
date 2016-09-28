@@ -21,6 +21,7 @@ Public Class Home
     'along with this program.  If Not, see <http://www.gnu.org/licenses/>.
 
     Dim OfflineVer As String = My.Application.Info.Version.Major.ToString + "." + My.Application.Info.Version.Minor.ToString + "." + My.Application.Info.Version.Build.ToString
+    Dim Is64 As Boolean = Environment.Is64BitOperatingSystem
 
     Private Sub CloseBtn_Click(sender As Object, e As EventArgs) Handles CloseBtn.Click
         Application.Exit()
@@ -37,6 +38,7 @@ Public Class Home
         Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes
                 HideLibs()
+                MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Select
 
         Enabled = True
@@ -136,7 +138,7 @@ Public Class Home
         End Try
 
         Dim OnePath As String = Nothing
-        If Environment.Is64BitOperatingSystem = True Then
+        If Is64 Then
             OnePath = Environment.GetFolderPath(Environment.SpecialFolder.SystemX86) + "\OneDriveSetup.exe"
         Else
             OnePath = Environment.GetFolderPath(Environment.SpecialFolder.System) + "\OneDriveSetup.exe"
@@ -162,19 +164,17 @@ Public Class Home
             End If
         Next
 
-        Dim OneKeys() As String =
-        {
-            "CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}",
-            "Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}"
-        }
-        For Each keys As String In OneKeys
-            Try
-                Registry.ClassesRoot.DeleteSubKeyTree(keys)
-            Catch ex As Exception
-                ' ignore errors
-            End Try
+        If Is64 Then
+            OnePath = "Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}"
+        Else
+            OnePath = "CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}"
+        End If
 
-        Next
+        Try
+            Registry.ClassesRoot.DeleteSubKeyTree(OnePath)
+        Catch ex As Exception
+            ' ignore errors
+        End Try
     End Sub
 
     Private Sub HideLibs()
@@ -182,6 +182,7 @@ Public Class Home
         Dim LibVal As String = "Hide"
         Static LibKey As String = "SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\"
         Dim LibGUID() As String = {"{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}", "{7d83ee9b-2244-4e70-b1f5-5393042af1e4}", "{f42ee2d3-909f-4907-8871-4c22fc0bf756}", "{0ddd015d-b06c-45d5-8c4c-f59713854639}", "{a0c69a99-21c8-4671-8703-7934162fcf1d}", "{35286a68-3c57-41a1-bbb1-0eae73d76c95}"}
+
         For Each key As String In LibGUID
             Try
                 Dim FinalKey = LibKey + key + "\PropertyBag"
@@ -195,8 +196,5 @@ Public Class Home
             End Try
 
         Next
-
-        MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
-
     End Sub
 End Class

@@ -68,12 +68,12 @@ Public Class Metero
             PowerScript.AddScript("Get-AppxPackage | Select Name | Out-String -Stream")
 
             ' Cleanup output and do not include weird stuff
-            Dim cleanStr As String = Nothing
+            Dim TrimmedString As String = Nothing
             For Each line As PSObject In PowerScript.Invoke()
-                cleanStr = line.ToString.Trim()
-                If Not cleanStr Is String.Empty AndAlso Not cleanStr.Contains("---") Then
-                    If Not cleanStr = "Name" Then
-                        AppBox.Items.Add(cleanStr)
+                TrimmedString = line.ToString.Trim()
+                If Not TrimmedString Is String.Empty AndAlso Not TrimmedString.Contains("---") Then
+                    If Not TrimmedString = "Name" Then
+                        AppBox.Items.Add(TrimmedString)
                     End If
 
                 End If
