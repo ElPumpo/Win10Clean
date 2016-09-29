@@ -111,13 +111,27 @@ Public Class Home
         Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes
 
-                ' run cmd commands via powershell, smart ha?
-                Using PowerScript As PowerShell = PowerShell.Create()
-                    PowerScript.AddScript("cmd /c ""sc config ""HomeGroupProvider"" start= disabled""")
-                    PowerScript.AddScript("cmd /c ""sc stop ""HomeGroupProvider""""")
-                    PowerScript.Invoke()
-                End Using
-                MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Try
+                    ' unused: HomeProcess.StandardOutput.ReadToEnd())
+                    Dim HomeProcess As Process = New Process
+                    HomeProcess.StartInfo.FileName = "cmd.exe"
+                    HomeProcess.StartInfo.CreateNoWindow = True
+                    HomeProcess.StartInfo.UseShellExecute = False
+                    HomeProcess.StartInfo.RedirectStandardInput = True
+                    HomeProcess.StartInfo.RedirectStandardOutput = True
+                    HomeProcess.Start()
+
+                    HomeProcess.StandardInput.WriteLine("sc config ""HomeGroupProvider"" start= disabled")
+                    HomeProcess.StandardInput.WriteLine("sc stop ""HomeGroupProvider""")
+                    HomeProcess.StandardInput.Flush()
+                    HomeProcess.StandardInput.Close()
+                    HomeProcess.WaitForExit()
+
+                    MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Catch ex As Exception
+                    MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+
         End Select
 
         Enabled = True
