@@ -183,6 +183,11 @@ Public Class Home
             End If
         End If
 
+        Console.WriteLine("OfflineVer: " + OfflineVer)
+        Console.WriteLine("OnlineVer: " + OnlineVer)
+
+        Enabled = True
+
     End Sub
 
     Private Sub UninstallOneDrive()
