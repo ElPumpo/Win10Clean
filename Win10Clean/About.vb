@@ -24,4 +24,8 @@ Public Class About
     Private Sub CloseBtn_Click(sender As Object, e As EventArgs) Handles CloseBtn.Click
         Close()
     End Sub
+
+    Private Sub About_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        VerLabel.Text = VerLabel.Text + Home.OfflineVer
+    End Sub
 End Class

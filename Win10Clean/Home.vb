@@ -20,8 +20,8 @@ Public Class Home
     'You should have received a copy Of the GNU General Public License
     'along with this program.  If Not, see <http://www.gnu.org/licenses/>.
 
-    Dim OfflineVer As String = My.Application.Info.Version.Major.ToString + "." + My.Application.Info.Version.Minor.ToString + "." + My.Application.Info.Version.Build.ToString
-    Dim OnlineVer As String
+    Public OfflineVer As String = My.Application.Info.Version.Major.ToString + "." + My.Application.Info.Version.Minor.ToString + "." + My.Application.Info.Version.Build.ToString
+    Dim OnlineVer As String = "Unknown"
     Dim ServerURL As String = "http://raw.githubusercontent.com/ElPumpo/Win10Clean/master/Win10Clean/Resources/version"
     Dim Is64 As Boolean = Environment.Is64BitOperatingSystem
 
@@ -146,7 +146,7 @@ Public Class Home
             Console.WriteLine("Searching for updates . . .")
 
             'Start request
-            Dim theRequest As HttpWebRequest = HttpWebRequest.Create(ServerURL)
+            Dim theRequest As HttpWebRequest = WebRequest.Create(ServerURL)
             theRequest.Timeout = 10000 '10sec timeout
             Dim responce As HttpWebResponse = theRequest.GetResponse()
             Dim reader As StreamReader = New StreamReader(responce.GetResponseStream())
@@ -157,6 +157,7 @@ Public Class Home
         Catch ex As Exception
             'Letting itself know that it cannot reach to the server
             Console.WriteLine("Could not search for updates!")
+            MessageBox.Show("Could not search for updates!")
             ErrorExists = True
 
         End Try
@@ -164,7 +165,6 @@ Public Class Home
         If ErrorExists = False Then
             If OnlineVer = OfflineVer Then
                 MessageBox.Show("Client is up to date")
-
             Else
 
                 If OfflineVer > OnlineVer Then
