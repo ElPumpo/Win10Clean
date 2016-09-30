@@ -1,5 +1,5 @@
 ﻿Imports System.IO
-Imports System.Management.Automation
+Imports System.Net
 Imports Microsoft.Win32
 
 Public Class Home
@@ -21,6 +21,8 @@ Public Class Home
     'along with this program.  If Not, see <http://www.gnu.org/licenses/>.
 
     Dim OfflineVer As String = My.Application.Info.Version.Major.ToString + "." + My.Application.Info.Version.Minor.ToString + "." + My.Application.Info.Version.Build.ToString
+    Dim OnlineVer As String
+    Dim ServerURL As String = "http://raw.githubusercontent.com/ElPumpo/Win10Clean/master/Win10Clean/Resources/version"
     Dim Is64 As Boolean = Environment.Is64BitOperatingSystem
 
     Private Sub CloseBtn_Click(sender As Object, e As EventArgs) Handles CloseBtn.Click
@@ -138,6 +140,48 @@ Public Class Home
     End Sub
 
     Private Sub CheckUpdatesBtn_Click(sender As Object, e As EventArgs) Handles CheckUpdatesBtn.Click
+        Enabled = False
+        Dim ErrorExists As Boolean = False
+        Try
+            Console.WriteLine("Searching for updates . . .")
+
+            'Start request
+            Dim theRequest As HttpWebRequest = HttpWebRequest.Create(ServerURL)
+            theRequest.Timeout = 10000 '10sec timeout
+            Dim responce As HttpWebResponse = theRequest.GetResponse()
+            Dim reader As StreamReader = New StreamReader(responce.GetResponseStream())
+            OnlineVer = reader.ReadToEnd.Trim()
+            reader.Close()
+            responce.Close()
+
+        Catch ex As Exception
+            'Letting itself know that it cannot reach to the server
+            Console.WriteLine("Could not search for updates!")
+            ErrorExists = True
+
+        End Try
+
+        If ErrorExists = False Then
+            If OnlineVer = OfflineVer Then
+                MessageBox.Show("Client is up to date")
+
+            Else
+
+                If OfflineVer > OnlineVer Then
+                    MessageBox.Show("OfflineVer is greater than OnlineVer!")
+                End If
+
+                If OnlineVer < OfflineVer Then
+                    MessageBox.Show("Client is up to date")
+                Else
+
+                    Select Case MsgBox("Your client is outdated and a new update can be downloaded from the offical webpage, do you want me to open a webpage of the download page?", MsgBoxStyle.YesNo)
+                        Case MsgBoxResult.Yes
+                            Process.Start("https://github.com/ElPumpo/Win10Clean/releases")
+                    End Select
+                End If
+            End If
+        End If
 
     End Sub
 
