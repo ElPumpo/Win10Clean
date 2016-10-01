@@ -23,7 +23,7 @@ Here is progress, here is the list of what needs to be done and what is. This is
 - [x] OneDrive uninstaller
 - [x] Metero / Win10 app uninstaller
 - [x] Remove misc folders from My Pc
-- [x] Update checker
+- [x] Update checker - d963960
 - [x] Ability to disable HomeGroup (cuz i don't use it) - eae6847
 - [x] Windows Defender disabler (cuz i'm using malwarebytes) - 171f008
 - [x] GameDVR disabler (uninstalling the Xbox app doesn't stop it)
