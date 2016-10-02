@@ -23,7 +23,7 @@ Partial Class Home
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Me.DelLibBtn = New System.Windows.Forms.Button()
+        Me.Revert7Btn = New System.Windows.Forms.Button()
         Me.OneDriveBtn = New System.Windows.Forms.Button()
         Me.DefenderBtn = New System.Windows.Forms.Button()
         Me.MeteroBtn = New System.Windows.Forms.Button()
@@ -37,15 +37,16 @@ Partial Class Home
         Me.AdsBtn = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
-        'DelLibBtn
+        'Revert7Btn
         '
-        Me.DelLibBtn.Location = New System.Drawing.Point(12, 86)
-        Me.DelLibBtn.Name = "DelLibBtn"
-        Me.DelLibBtn.Size = New System.Drawing.Size(220, 31)
-        Me.DelLibBtn.TabIndex = 3
-        Me.DelLibBtn.Text = "Remove libary folders in My PC"
-        Me.ToolTip1.SetToolTip(Me.DelLibBtn, "Remove unnecessary folders in Explorer and My PC")
-        Me.DelLibBtn.UseVisualStyleBackColor = True
+        Me.Revert7Btn.Location = New System.Drawing.Point(12, 86)
+        Me.Revert7Btn.Name = "Revert7Btn"
+        Me.Revert7Btn.Size = New System.Drawing.Size(220, 31)
+        Me.Revert7Btn.TabIndex = 3
+        Me.Revert7Btn.Text = "Revert explorer to Win7 style"
+        Me.ToolTip1.SetToolTip(Me.Revert7Btn, "Remove unnecessary folders in My PC, shows the libary folder, stops quick access " &
+        "from filling up and explorer defaults to open My PC")
+        Me.Revert7Btn.UseVisualStyleBackColor = True
         '
         'OneDriveBtn
         '
@@ -160,7 +161,7 @@ Partial Class Home
         Me.Controls.Add(Me.MeteroBtn)
         Me.Controls.Add(Me.DefenderBtn)
         Me.Controls.Add(Me.OneDriveBtn)
-        Me.Controls.Add(Me.DelLibBtn)
+        Me.Controls.Add(Me.Revert7Btn)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.MinimumSize = New System.Drawing.Size(262, 196)
         Me.Name = "Home"
@@ -171,7 +172,7 @@ Partial Class Home
 
     End Sub
 
-    Friend WithEvents DelLibBtn As Button
+    Friend WithEvents Revert7Btn As Button
     Friend WithEvents OneDriveBtn As Button
     Friend WithEvents DefenderBtn As Button
     Friend WithEvents MeteroBtn As Button

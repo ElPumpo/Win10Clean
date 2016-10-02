@@ -34,12 +34,12 @@ Public Class Home
         Close()
     End Sub
 
-    Private Sub DelLibBtn_Click(sender As Object, e As EventArgs) Handles DelLibBtn.Click
+    Private Sub Revert7Btn_Click(sender As Object, e As EventArgs) Handles Revert7Btn.Click
         Enabled = False
 
         Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes
-                HideLibs()
+                Revert7()
                 MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Select
 
@@ -262,7 +262,9 @@ Public Class Home
         End Try
     End Sub
 
-    Private Sub HideLibs()
+    Private Sub Revert7()
+
+        ' Get ride of libary folders in My PC
         Static LibReg As RegistryKey
         Dim LibVal As String = "Hide"
         Static LibKey As String = "SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\"
@@ -281,5 +283,30 @@ Public Class Home
             End Try
 
         Next
+
+        Try
+            Static Key As RegistryKey
+
+            ' Pin libary folders
+            Key = Registry.CurrentUser.OpenSubKey("Software\Classes\CLSID\{031E4825-7B94-4dc3-B131-E946B44C8DD5}", True)
+            Key.SetValue("System.IsPinnedToNameSpaceTree", 1, RegistryValueKind.DWord)
+
+            ' Stop quick access from filling up with folders and files
+            Key = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\Explorer", True)
+            Key.SetValue("ShowFrequent", 0, RegistryValueKind.DWord) ' Folders
+            Key.SetValue("ShowRecent", 0, RegistryValueKind.DWord) ' Files
+
+            ' Make explorer open 'My PC' by default
+            Key = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", True)
+            Key.SetValue("LaunchTo", 1, RegistryValueKind.DWord)
+
+            Key.Close()
+
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+
+
+
     End Sub
 End Class
