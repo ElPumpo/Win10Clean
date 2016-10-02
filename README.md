@@ -19,7 +19,6 @@ Runnable executables are available for download [here](https://github.com/ElPump
 + .NET framework 4.6
 
 # Todo
-Here is progress, here is the list of what needs to be done and what is. This is not stuff I need to come up solutions with, I already have what I need - I am currently porting code over.
 - [x] OneDrive uninstaller
 - [x] Remove misc folders from My Pc
 - [x] Update checker - d963960
