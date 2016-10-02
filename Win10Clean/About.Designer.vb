@@ -30,6 +30,7 @@ Partial Class About
         '
         'CloseBtn
         '
+        Me.CloseBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.CloseBtn.Location = New System.Drawing.Point(389, 295)
         Me.CloseBtn.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.CloseBtn.Name = "CloseBtn"
@@ -61,6 +62,7 @@ Partial Class About
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.CancelButton = Me.CloseBtn
         Me.ClientSize = New System.Drawing.Size(480, 331)
         Me.Controls.Add(Me.VerLabel)
         Me.Controls.Add(Me.RichTextBox1)
