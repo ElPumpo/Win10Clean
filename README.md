@@ -52,4 +52,4 @@ You should have received a copy Of the GNU General Public License
 along with this program.  If Not, see <http://www.gnu.org/licenses/>.
 
 ### Icons by famfamfam
-Icons by famfamfam <http://famfamfam.com> are licensed under CC BY 2.5
+Icons by famfamfam <http://famfamfam.com> are licensed under [CC BY 2.5](https://creativecommons.org/licenses/by/2.5/)
