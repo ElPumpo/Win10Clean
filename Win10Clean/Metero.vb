@@ -2,6 +2,8 @@
 
 Public Class Metero
 
+    Dim GoBack As Integer
+
     'Win10Clean - Cleanup your Windows 10 environment
     'Copyright (C) 2016 Hawaii_Beach
 
@@ -24,6 +26,7 @@ Public Class Metero
     End Sub
 
     Private Sub Metero_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        GoBack = 0
         Enabled = False
         FindApps()
         Enabled = True
@@ -51,8 +54,10 @@ Public Class Metero
 
     Private Sub RefreshList()
         ' Leads to higher memory usage over time
+        GoBack = AppBox.SelectedIndex ' Store where the user was
         AppBox.Items.Clear()
         FindApps()
+        AppBox.SelectedIndex = GoBack ' Go back to where the user was before refresh
     End Sub
 
     Private Sub UninstallApp(AppName As String)
