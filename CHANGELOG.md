@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - A lot of actions including modifing the registry has been improved.
 - Improved debugging (still room for improvements, expect a debug GUI).
 - When the app list for uninstalling Win10 apps is refreshed, it will save the selected app and take you back to whatever you selected - thank my friends for their feedback.
+- Improved Defender disabler; now removing startup process and unregistering right-click menu scans.
+- Improved the libary remover, the name has been changed to `Revert7` because it will now replicate the Windows 7 File Explorer settings. It now also pins the libary folder, disables quick access filling up with random crap and sets the default dir of explorer to `My PC`
 
 ### Fixed
 - Fixed the tabbing index, or whenever you try to scroll the GUI using a keyboard.
