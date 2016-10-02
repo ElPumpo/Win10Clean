@@ -19,17 +19,20 @@ Runnable executables are available for download [here](https://github.com/ElPump
 + .NET framework 4.6
 
 # Todo
-Here is progress, here is the list of what needs to be done and what is. This is not stuff I need to come up solutions with, I already have what I need - I am currently porting code over.
 - [x] OneDrive uninstaller
-- [x] Metero / Win10 app uninstaller
 - [x] Remove misc folders from My Pc
 - [x] Update checker - d963960
 - [x] Ability to disable HomeGroup (cuz i don't use it) - eae6847
-- [x] Windows Defender disabler (cuz i'm using malwarebytes) - 171f008
+- [x] Windows Defender disabler (cuz i'm using malwarebytes) - 171f008 + 3cab15f
 - [x] GameDVR disabler (uninstalling the Xbox app doesn't stop it)
-- [ ] Undo / "go back" button
-- [ ] Treat possible errors, and seal of code (with Try, Catch)
 - [ ] Project icon
+
+### Partial
+Not a priority but gotta implement..
+- The Win10 app uninstaller can only uninstall one app at the same time
+- The Win10 app uninstaller can only uninstall apps for the current user. (both image file all users to do)
+- No undo button for undoing changes made to system.
+- Improve error handling.
 
 # Legal
 
