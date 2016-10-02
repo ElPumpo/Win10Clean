@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added fancy icons by famfamfam, http://famfamfam.com.
 - Added a about class with legal stuff.
 - Added option to disable home menu ads.
+- Pressing enter on your keyboard in the app uninstaller GUI will now act as selecting uninstall.
 
 ### Changed
 - A lot of actions including modifing the registry has been improved.
