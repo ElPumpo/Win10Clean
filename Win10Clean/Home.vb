@@ -47,12 +47,15 @@ Public Class Home
     End Sub
 
     Private Sub OneDriveBtn_Click(sender As Object, e As EventArgs) Handles OneDriveBtn.Click
+        Enabled = False
 
         Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes
                 UninstallOneDrive()
                 MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Select
+
+        Enabled = True
     End Sub
 
     Private Sub AboutBtn_Click(sender As Object, e As EventArgs) Handles AboutBtn.Click
@@ -303,6 +306,7 @@ Public Class Home
 
         Next
 
+        ' New stuff
         Try
             Static Key As RegistryKey
 
@@ -324,8 +328,6 @@ Public Class Home
         Catch ex As Exception
             MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
-
-
 
     End Sub
 End Class
