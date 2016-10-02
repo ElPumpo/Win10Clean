@@ -91,15 +91,34 @@ Public Class Home
             Case MsgBoxResult.Yes
                 Enabled = False
                 Try
+                    ' Disable GUI and engine
                     Static Key As RegistryKey
-                    Dim RegKey As String = "SOFTWARE\Policies\Microsoft\Windows Defender"
-                    Dim RegVal() As String = {"0x00000001", 1}
-                    Key = Registry.LocalMachine.OpenSubKey(RegKey, True)
+                    Key = Registry.LocalMachine.OpenSubKey("SOFTWARE\Policies\Microsoft\Windows Defender", True)
+                    Key.SetValue("DisableAntiSpyware", 1, RegistryValueKind.DWord)
 
-                    Key.SetValue("DisableAntiSpyware", RegVal(1), RegistryValueKind.DWord)
+                    ' Delete Defender from startup
+                    Key = Registry.LocalMachine.OpenSubKey("SOFTWARE\Microsoft\Windows\CurrentVersion\Run", True)
+                    Key.DeleteValue("WindowsDefender", False) ' Dont throw if key doesn't exist
+
                     Key.Close()
-                    Console.WriteLine("key='" + RegKey + "',val='" + RegVal(0) + "',type='" + RegistryValueKind.DWord.ToString() + "'")
+
+                    ' Unregister Defender shell dll
+                    Dim HomeProcess As Process = New Process
+                    HomeProcess.StartInfo.FileName = "cmd.exe"
+                    HomeProcess.StartInfo.CreateNoWindow = True
+                    HomeProcess.StartInfo.UseShellExecute = False
+                    HomeProcess.StartInfo.RedirectStandardInput = True
+                    HomeProcess.StartInfo.RedirectStandardOutput = True
+                    HomeProcess.Start()
+
+                    ' Silent unregister of dll file
+                    HomeProcess.StandardInput.WriteLine("regsvr32 /u /s ""C:\Program Files\Windows Defender\shellext.dll""")
+                    HomeProcess.StandardInput.Flush()
+                    HomeProcess.StandardInput.Close()
+                    HomeProcess.WaitForExit()
+
                     MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
                 Catch ex As Exception
                     MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Try
