@@ -1,10 +1,11 @@
 # Win10Clean
-
 # About
 Cleanup your Windows enviroment!
 
-I have a special upload on my Dropbox account which includes all kinds of small tweaks and fixes for Windows 10. As we all know it comes with a lot of weird stuff.
-But I wanted to make it into a real executable instead of about 7 different scripts, which doesn't even handle any possible errors or whatever - and I wanted to release it for other people to use it. So here it is!
+### Background
+I have a zip file full of tweaks for Windows 10 which I use whenever I install Windows 10 on any machine. I always keep one copy of my collection of tweaks in my Windows installation drives, but whenever I add something new I have to re-copy it to all my drives again which is a real pain in the butt.
+
+I wanted to make it into a real executable instead of being a zip file with a lot of script files, which doesn't even handle any possible errors or whatever - and I wanted to release it for other people to use it. So here it is!
 
 It does not have any functions to disable Windows 10 spying, for that stuff you'll have to look somewhere else.
 
