@@ -26,7 +26,7 @@ Public Class Metero
     End Sub
 
     Private Sub Metero_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GoBack = 0
+        GoBack = Nothing
         Enabled = False
         FindApps()
         Enabled = True
