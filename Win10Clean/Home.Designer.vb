@@ -34,13 +34,14 @@ Partial Class Home
         Me.CheckUpdatesBtn = New System.Windows.Forms.Button()
         Me.AboutBtn = New System.Windows.Forms.Button()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.AdsBtn = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'DelLibBtn
         '
         Me.DelLibBtn.Location = New System.Drawing.Point(12, 86)
         Me.DelLibBtn.Name = "DelLibBtn"
-        Me.DelLibBtn.Size = New System.Drawing.Size(221, 31)
+        Me.DelLibBtn.Size = New System.Drawing.Size(220, 31)
         Me.DelLibBtn.TabIndex = 3
         Me.DelLibBtn.Text = "Remove libary folders in My PC"
         Me.ToolTip1.SetToolTip(Me.DelLibBtn, "Remove unnecessary folders in Explorer and My PC")
@@ -50,7 +51,7 @@ Partial Class Home
         '
         Me.OneDriveBtn.Location = New System.Drawing.Point(12, 123)
         Me.OneDriveBtn.Name = "OneDriveBtn"
-        Me.OneDriveBtn.Size = New System.Drawing.Size(221, 31)
+        Me.OneDriveBtn.Size = New System.Drawing.Size(220, 31)
         Me.OneDriveBtn.TabIndex = 4
         Me.OneDriveBtn.Text = "Uninstall OneDrive"
         Me.ToolTip1.SetToolTip(Me.OneDriveBtn, "Complete uninstall of OneDrive, quick and no trouble")
@@ -60,7 +61,7 @@ Partial Class Home
         '
         Me.DefenderBtn.Location = New System.Drawing.Point(12, 12)
         Me.DefenderBtn.Name = "DefenderBtn"
-        Me.DefenderBtn.Size = New System.Drawing.Size(221, 31)
+        Me.DefenderBtn.Size = New System.Drawing.Size(220, 31)
         Me.DefenderBtn.TabIndex = 1
         Me.DefenderBtn.Text = "Disable Windows Defender"
         Me.ToolTip1.SetToolTip(Me.DefenderBtn, "Please only disable Defender if you have another strong anti-malware program")
@@ -70,7 +71,7 @@ Partial Class Home
         '
         Me.MeteroBtn.Location = New System.Drawing.Point(12, 49)
         Me.MeteroBtn.Name = "MeteroBtn"
-        Me.MeteroBtn.Size = New System.Drawing.Size(221, 31)
+        Me.MeteroBtn.Size = New System.Drawing.Size(220, 31)
         Me.MeteroBtn.TabIndex = 2
         Me.MeteroBtn.Text = "Uninstall Win10 / metero apps"
         Me.ToolTip1.SetToolTip(Me.MeteroBtn, "List of installed apps for current user")
@@ -80,7 +81,7 @@ Partial Class Home
         '
         Me.HomeGroupBtn.Location = New System.Drawing.Point(12, 160)
         Me.HomeGroupBtn.Name = "HomeGroupBtn"
-        Me.HomeGroupBtn.Size = New System.Drawing.Size(221, 31)
+        Me.HomeGroupBtn.Size = New System.Drawing.Size(220, 31)
         Me.HomeGroupBtn.TabIndex = 5
         Me.HomeGroupBtn.Text = "Disable HomeGroup"
         Me.ToolTip1.SetToolTip(Me.HomeGroupBtn, "Please leave your current HomeGroup first!")
@@ -88,19 +89,19 @@ Partial Class Home
         '
         'CloseBtn
         '
-        Me.CloseBtn.Location = New System.Drawing.Point(12, 271)
+        Me.CloseBtn.Location = New System.Drawing.Point(12, 306)
         Me.CloseBtn.Name = "CloseBtn"
         Me.CloseBtn.Size = New System.Drawing.Size(105, 31)
-        Me.CloseBtn.TabIndex = 9
+        Me.CloseBtn.TabIndex = 10
         Me.CloseBtn.Text = "Close"
         Me.CloseBtn.UseVisualStyleBackColor = True
         '
         'Button4
         '
-        Me.Button4.Location = New System.Drawing.Point(123, 234)
+        Me.Button4.Location = New System.Drawing.Point(123, 271)
         Me.Button4.Name = "Button4"
-        Me.Button4.Size = New System.Drawing.Size(110, 31)
-        Me.Button4.TabIndex = 8
+        Me.Button4.Size = New System.Drawing.Size(109, 31)
+        Me.Button4.TabIndex = 9
         Me.Button4.Text = "to be changed"
         Me.Button4.UseVisualStyleBackColor = True
         '
@@ -108,36 +109,48 @@ Partial Class Home
         '
         Me.GameDVRBtn.Location = New System.Drawing.Point(12, 197)
         Me.GameDVRBtn.Name = "GameDVRBtn"
-        Me.GameDVRBtn.Size = New System.Drawing.Size(221, 31)
+        Me.GameDVRBtn.Size = New System.Drawing.Size(220, 31)
         Me.GameDVRBtn.TabIndex = 6
         Me.GameDVRBtn.Text = "Disable GameDVR"
-        Me.ToolTip1.SetToolTip(Me.GameDVRBtn, "Disable that new Windows 10 overlay when you start your fancy games" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10))
+        Me.ToolTip1.SetToolTip(Me.GameDVRBtn, "Disable that new Windows 10 overlay when you start your fancy games, only for cur" &
+        "rent user")
         Me.GameDVRBtn.UseVisualStyleBackColor = True
         '
         'CheckUpdatesBtn
         '
-        Me.CheckUpdatesBtn.Location = New System.Drawing.Point(12, 234)
+        Me.CheckUpdatesBtn.Location = New System.Drawing.Point(12, 271)
         Me.CheckUpdatesBtn.Name = "CheckUpdatesBtn"
         Me.CheckUpdatesBtn.Size = New System.Drawing.Size(105, 31)
-        Me.CheckUpdatesBtn.TabIndex = 7
+        Me.CheckUpdatesBtn.TabIndex = 8
         Me.CheckUpdatesBtn.Text = "Updates"
         Me.CheckUpdatesBtn.UseVisualStyleBackColor = True
         '
         'AboutBtn
         '
-        Me.AboutBtn.Location = New System.Drawing.Point(123, 271)
+        Me.AboutBtn.Location = New System.Drawing.Point(123, 306)
         Me.AboutBtn.Name = "AboutBtn"
-        Me.AboutBtn.Size = New System.Drawing.Size(110, 31)
-        Me.AboutBtn.TabIndex = 10
+        Me.AboutBtn.Size = New System.Drawing.Size(109, 31)
+        Me.AboutBtn.TabIndex = 11
         Me.AboutBtn.Text = "About"
         Me.AboutBtn.UseVisualStyleBackColor = True
+        '
+        'AdsBtn
+        '
+        Me.AdsBtn.Location = New System.Drawing.Point(12, 234)
+        Me.AdsBtn.Name = "AdsBtn"
+        Me.AdsBtn.Size = New System.Drawing.Size(220, 31)
+        Me.AdsBtn.TabIndex = 7
+        Me.AdsBtn.Text = "Disable start menu ads"
+        Me.ToolTip1.SetToolTip(Me.AdsBtn, "Disables ads on the start menu, will only disable for the current user")
+        Me.AdsBtn.UseVisualStyleBackColor = True
         '
         'Home
         '
         Me.AcceptButton = Me.CloseBtn
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(245, 314)
+        Me.ClientSize = New System.Drawing.Size(244, 349)
+        Me.Controls.Add(Me.AdsBtn)
         Me.Controls.Add(Me.AboutBtn)
         Me.Controls.Add(Me.CheckUpdatesBtn)
         Me.Controls.Add(Me.GameDVRBtn)
@@ -169,4 +182,5 @@ Partial Class Home
     Friend WithEvents CheckUpdatesBtn As Button
     Friend WithEvents AboutBtn As Button
     Friend WithEvents ToolTip1 As ToolTip
+    Friend WithEvents AdsBtn As Button
 End Class

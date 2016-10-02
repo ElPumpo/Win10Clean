@@ -190,6 +190,28 @@ Public Class Home
 
     End Sub
 
+    Private Sub AdsBtn_Click(sender As Object, e As EventArgs) Handles AdsBtn.Click
+        Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
+            Case MsgBoxResult.Yes
+                Enabled = False
+                Dim RegKey As String = "SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
+                Try
+                    Static Key As RegistryKey
+                    Dim RegVal() As String = {"0x00000000", 0}
+                    Console.WriteLine("key='" + RegKey + "',val='" + RegVal(0) + "',type='" + RegistryValueKind.DWord.ToString() + "'")
+                    Key = Registry.CurrentUser.OpenSubKey(RegKey, True)
+
+                    Key.SetValue("SystemPaneSuggestionsEnabled", RegVal(1), RegistryValueKind.DWord)
+                    Key.Close()
+                    MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+                Catch ex As Exception
+                    MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+                Enabled = True
+        End Select
+    End Sub
+
     Private Sub UninstallOneDrive()
         Dim ProcessName As String = "OneDrive"
         Try
