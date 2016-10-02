@@ -34,7 +34,7 @@ Public Class Metero
 
     Private Sub RefreshBtn_Click(sender As Object, e As EventArgs) Handles RefreshBtn.Click
         Enabled = False
-        RefreshList()
+        RefreshList(False)
         Enabled = True
     End Sub
 
@@ -52,12 +52,20 @@ Public Class Metero
         Enabled = True
     End Sub
 
-    Private Sub RefreshList()
+    Private Sub RefreshList(MinusOne As Boolean)
         ' Leads to higher memory usage over time
         GoBack = AppBox.SelectedIndex ' Store where the user was
         AppBox.Items.Clear()
         FindApps()
-        AppBox.SelectedIndex = GoBack ' Go back to where the user was before refresh
+
+        ' Go back to where the user was before refresh,
+        ' If the app is uninstalled, we want to get the last item or else the application will flip
+        If (MinusOne) Then
+            AppBox.SelectedIndex = GoBack - 1
+        Else
+            AppBox.SelectedIndex = GoBack
+        End If
+
     End Sub
 
     Private Sub UninstallApp(AppName As String)
@@ -65,7 +73,7 @@ Public Class Metero
             PowerScript.AddScript("Get-AppxPackage " + AppName + " | Remove-AppxPackage")
             PowerScript.Invoke()
         End Using
-        RefreshList()
+        RefreshList(True)
     End Sub
 
     Private Sub FindApps()
