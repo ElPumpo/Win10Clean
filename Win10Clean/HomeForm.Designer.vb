@@ -38,7 +38,6 @@ Partial Class HomeForm
         Me.MeteroTab = New System.Windows.Forms.TabPage()
         Me.CheckBox2 = New System.Windows.Forms.CheckBox()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
-        Me.UninstallBtn = New System.Windows.Forms.Button()
         Me.AppBox = New System.Windows.Forms.ListBox()
         Me.RefreshBtn = New System.Windows.Forms.Button()
         Me.Tab2 = New System.Windows.Forms.TabPage()
@@ -46,6 +45,7 @@ Partial Class HomeForm
         Me.Tab3 = New System.Windows.Forms.TabPage()
         Me.RichTextBox1 = New System.Windows.Forms.RichTextBox()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.UninstallBtn = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.HomeTab.SuspendLayout()
         Me.MeteroTab.SuspendLayout()
@@ -201,16 +201,6 @@ Partial Class HomeForm
         Me.CheckBox1.Text = "All users"
         Me.CheckBox1.UseVisualStyleBackColor = True
         '
-        'UninstallBtn
-        '
-        Me.UninstallBtn.Image = Global.Win10Clean.My.Resources.Resources.bin
-        Me.UninstallBtn.Location = New System.Drawing.Point(336, 349)
-        Me.UninstallBtn.Name = "UninstallBtn"
-        Me.UninstallBtn.Size = New System.Drawing.Size(34, 34)
-        Me.UninstallBtn.TabIndex = 8
-        Me.ToolTip1.SetToolTip(Me.UninstallBtn, "Uninstall selected app")
-        Me.UninstallBtn.UseVisualStyleBackColor = True
-        '
         'AppBox
         '
         Me.AppBox.FormattingEnabled = True
@@ -223,9 +213,9 @@ Partial Class HomeForm
         'RefreshBtn
         '
         Me.RefreshBtn.Image = Global.Win10Clean.My.Resources.Resources.arrow_refresh
-        Me.RefreshBtn.Location = New System.Drawing.Point(296, 349)
+        Me.RefreshBtn.Location = New System.Drawing.Point(300, 349)
         Me.RefreshBtn.Name = "RefreshBtn"
-        Me.RefreshBtn.Size = New System.Drawing.Size(34, 34)
+        Me.RefreshBtn.Size = New System.Drawing.Size(32, 32)
         Me.RefreshBtn.TabIndex = 7
         Me.ToolTip1.SetToolTip(Me.RefreshBtn, "Refresh the app list")
         Me.RefreshBtn.UseVisualStyleBackColor = True
@@ -268,6 +258,16 @@ Partial Class HomeForm
         Me.RichTextBox1.Size = New System.Drawing.Size(533, 395)
         Me.RichTextBox1.TabIndex = 5
         Me.RichTextBox1.Text = resources.GetString("RichTextBox1.Text")
+        '
+        'UninstallBtn
+        '
+        Me.UninstallBtn.Image = Global.Win10Clean.My.Resources.Resources.bin
+        Me.UninstallBtn.Location = New System.Drawing.Point(338, 349)
+        Me.UninstallBtn.Name = "UninstallBtn"
+        Me.UninstallBtn.Size = New System.Drawing.Size(32, 32)
+        Me.UninstallBtn.TabIndex = 8
+        Me.ToolTip1.SetToolTip(Me.UninstallBtn, "Uninstall selected app")
+        Me.UninstallBtn.UseVisualStyleBackColor = True
         '
         'HomeForm
         '
