@@ -279,7 +279,7 @@ Partial Class HomeForm
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "HomeForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "DebugForm"
+        Me.Text = "Win10Clean"
         Me.TabControl1.ResumeLayout(False)
         Me.HomeTab.ResumeLayout(False)
         Me.HomeTab.PerformLayout()

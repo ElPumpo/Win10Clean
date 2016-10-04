@@ -138,9 +138,6 @@
     <None Include="Resources\arrow_refresh.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\arrow_left.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\bin.png" />
   </ItemGroup>
   <ItemGroup>
