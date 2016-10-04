@@ -1,8 +1,9 @@
 ﻿Imports System.IO
+Imports System.Management.Automation
 Imports System.Net
 Imports Microsoft.Win32
 
-Public Class Home
+Public Class HomeForm
 
     'Win10Clean - Cleanup your Windows 10 environment
     'Copyright (C) 2016 Hawaii_Beach
@@ -24,14 +25,15 @@ Public Class Home
     Dim OnlineVer As String = "Unknown"
     Dim ServerURL As String = "http://raw.githubusercontent.com/ElPumpo/Win10Clean/master/Win10Clean/Resources/version"
     Dim Is64 As Boolean = Environment.Is64BitOperatingSystem
+    Dim GoBack As Integer
 
-    Private Sub CloseBtn_Click(sender As Object, e As EventArgs) Handles CloseBtn.Click
-        Application.Exit()
+    Private Sub HomeForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        VerLabel.Text = VerLabel.Text + OfflineVer
     End Sub
 
-    Private Sub MeteroBtn_Click(sender As Object, e As EventArgs) Handles MeteroBtn.Click
-        Metero.Show()
-        Close()
+    ' Home related
+    Private Sub CloseBtn_Click(sender As Object, e As EventArgs) Handles CloseBtn.Click
+        Application.Exit()
     End Sub
 
     Private Sub Revert7Btn_Click(sender As Object, e As EventArgs) Handles Revert7Btn.Click
@@ -56,11 +58,6 @@ Public Class Home
         End Select
 
         Enabled = True
-    End Sub
-
-    Private Sub AboutBtn_Click(sender As Object, e As EventArgs) Handles AboutBtn.Click
-        About.Show()
-        Enabled = False
     End Sub
 
     Private Sub GameDVRBtn_Click(sender As Object, e As EventArgs) Handles GameDVRBtn.Click
@@ -165,7 +162,7 @@ Public Class Home
         Enabled = False
         Dim ErrorExists As Boolean = False
         Try
-            Console.WriteLine("Searching for updates . . .")
+            AddToConsole("Searching for updates . . .")
 
             'Start request
             Dim theRequest As HttpWebRequest = WebRequest.Create(ServerURL)
@@ -178,7 +175,7 @@ Public Class Home
 
         Catch ex As Exception
             'Letting itself know that it cannot reach to the server
-            Console.WriteLine("Could not search for updates!")
+            AddToConsole("Could not search for updates!")
             MessageBox.Show("Could not search for updates!")
             ErrorExists = True
 
@@ -205,8 +202,8 @@ Public Class Home
             End If
         End If
 
-        Console.WriteLine("OfflineVer: " + OfflineVer)
-        Console.WriteLine("OnlineVer: " + OnlineVer)
+        AddToConsole("OfflineVer: " + OfflineVer)
+        AddToConsole("OnlineVer: " + OnlineVer)
 
         Enabled = True
 
@@ -330,4 +327,82 @@ Public Class Home
         End Try
 
     End Sub
+
+    ' Metero related
+    Private Sub RefreshBtn_Click(sender As Object, e As EventArgs) Handles RefreshBtn.Click
+        Enabled = False
+        RefreshList(False)
+        Enabled = True
+    End Sub
+
+    Private Sub UninstallBtn_Click(sender As Object, e As EventArgs) Handles UninstallBtn.Click
+        Enabled = False
+        If Not AppBox.SelectedItem = Nothing Then
+            Select Case MsgBox("Are you sure you want to uninstall " + AppBox.SelectedItem + "?", MsgBoxStyle.YesNo)
+                Case MsgBoxResult.Yes
+                    UninstallApp(AppBox.SelectedItem)
+                    MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End Select
+        Else
+            MsgBox("Please select a app!", MsgBoxStyle.Exclamation)
+        End If
+        Enabled = True
+    End Sub
+
+    Private Sub RefreshList(MinusOne As Boolean)
+        ' Leads to higher memory usage over time
+        GoBack = AppBox.SelectedIndex ' Store where the user was
+        AppBox.Items.Clear()
+        FindApps()
+
+        ' Go back to where the user was before refresh,
+        ' If the app is uninstalled, we want to get the last item or else the application will flip
+        If (MinusOne) Then
+            AppBox.SelectedIndex = GoBack - 1
+        Else
+            AppBox.SelectedIndex = GoBack
+        End If
+
+    End Sub
+
+    Private Sub UninstallApp(AppName As String)
+        Using PowerScript As PowerShell = PowerShell.Create()
+            PowerScript.AddScript("Get-AppxPackage " + AppName + " | Remove-AppxPackage")
+            PowerScript.Invoke()
+        End Using
+        RefreshList(True)
+    End Sub
+
+    Private Sub FindApps()
+        Using PowerScript As PowerShell = PowerShell.Create()
+            PowerScript.AddScript("Get-AppxPackage | Select Name | Out-String -Stream")
+
+            ' Cleanup output and do not include weird stuff
+            Dim TrimmedString As String = Nothing
+            For Each line As PSObject In PowerScript.Invoke()
+                TrimmedString = line.ToString.Trim()
+                If Not TrimmedString Is String.Empty AndAlso Not TrimmedString.Contains("---") Then
+                    If Not TrimmedString = "Name" Then
+                        AppBox.Items.Add(TrimmedString)
+                    End If
+
+                End If
+            Next
+        End Using
+    End Sub
+
+    Private Sub MeteroTab_Enter(sender As Object, e As EventArgs) Handles MeteroTab.Enter
+        ' When the user selects the tab
+        Enabled = False
+        RefreshList(False)
+        Enabled = True
+    End Sub
+
+    Private Sub AddToConsole(Information As String)
+        If Not Information = Nothing Then
+            DebugBox.Text = DebugBox.Text + Information + Environment.NewLine
+            Console.WriteLine(Information)
+        End If
+    End Sub
+
 End Class
