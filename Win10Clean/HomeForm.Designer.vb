@@ -37,7 +37,8 @@ Partial Class HomeForm
         Me.Revert7Btn = New System.Windows.Forms.Button()
         Me.MeteroTab = New System.Windows.Forms.TabPage()
         Me.CheckBox2 = New System.Windows.Forms.CheckBox()
-        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
+        Me.AllUserBox = New System.Windows.Forms.CheckBox()
+        Me.UninstallBtn = New System.Windows.Forms.Button()
         Me.AppBox = New System.Windows.Forms.ListBox()
         Me.RefreshBtn = New System.Windows.Forms.Button()
         Me.Tab2 = New System.Windows.Forms.TabPage()
@@ -45,7 +46,6 @@ Partial Class HomeForm
         Me.Tab3 = New System.Windows.Forms.TabPage()
         Me.RichTextBox1 = New System.Windows.Forms.RichTextBox()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.UninstallBtn = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.HomeTab.SuspendLayout()
         Me.MeteroTab.SuspendLayout()
@@ -61,9 +61,10 @@ Partial Class HomeForm
         Me.TabControl1.Controls.Add(Me.Tab3)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
+        Me.TabControl1.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(537, 413)
+        Me.TabControl1.Size = New System.Drawing.Size(403, 336)
         Me.TabControl1.TabIndex = 0
         '
         'HomeTab
@@ -77,9 +78,10 @@ Partial Class HomeForm
         Me.HomeTab.Controls.Add(Me.DefenderBtn)
         Me.HomeTab.Controls.Add(Me.OneDriveBtn)
         Me.HomeTab.Controls.Add(Me.Revert7Btn)
-        Me.HomeTab.Location = New System.Drawing.Point(4, 25)
+        Me.HomeTab.Location = New System.Drawing.Point(4, 22)
+        Me.HomeTab.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.HomeTab.Name = "HomeTab"
-        Me.HomeTab.Size = New System.Drawing.Size(529, 384)
+        Me.HomeTab.Size = New System.Drawing.Size(395, 310)
         Me.HomeTab.TabIndex = 0
         Me.HomeTab.Text = "Home"
         Me.HomeTab.UseVisualStyleBackColor = True
@@ -87,80 +89,89 @@ Partial Class HomeForm
         'VerLabel
         '
         Me.VerLabel.AutoSize = True
-        Me.VerLabel.Location = New System.Drawing.Point(8, 362)
+        Me.VerLabel.Location = New System.Drawing.Point(7, 286)
+        Me.VerLabel.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.VerLabel.Name = "VerLabel"
-        Me.VerLabel.Size = New System.Drawing.Size(64, 17)
+        Me.VerLabel.Size = New System.Drawing.Size(54, 15)
         Me.VerLabel.TabIndex = 25
         Me.VerLabel.Text = "Version: "
         '
         'CheckUpdatesBtn
         '
-        Me.CheckUpdatesBtn.Location = New System.Drawing.Point(375, 345)
+        Me.CheckUpdatesBtn.Location = New System.Drawing.Point(281, 280)
+        Me.CheckUpdatesBtn.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.CheckUpdatesBtn.Name = "CheckUpdatesBtn"
-        Me.CheckUpdatesBtn.Size = New System.Drawing.Size(79, 31)
+        Me.CheckUpdatesBtn.Size = New System.Drawing.Size(59, 25)
         Me.CheckUpdatesBtn.TabIndex = 23
         Me.CheckUpdatesBtn.Text = "Updates"
         Me.CheckUpdatesBtn.UseVisualStyleBackColor = True
         '
         'CloseBtn
         '
-        Me.CloseBtn.Location = New System.Drawing.Point(460, 345)
+        Me.CloseBtn.Location = New System.Drawing.Point(345, 280)
+        Me.CloseBtn.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.CloseBtn.Name = "CloseBtn"
-        Me.CloseBtn.Size = New System.Drawing.Size(61, 31)
+        Me.CloseBtn.Size = New System.Drawing.Size(46, 25)
         Me.CloseBtn.TabIndex = 24
         Me.CloseBtn.Text = "Close"
         Me.CloseBtn.UseVisualStyleBackColor = True
         '
         'AdsBtn
         '
-        Me.AdsBtn.Location = New System.Drawing.Point(306, 3)
+        Me.AdsBtn.Location = New System.Drawing.Point(230, 2)
+        Me.AdsBtn.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.AdsBtn.Name = "AdsBtn"
-        Me.AdsBtn.Size = New System.Drawing.Size(220, 31)
+        Me.AdsBtn.Size = New System.Drawing.Size(165, 25)
         Me.AdsBtn.TabIndex = 18
         Me.AdsBtn.Text = "Disable start menu ads"
         Me.AdsBtn.UseVisualStyleBackColor = True
         '
         'GameDVRBtn
         '
-        Me.GameDVRBtn.Location = New System.Drawing.Point(306, 77)
+        Me.GameDVRBtn.Location = New System.Drawing.Point(230, 63)
+        Me.GameDVRBtn.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.GameDVRBtn.Name = "GameDVRBtn"
-        Me.GameDVRBtn.Size = New System.Drawing.Size(220, 31)
+        Me.GameDVRBtn.Size = New System.Drawing.Size(165, 25)
         Me.GameDVRBtn.TabIndex = 17
         Me.GameDVRBtn.Text = "Disable GameDVR"
         Me.GameDVRBtn.UseVisualStyleBackColor = True
         '
         'HomeGroupBtn
         '
-        Me.HomeGroupBtn.Location = New System.Drawing.Point(3, 77)
+        Me.HomeGroupBtn.Location = New System.Drawing.Point(2, 63)
+        Me.HomeGroupBtn.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.HomeGroupBtn.Name = "HomeGroupBtn"
-        Me.HomeGroupBtn.Size = New System.Drawing.Size(220, 31)
+        Me.HomeGroupBtn.Size = New System.Drawing.Size(165, 25)
         Me.HomeGroupBtn.TabIndex = 16
         Me.HomeGroupBtn.Text = "Disable HomeGroup"
         Me.HomeGroupBtn.UseVisualStyleBackColor = True
         '
         'DefenderBtn
         '
-        Me.DefenderBtn.Location = New System.Drawing.Point(3, 3)
+        Me.DefenderBtn.Location = New System.Drawing.Point(2, 2)
+        Me.DefenderBtn.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.DefenderBtn.Name = "DefenderBtn"
-        Me.DefenderBtn.Size = New System.Drawing.Size(220, 31)
+        Me.DefenderBtn.Size = New System.Drawing.Size(165, 25)
         Me.DefenderBtn.TabIndex = 12
         Me.DefenderBtn.Text = "Disable Windows Defender"
         Me.DefenderBtn.UseVisualStyleBackColor = True
         '
         'OneDriveBtn
         '
-        Me.OneDriveBtn.Location = New System.Drawing.Point(306, 40)
+        Me.OneDriveBtn.Location = New System.Drawing.Point(230, 32)
+        Me.OneDriveBtn.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.OneDriveBtn.Name = "OneDriveBtn"
-        Me.OneDriveBtn.Size = New System.Drawing.Size(220, 31)
+        Me.OneDriveBtn.Size = New System.Drawing.Size(165, 25)
         Me.OneDriveBtn.TabIndex = 15
         Me.OneDriveBtn.Text = "Uninstall OneDrive"
         Me.OneDriveBtn.UseVisualStyleBackColor = True
         '
         'Revert7Btn
         '
-        Me.Revert7Btn.Location = New System.Drawing.Point(3, 40)
+        Me.Revert7Btn.Location = New System.Drawing.Point(2, 32)
+        Me.Revert7Btn.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.Revert7Btn.Name = "Revert7Btn"
-        Me.Revert7Btn.Size = New System.Drawing.Size(220, 31)
+        Me.Revert7Btn.Size = New System.Drawing.Size(165, 25)
         Me.Revert7Btn.TabIndex = 14
         Me.Revert7Btn.Text = "Revert explorer to Win7 style"
         Me.Revert7Btn.UseVisualStyleBackColor = True
@@ -168,13 +179,14 @@ Partial Class HomeForm
         'MeteroTab
         '
         Me.MeteroTab.Controls.Add(Me.CheckBox2)
-        Me.MeteroTab.Controls.Add(Me.CheckBox1)
+        Me.MeteroTab.Controls.Add(Me.AllUserBox)
         Me.MeteroTab.Controls.Add(Me.UninstallBtn)
         Me.MeteroTab.Controls.Add(Me.AppBox)
         Me.MeteroTab.Controls.Add(Me.RefreshBtn)
-        Me.MeteroTab.Location = New System.Drawing.Point(4, 25)
+        Me.MeteroTab.Location = New System.Drawing.Point(4, 22)
+        Me.MeteroTab.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.MeteroTab.Name = "MeteroTab"
-        Me.MeteroTab.Size = New System.Drawing.Size(529, 384)
+        Me.MeteroTab.Size = New System.Drawing.Size(395, 310)
         Me.MeteroTab.TabIndex = 1
         Me.MeteroTab.Text = "Win10 / metero apps"
         Me.MeteroTab.UseVisualStyleBackColor = True
@@ -183,39 +195,52 @@ Partial Class HomeForm
         '
         Me.CheckBox2.AutoSize = True
         Me.CheckBox2.Enabled = False
-        Me.CheckBox2.Location = New System.Drawing.Point(376, 30)
+        Me.CheckBox2.Location = New System.Drawing.Point(282, 24)
+        Me.CheckBox2.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.CheckBox2.Name = "CheckBox2"
-        Me.CheckBox2.Size = New System.Drawing.Size(145, 21)
+        Me.CheckBox2.Size = New System.Drawing.Size(131, 19)
         Me.CheckBox2.TabIndex = 10
         Me.CheckBox2.Text = "Delete from image"
         Me.CheckBox2.UseVisualStyleBackColor = True
         '
-        'CheckBox1
+        'AllUserBox
         '
-        Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Enabled = False
-        Me.CheckBox1.Location = New System.Drawing.Point(376, 3)
-        Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(84, 21)
-        Me.CheckBox1.TabIndex = 9
-        Me.CheckBox1.Text = "All users"
-        Me.CheckBox1.UseVisualStyleBackColor = True
+        Me.AllUserBox.AutoSize = True
+        Me.AllUserBox.Location = New System.Drawing.Point(282, 2)
+        Me.AllUserBox.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.AllUserBox.Name = "AllUserBox"
+        Me.AllUserBox.Size = New System.Drawing.Size(75, 19)
+        Me.AllUserBox.TabIndex = 9
+        Me.AllUserBox.Text = "All users"
+        Me.AllUserBox.UseVisualStyleBackColor = True
+        '
+        'UninstallBtn
+        '
+        Me.UninstallBtn.Image = Global.Win10Clean.My.Resources.Resources.bin
+        Me.UninstallBtn.Location = New System.Drawing.Point(254, 284)
+        Me.UninstallBtn.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.UninstallBtn.Name = "UninstallBtn"
+        Me.UninstallBtn.Size = New System.Drawing.Size(24, 26)
+        Me.UninstallBtn.TabIndex = 8
+        Me.ToolTip1.SetToolTip(Me.UninstallBtn, "Uninstall selected app")
+        Me.UninstallBtn.UseVisualStyleBackColor = True
         '
         'AppBox
         '
         Me.AppBox.FormattingEnabled = True
-        Me.AppBox.ItemHeight = 16
-        Me.AppBox.Location = New System.Drawing.Point(3, 3)
+        Me.AppBox.Location = New System.Drawing.Point(2, 2)
+        Me.AppBox.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.AppBox.Name = "AppBox"
-        Me.AppBox.Size = New System.Drawing.Size(367, 340)
+        Me.AppBox.Size = New System.Drawing.Size(276, 277)
         Me.AppBox.TabIndex = 5
         '
         'RefreshBtn
         '
         Me.RefreshBtn.Image = Global.Win10Clean.My.Resources.Resources.arrow_refresh
-        Me.RefreshBtn.Location = New System.Drawing.Point(300, 349)
+        Me.RefreshBtn.Location = New System.Drawing.Point(225, 284)
+        Me.RefreshBtn.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.RefreshBtn.Name = "RefreshBtn"
-        Me.RefreshBtn.Size = New System.Drawing.Size(32, 32)
+        Me.RefreshBtn.Size = New System.Drawing.Size(24, 26)
         Me.RefreshBtn.TabIndex = 7
         Me.ToolTip1.SetToolTip(Me.RefreshBtn, "Refresh the app list")
         Me.RefreshBtn.UseVisualStyleBackColor = True
@@ -223,9 +248,10 @@ Partial Class HomeForm
         'Tab2
         '
         Me.Tab2.Controls.Add(Me.DebugBox)
-        Me.Tab2.Location = New System.Drawing.Point(4, 25)
+        Me.Tab2.Location = New System.Drawing.Point(4, 22)
+        Me.Tab2.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.Tab2.Name = "Tab2"
-        Me.Tab2.Size = New System.Drawing.Size(529, 384)
+        Me.Tab2.Size = New System.Drawing.Size(395, 310)
         Me.Tab2.TabIndex = 2
         Me.Tab2.Text = "Console"
         Me.Tab2.UseVisualStyleBackColor = True
@@ -233,50 +259,43 @@ Partial Class HomeForm
         'DebugBox
         '
         Me.DebugBox.Location = New System.Drawing.Point(0, 0)
+        Me.DebugBox.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.DebugBox.Name = "DebugBox"
         Me.DebugBox.ReadOnly = True
-        Me.DebugBox.Size = New System.Drawing.Size(533, 388)
+        Me.DebugBox.Size = New System.Drawing.Size(401, 316)
         Me.DebugBox.TabIndex = 0
         Me.DebugBox.Text = ""
         '
         'Tab3
         '
         Me.Tab3.Controls.Add(Me.RichTextBox1)
-        Me.Tab3.Location = New System.Drawing.Point(4, 25)
+        Me.Tab3.Location = New System.Drawing.Point(4, 22)
+        Me.Tab3.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.Tab3.Name = "Tab3"
-        Me.Tab3.Size = New System.Drawing.Size(529, 384)
+        Me.Tab3.Size = New System.Drawing.Size(395, 310)
         Me.Tab3.TabIndex = 3
         Me.Tab3.Text = "About"
         Me.Tab3.UseVisualStyleBackColor = True
         '
         'RichTextBox1
         '
-        Me.RichTextBox1.Location = New System.Drawing.Point(-4, 2)
-        Me.RichTextBox1.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.RichTextBox1.Location = New System.Drawing.Point(-3, 2)
+        Me.RichTextBox1.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.RichTextBox1.Name = "RichTextBox1"
         Me.RichTextBox1.ReadOnly = True
-        Me.RichTextBox1.Size = New System.Drawing.Size(533, 395)
+        Me.RichTextBox1.Size = New System.Drawing.Size(401, 322)
         Me.RichTextBox1.TabIndex = 5
         Me.RichTextBox1.Text = resources.GetString("RichTextBox1.Text")
         '
-        'UninstallBtn
-        '
-        Me.UninstallBtn.Image = Global.Win10Clean.My.Resources.Resources.bin
-        Me.UninstallBtn.Location = New System.Drawing.Point(338, 349)
-        Me.UninstallBtn.Name = "UninstallBtn"
-        Me.UninstallBtn.Size = New System.Drawing.Size(32, 32)
-        Me.UninstallBtn.TabIndex = 8
-        Me.ToolTip1.SetToolTip(Me.UninstallBtn, "Uninstall selected app")
-        Me.UninstallBtn.UseVisualStyleBackColor = True
-        '
         'HomeForm
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(537, 413)
+        Me.ClientSize = New System.Drawing.Size(403, 336)
         Me.Controls.Add(Me.TabControl1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.Name = "HomeForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Win10Clean"
@@ -311,6 +330,6 @@ Partial Class HomeForm
     Friend WithEvents CheckUpdatesBtn As Button
     Friend WithEvents CloseBtn As Button
     Friend WithEvents CheckBox2 As CheckBox
-    Friend WithEvents CheckBox1 As CheckBox
+    Friend WithEvents AllUserBox As CheckBox
     Friend WithEvents DebugBox As RichTextBox
 End Class

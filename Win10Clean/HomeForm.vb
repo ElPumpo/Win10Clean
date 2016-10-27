@@ -95,14 +95,16 @@ Public Class HomeForm
                     Static Key As RegistryKey
                     Key = Registry.LocalMachine.OpenSubKey("SOFTWARE\Policies\Microsoft\Windows Defender", True)
                     Key.SetValue("DisableAntiSpyware", 1, RegistryValueKind.DWord)
+                    AddToConsole("Disabled main Defender functions!")
 
                     ' Delete Defender from startup
                     Key = Registry.LocalMachine.OpenSubKey("SOFTWARE\Microsoft\Windows\CurrentVersion\Run", True)
                     Key.DeleteValue("WindowsDefender", False) ' Dont throw if key doesn't exist
+                    AddToConsole("Removed Defender from startup!")
 
                     Key.Close()
 
-                    ' Unregister Defender shell dll
+                    ' Unregister Defender shell extension
                     Dim HomeProcess As Process = New Process
                     HomeProcess.StartInfo.FileName = "cmd.exe"
                     HomeProcess.StartInfo.CreateNoWindow = True
@@ -117,9 +119,12 @@ Public Class HomeForm
                     HomeProcess.StandardInput.Close()
                     HomeProcess.WaitForExit()
 
+                    AddToConsole("Unregistered Defender shell addon!")
+
                     MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                 Catch ex As Exception
+                    AddToConsole(ex.ToString)
                     MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Try
                 Enabled = True
@@ -148,8 +153,11 @@ Public Class HomeForm
                     HomeProcess.StandardInput.Close()
                     HomeProcess.WaitForExit()
 
+                    AddToConsole("Disabled HomeGroup!")
+
                     MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Catch ex As Exception
+                    AddToConsole(ex.ToString)
                     MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Try
 
@@ -222,9 +230,12 @@ Public Class HomeForm
 
                     Key.SetValue("SystemPaneSuggestionsEnabled", RegVal(1), RegistryValueKind.DWord)
                     Key.Close()
+
+                    AddToConsole("Disabled ads on start menu!")
                     MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                 Catch ex As Exception
+                    AddToConsole(ex.ToString)
                     MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Try
                 Enabled = True
@@ -232,12 +243,12 @@ Public Class HomeForm
     End Sub
 
     Private Sub UninstallOneDrive()
+
         Dim ProcessName As String = "OneDrive"
         Try
-
             Process.GetProcessesByName(ProcessName)(0).Kill()
         Catch ex As Exception
-            Console.WriteLine("Could not kill process:  " + ProcessName)
+            AddToConsole("Could not kill process: " + ProcessName)
             ' ignore errors
         End Try
 
@@ -248,6 +259,7 @@ Public Class HomeForm
             OnePath = Environment.GetFolderPath(Environment.SpecialFolder.System) + "\OneDriveSetup.exe"
         End If
         Process.Start(OnePath, "/uninstall")
+        AddToConsole("Uninstalled OneDrive using the setup!")
 
         ' All the folders to be deleted
         Dim OnePaths() As String =
@@ -262,12 +274,15 @@ Public Class HomeForm
             If (Directory.Exists(dir)) Then
                 Try
                     Directory.Delete(dir, True)
+                    AddToConsole("Deleted dir: " + dir)
                 Catch ex As Exception
+                    AddToConsole("Could not delete dir: " + dir)
                     ' ignore errors
                 End Try
             End If
         Next
 
+        ' Remove OneDrive from Explorer
         If Is64 Then
             OnePath = "Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}"
         Else
@@ -276,6 +291,7 @@ Public Class HomeForm
 
         Try
             Registry.ClassesRoot.DeleteSubKeyTree(OnePath)
+            AddToConsole("Deleted OneDrive from Explorer!")
         Catch ex As Exception
             ' ignore errors
         End Try
@@ -296,8 +312,10 @@ Public Class HomeForm
 
                 LibReg.SetValue("ThisPCPolicy", LibVal)
                 LibReg.Close()
-                Console.WriteLine("key='" + FinalKey + "',val='" + LibVal + "',type='" + RegistryValueKind.String.ToString + "'")
+
+                AddToConsole("Modified value of: " + key)
             Catch ex As Exception
+                AddToConsole(ex.GetType().Name + " - Couldn't modify the value of: " + key)
                 MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
 
@@ -310,19 +328,23 @@ Public Class HomeForm
             ' Pin libary folders
             Key = Registry.CurrentUser.OpenSubKey("Software\Classes\CLSID\{031E4825-7B94-4dc3-B131-E946B44C8DD5}", True)
             Key.SetValue("System.IsPinnedToNameSpaceTree", 1, RegistryValueKind.DWord)
+            AddToConsole("Pinned the libary folders in Explorer!")
 
             ' Stop quick access from filling up with folders and files
             Key = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\Explorer", True)
             Key.SetValue("ShowFrequent", 0, RegistryValueKind.DWord) ' Folders
             Key.SetValue("ShowRecent", 0, RegistryValueKind.DWord) ' Files
+            AddToConsole("Disabled quick access filling up!")
 
             ' Make explorer open 'My PC' by default
             Key = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", True)
             Key.SetValue("LaunchTo", 1, RegistryValueKind.DWord)
+            AddToConsole("Made 'My PC' the default dir when launching Explorer!")
 
             Key.Close()
 
         Catch ex As Exception
+            AddToConsole(ex.ToString)
             MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
@@ -367,15 +389,29 @@ Public Class HomeForm
 
     Private Sub UninstallApp(AppName As String)
         Using PowerScript As PowerShell = PowerShell.Create()
-            PowerScript.AddScript("Get-AppxPackage " + AppName + " | Remove-AppxPackage")
+
+            If (AllUserBox.Checked) Then
+                PowerScript.AddScript("Get-AppxPackage -AllUsers " + AppName + " | Remove-AppxPackage")
+            Else
+                PowerScript.AddScript("Get-AppxPackage " + AppName + " | Remove-AppxPackage")
+            End If
+
             PowerScript.Invoke()
         End Using
+
+        ' TODO is app really uninstalled?
+        AddToConsole("Uninstalled app: " + AppName)
         RefreshList(True)
     End Sub
 
     Private Sub FindApps()
         Using PowerScript As PowerShell = PowerShell.Create()
-            PowerScript.AddScript("Get-AppxPackage | Select Name | Out-String -Stream")
+            If (AllUserBox.Checked) Then
+                PowerScript.AddScript("Get-AppxPackage -AllUsers | Select Name | Out-String -Stream")
+            Else
+                PowerScript.AddScript("Get-AppxPackage | Select Name | Out-String -Stream")
+            End If
+
 
             ' Cleanup output and do not include weird stuff
             Dim TrimmedString As String = Nothing
