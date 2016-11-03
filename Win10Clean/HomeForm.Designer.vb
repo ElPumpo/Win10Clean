@@ -123,7 +123,7 @@ Partial Class HomeForm
         Me.AdsBtn.Size = New System.Drawing.Size(220, 31)
         Me.AdsBtn.TabIndex = 18
         Me.AdsBtn.Text = "Disable start menu ads"
-		Me.ToolTip1.SetToolTip(Me.AdsBtn, "Disables ads on the start menu, will only disable for the current user")
+        Me.ToolTip1.SetToolTip(Me.AdsBtn, "Disables ads on the start menu, will only disable for the current user")
         Me.AdsBtn.UseVisualStyleBackColor = True
         '
         'GameDVRBtn
@@ -134,7 +134,8 @@ Partial Class HomeForm
         Me.GameDVRBtn.Size = New System.Drawing.Size(220, 31)
         Me.GameDVRBtn.TabIndex = 17
         Me.GameDVRBtn.Text = "Disable GameDVR"
-		Me.ToolTip1.SetToolTip(Me.GameDVRBtn, "Disable that new Windows 10 overlay when you start your fancy games, only for cur" & "rent user")
+        Me.ToolTip1.SetToolTip(Me.GameDVRBtn, "Disable that new Windows 10 overlay when you start your fancy games, only for cur" &
+        "rent user")
         Me.GameDVRBtn.UseVisualStyleBackColor = True
         '
         'HomeGroupBtn
@@ -145,7 +146,7 @@ Partial Class HomeForm
         Me.HomeGroupBtn.Size = New System.Drawing.Size(220, 31)
         Me.HomeGroupBtn.TabIndex = 16
         Me.HomeGroupBtn.Text = "Disable HomeGroup"
-		Me.ToolTip1.SetToolTip(Me.HomeGroupBtn, "Please leave your current HomeGroup first!")
+        Me.ToolTip1.SetToolTip(Me.HomeGroupBtn, "Please leave your current HomeGroup first!")
         Me.HomeGroupBtn.UseVisualStyleBackColor = True
         '
         'DefenderBtn
@@ -156,7 +157,7 @@ Partial Class HomeForm
         Me.DefenderBtn.Size = New System.Drawing.Size(220, 31)
         Me.DefenderBtn.TabIndex = 12
         Me.DefenderBtn.Text = "Disable Windows Defender"
-		Me.ToolTip1.SetToolTip(Me.DefenderBtn, "Please only disable Defender if you have another strong anti-malware program")
+        Me.ToolTip1.SetToolTip(Me.DefenderBtn, "Please only disable Defender if you have another strong anti-malware program")
         Me.DefenderBtn.UseVisualStyleBackColor = True
         '
         'OneDriveBtn
@@ -167,7 +168,7 @@ Partial Class HomeForm
         Me.OneDriveBtn.Size = New System.Drawing.Size(220, 31)
         Me.OneDriveBtn.TabIndex = 15
         Me.OneDriveBtn.Text = "Uninstall OneDrive"
-		Me.ToolTip1.SetToolTip(Me.OneDriveBtn, "Complete uninstall of OneDrive, quick and no trouble")
+        Me.ToolTip1.SetToolTip(Me.OneDriveBtn, "Complete uninstall of OneDrive, quick and no trouble")
         Me.OneDriveBtn.UseVisualStyleBackColor = True
         '
         'Revert7Btn
@@ -178,7 +179,8 @@ Partial Class HomeForm
         Me.Revert7Btn.Size = New System.Drawing.Size(220, 31)
         Me.Revert7Btn.TabIndex = 14
         Me.Revert7Btn.Text = "Revert explorer to Win7 style"
-		Me.ToolTip1.SetToolTip(Me.Revert7Btn, "Remove unnecessary folders in My PC, shows the libary folder, stops quick access " & "from filling up and explorer defaults to open My PC") 
+        Me.ToolTip1.SetToolTip(Me.Revert7Btn, "Remove unnecessary folders in My PC, shows the libary folder, stops quick access " &
+        "from filling up and explorer defaults to open My PC")
         Me.Revert7Btn.UseVisualStyleBackColor = True
         '
         'MeteroTab
@@ -239,6 +241,7 @@ Partial Class HomeForm
         Me.AppBox.Location = New System.Drawing.Point(3, 2)
         Me.AppBox.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.AppBox.Name = "AppBox"
+        Me.AppBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
         Me.AppBox.Size = New System.Drawing.Size(367, 340)
         Me.AppBox.TabIndex = 5
         '
