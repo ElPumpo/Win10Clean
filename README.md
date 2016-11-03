@@ -16,22 +16,11 @@ It does not have any functions to disable Windows 10 spying, for that stuff you'
 Runnable executables are available for download [here](https://github.com/ElPumpo/Win10Clean/releases).
 
 # Requirements
-+ Windows 10, 8.1 and 8 are all supported
-+ .NET framework 4.6
++ Windows 10 and 8.x are supported
++ .NET framework 4.6 (comes pre-installed)
 
 # Todo
-- [x] OneDrive uninstaller
-- [x] Remove misc folders from My Pc
-- [x] Update checker - d963960
-- [x] Ability to disable HomeGroup (cuz i don't use it) - eae6847
-- [x] Windows Defender disabler (cuz i'm using malwarebytes) - 171f008 + 3cab15f
-- [x] GameDVR disabler (uninstalling the Xbox app doesn't stop it)
-- [ ] Project icon
-
-### Partial
-Not a priority but gotta implement..
-- The Win10 app uninstaller can only uninstall one app at the same time
-- The Win10 app uninstaller can only uninstall apps for the current user. (both image file all users to do)
+- The Win10 app uninstaller can only uninstall one app at the same time (too easy to implement :D)
 - No undo button for undoing changes made to system.
 - Improve error handling.
 

@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Added
+- Added support to uninstall apps installed for all users.
+- Replaced all forms with a big one.
+- Added console for extended debugging information.
+- Executable icon, thanks to https://github.com/Maddoc42/Android-Material-Icon-Generator.
+
 ## [0.6.0] - 2016-10-02
 ### Added
 - You can now disable HomeGroup.
