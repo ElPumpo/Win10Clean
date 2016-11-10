@@ -1,5 +1,4 @@
 # Win10Clean
-# About
 Cleanup your Windows enviroment!
 
 ### Background
