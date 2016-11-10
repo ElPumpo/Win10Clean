@@ -9,8 +9,10 @@ I wanted to make it into a real executable instead of being a zip file with a lo
 
 It does not have any functions to disable Windows 10 spying, for that stuff you'll have to look somewhere else.
 
-![alt tag](http://i.imgur.com/5NHvxQA.png)
-![alt tag](http://i.imgur.com/fIJxlu2.png)
+![alt tag](http://i.imgur.com/w5nbL6o.png)
+![alt tag](http://i.imgur.com/cih36BG.png)
+
+
 
 # Download
 Runnable executables are available for download [here](https://github.com/ElPumpo/Win10Clean/releases).
