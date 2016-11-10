@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Fixed
+- Fixed tab index yet again.
+- The OneDrive should now be sucessfully remove the icon from Explorer, and does no longer remove stuff from the registry.
+
 ## [0.7.0] - 2016-11-03
 ### Added
 - Added support to uninstall apps installed for all users.
