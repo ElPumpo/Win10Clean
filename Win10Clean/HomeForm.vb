@@ -283,17 +283,23 @@ Public Class HomeForm
         Next
 
         ' Remove OneDrive from Explorer
-        If Is64 Then
-            OnePath = "Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}"
-        Else
-            OnePath = "CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}"
-        End If
+        ' Update: do not delete the entire key, (should) also fix a bug for some users where OneDrive doesn't get removed from Explorer.
+        Dim OneKeyExplorer As String = "CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}"
 
         Try
-            Registry.ClassesRoot.DeleteSubKeyTree(OnePath)
+            Static OneKey As RegistryKey
+
+            OneKey = Registry.ClassesRoot.OpenSubKey(OneKeyExplorer, True)
+            OneKey.SetValue("System.IsPinnedToNameSpaceTree", 0, RegistryValueKind.DWord)
             AddToConsole("Deleted OneDrive from Explorer!")
+            OneKey.Close()
+        Catch ex As NullReferenceException
+            Registry.ClassesRoot.CreateSubKey(OneKeyExplorer)
+            MessageBox.Show("Please run me again!")
+
         Catch ex As Exception
-            ' ignore errors
+            AddToConsole(ex.ToString)
+            MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -321,14 +327,28 @@ Public Class HomeForm
 
         Next
 
+        ' Pin libary folders
+        Static PinLib As String = "Software\Classes\CLSID\{031E4825-7B94-4dc3-B131-E946B44C8DD5}"
+
+        Try
+            Static PinLibKey As RegistryKey
+
+            PinLibKey = Registry.CurrentUser.OpenSubKey(PinLib, True)
+            PinLibKey.SetValue("System.IsPinnedToNameSpaceTree", 1, RegistryValueKind.DWord)
+            AddToConsole("Pinned the libary folders in Explorer!")
+            PinLibKey.Close()
+        Catch ex As NullReferenceException
+            Registry.CurrentUser.CreateSubKey(PinLib)
+            MessageBox.Show("Please run me again!")
+
+        Catch ex As Exception
+            AddToConsole(ex.ToString)
+            MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+
         ' New stuff
         Try
             Static Key As RegistryKey
-
-            ' Pin libary folders
-            Key = Registry.CurrentUser.OpenSubKey("Software\Classes\CLSID\{031E4825-7B94-4dc3-B131-E946B44C8DD5}", True)
-            Key.SetValue("System.IsPinnedToNameSpaceTree", 1, RegistryValueKind.DWord)
-            AddToConsole("Pinned the libary folders in Explorer!")
 
             ' Stop quick access from filling up with folders and files
             Key = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\Explorer", True)
