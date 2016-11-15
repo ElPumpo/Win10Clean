@@ -11,8 +11,6 @@ It does not have any functions to disable Windows 10 spying, for that stuff you'
 ![alt tag](http://i.imgur.com/w5nbL6o.png)
 ![alt tag](http://i.imgur.com/cih36BG.png)
 
-
-
 # Download
 Runnable executables are available for download [here](https://github.com/ElPumpo/Win10Clean/releases).
 
@@ -21,9 +19,8 @@ Runnable executables are available for download [here](https://github.com/ElPump
 + .NET framework 4.6 (comes pre-installed)
 
 # Todo
-- The Win10 app uninstaller can only uninstall one app at the same time (too easy to implement :D)
-- No undo button for undoing changes made to system.
-- Improve error handling.
+- The Win10 app uninstaller can only uninstall one app at the same time
+- Implement undo button for undoing changes made to system.
 
 # Legal
 
