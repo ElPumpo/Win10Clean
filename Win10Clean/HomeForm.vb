@@ -27,8 +27,32 @@ Public Class HomeForm
     Dim Is64 As Boolean = Environment.Is64BitOperatingSystem
     Dim GoBack As Integer
 
+    ' States
+    Dim AdsSwitch As Integer = 0
+    Dim AdsMessage As String = "Disabled ads on start menu!"
+
     Private Sub HomeForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         VerLabel.Text = VerLabel.Text + OfflineVer
+
+        ' Check ads
+        Try
+            Static Key As RegistryKey
+            Key = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", True)
+            Select Case Key.GetValue("SystemPaneSuggestionsEnabled", 1)
+                Case 0
+                    AdsSwitch = 1
+                    AdsBtn.Text = "Enable start menu ads"
+                    ToolTip1.SetToolTip(AdsBtn, "Re-enable the ads if you really want")
+                    AdsMessage = "Enabled ads on start menu!"
+            End Select
+
+            Key.Close()
+
+        Catch ex As Exception
+            ' nothing
+        End Try
+
+
     End Sub
 
     ' Home related
@@ -221,17 +245,15 @@ Public Class HomeForm
         Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes
                 Enabled = False
-                Dim RegKey As String = "SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
+                Dim RegKey As String = "Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
                 Try
                     Static Key As RegistryKey
-                    Dim RegVal() As String = {"0x00000000", 0}
-                    Console.WriteLine("key='" + RegKey + "',val='" + RegVal(0) + "',type='" + RegistryValueKind.DWord.ToString() + "'")
                     Key = Registry.CurrentUser.OpenSubKey(RegKey, True)
 
-                    Key.SetValue("SystemPaneSuggestionsEnabled", RegVal(1), RegistryValueKind.DWord)
+                    Key.SetValue("SystemPaneSuggestionsEnabled", AdsSwitch, RegistryValueKind.DWord)
                     Key.Close()
 
-                    AddToConsole("Disabled ads on start menu!")
+                    AddToConsole(AdsMessage)
                     MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                 Catch ex As Exception
