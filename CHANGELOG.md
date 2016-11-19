@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Added a query to check if the start menu ads already has been disabled, and if so - give user choice to re-enable.
 
+### Changed
+- Made the metero app selector only select one app (as it was in older versions).
+
 ## [0.8.0] - 2016-11-15
 ### Fixed
 - Fixed tab index yet again.
