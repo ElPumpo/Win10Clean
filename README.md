@@ -8,6 +8,8 @@ I wanted to make it into a real executable instead of being a zip file with a lo
 
 It does not have any functions to disable Windows 10 spying, for that stuff you'll have to look somewhere else.
 
+Should also be noted that Win10Clean doesn't doesn't harm your computer in any way. Other Windows 10 cleanup tools usally delete important registry keys, making reverting changes a pain in the butt - and some does bad modifications which aren't safe to apply. Everything done with Win10Clean can be reverted very easily has zero chance in frying your computer!
+
 ![alt tag](http://i.imgur.com/w5nbL6o.png)
 ![alt tag](http://i.imgur.com/cih36BG.png)
 
@@ -16,11 +18,11 @@ Runnable executables are available for download [here](https://github.com/ElPump
 
 # Requirements
 + Windows 10 and 8.x are supported
-+ .NET framework 4.6 (comes pre-installed)
++ .NET framework 4.6
 
 # Todo
 - The Win10 app uninstaller can only uninstall one app at the same time
-- Implement undo button for undoing changes made to system.
+- Implement undo button for undoing changes made to system (working on atm)
 
 # Legal
 
