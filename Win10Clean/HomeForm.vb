@@ -323,6 +323,31 @@ Public Class HomeForm
             AddToConsole(ex.ToString)
             MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+
+        ' Delete scheduled leftovers
+        Try
+            ' unused: HomeProcess.StandardOutput.ReadToEnd())
+            Dim HomeProcess As Process = New Process
+            HomeProcess.StartInfo.FileName = "cmd.exe"
+            HomeProcess.StartInfo.CreateNoWindow = True
+            HomeProcess.StartInfo.UseShellExecute = False
+            HomeProcess.StartInfo.RedirectStandardInput = True
+            HomeProcess.StartInfo.RedirectStandardOutput = True
+            HomeProcess.Start()
+
+            HomeProcess.StandardInput.WriteLine("SCHTASKS /Delete /TN ""OneDrive Standalone Update Task"" /F")
+            HomeProcess.StandardInput.Flush()
+            HomeProcess.StandardInput.Close()
+            HomeProcess.WaitForExit()
+
+            AddToConsole("Removed OneDrive scheduled tasks!")
+
+        Catch ex As Exception
+            AddToConsole(ex.ToString)
+            MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+
+
     End Sub
 
     Private Sub Revert7()
@@ -481,6 +506,29 @@ Public Class HomeForm
             DebugBox.Text = DebugBox.Text + Information + Environment.NewLine
             Console.WriteLine(Information)
         End If
+    End Sub
+
+    Private Sub AppKeepBtn_Click(sender As Object, e As EventArgs) Handles AppKeepBtn.Click
+        Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
+            Case MsgBoxResult.Yes
+                Enabled = False
+                Dim RegKey As String = "Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
+                Try
+                    Static Key As RegistryKey
+                    Key = Registry.CurrentUser.OpenSubKey(RegKey, True)
+
+                    Key.SetValue("SilentInstalledAppsEnabled", AdsSwitch, RegistryValueKind.DWord)
+                    Key.Close()
+
+                    AddToConsole("Stopped automatic app install!")
+                    MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+                Catch ex As Exception
+                    AddToConsole(ex.ToString)
+                    MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+                Enabled = True
+        End Select
     End Sub
 
 End Class
