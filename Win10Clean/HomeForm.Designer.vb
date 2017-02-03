@@ -26,6 +26,7 @@ Partial Class HomeForm
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(HomeForm))
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.HomeTab = New System.Windows.Forms.TabPage()
+        Me.AppKeepBtn = New System.Windows.Forms.Button()
         Me.VerLabel = New System.Windows.Forms.Label()
         Me.CheckUpdatesBtn = New System.Windows.Forms.Button()
         Me.CloseBtn = New System.Windows.Forms.Button()
@@ -36,7 +37,6 @@ Partial Class HomeForm
         Me.OneDriveBtn = New System.Windows.Forms.Button()
         Me.Revert7Btn = New System.Windows.Forms.Button()
         Me.MeteroTab = New System.Windows.Forms.TabPage()
-        Me.AppKeepBtn = New System.Windows.Forms.Button()
         Me.CheckBox2 = New System.Windows.Forms.CheckBox()
         Me.AllUserBox = New System.Windows.Forms.CheckBox()
         Me.UninstallBtn = New System.Windows.Forms.Button()
@@ -70,6 +70,7 @@ Partial Class HomeForm
         '
         'HomeTab
         '
+        Me.HomeTab.Controls.Add(Me.AppKeepBtn)
         Me.HomeTab.Controls.Add(Me.VerLabel)
         Me.HomeTab.Controls.Add(Me.CheckUpdatesBtn)
         Me.HomeTab.Controls.Add(Me.CloseBtn)
@@ -86,6 +87,16 @@ Partial Class HomeForm
         Me.HomeTab.TabIndex = 0
         Me.HomeTab.Text = "Home"
         Me.HomeTab.UseVisualStyleBackColor = True
+        '
+        'AppKeepBtn
+        '
+        Me.AppKeepBtn.Location = New System.Drawing.Point(3, 114)
+        Me.AppKeepBtn.Name = "AppKeepBtn"
+        Me.AppKeepBtn.Size = New System.Drawing.Size(220, 31)
+        Me.AppKeepBtn.TabIndex = 26
+        Me.AppKeepBtn.Text = "Don't reinstall uninstalled apps"
+        Me.ToolTip1.SetToolTip(Me.AppKeepBtn, "Stop Windows from re-installing pre-installed apps you just uninstalled")
+        Me.AppKeepBtn.UseVisualStyleBackColor = True
         '
         'VerLabel
         '
@@ -186,7 +197,6 @@ Partial Class HomeForm
         '
         'MeteroTab
         '
-        Me.MeteroTab.Controls.Add(Me.AppKeepBtn)
         Me.MeteroTab.Controls.Add(Me.CheckBox2)
         Me.MeteroTab.Controls.Add(Me.AllUserBox)
         Me.MeteroTab.Controls.Add(Me.UninstallBtn)
@@ -199,16 +209,6 @@ Partial Class HomeForm
         Me.MeteroTab.TabIndex = 1
         Me.MeteroTab.Text = "Win10 / metero apps"
         Me.MeteroTab.UseVisualStyleBackColor = True
-        '
-        'AppKeepBtn
-        '
-        Me.AppKeepBtn.Location = New System.Drawing.Point(428, 56)
-        Me.AppKeepBtn.Name = "AppKeepBtn"
-        Me.AppKeepBtn.Size = New System.Drawing.Size(32, 32)
-        Me.AppKeepBtn.TabIndex = 11
-        Me.AppKeepBtn.Text = "?"
-        Me.ToolTip1.SetToolTip(Me.AppKeepBtn, "Stop Windows from re-installing pre-installed apps you just uninstalled")
-        Me.AppKeepBtn.UseVisualStyleBackColor = True
         '
         'CheckBox2
         '

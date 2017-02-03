@@ -6,7 +6,7 @@ Imports Microsoft.Win32
 Public Class HomeForm
 
     'Win10Clean - Cleanup your Windows 10 environment
-    'Copyright (C) 2016 Hawaii_Beach
+    'Copyright (C) 2016-2017 Hawaii_Beach
 
     'This program Is free software: you can redistribute it And/Or modify
     'it under the terms Of the GNU General Public License As published by
@@ -34,9 +34,11 @@ Public Class HomeForm
     Private Sub HomeForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         VerLabel.Text = VerLabel.Text + OfflineVer
 
-        ' Check ads
+
         Try
             Static Key As RegistryKey
+
+            ' Check ads
             Key = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", True)
             Select Case Key.GetValue("SystemPaneSuggestionsEnabled", 1)
                 Case 0
@@ -264,6 +266,29 @@ Public Class HomeForm
         End Select
     End Sub
 
+    Private Sub AppKeepBtn_Click(sender As Object, e As EventArgs) Handles AppKeepBtn.Click
+        Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
+            Case MsgBoxResult.Yes
+                Enabled = False
+                Dim RegKey As String = "Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
+                Try
+                    Static Key As RegistryKey
+                    Key = Registry.CurrentUser.OpenSubKey(RegKey, True)
+
+                    Key.SetValue("SilentInstalledAppsEnabled", AdsSwitch, RegistryValueKind.DWord)
+                    Key.Close()
+
+                    AddToConsole("Stopped automatic app install!")
+                    MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+                Catch ex As Exception
+                    AddToConsole(ex.ToString)
+                    MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+                Enabled = True
+        End Select
+    End Sub
+
     Private Sub UninstallOneDrive()
 
         Dim ProcessName As String = "OneDrive"
@@ -385,7 +410,7 @@ Public Class HomeForm
             AddToConsole("Pinned the libary folders in Explorer!")
             PinLibKey.Close()
         Catch ex As NullReferenceException
-            Registry.CurrentUser.CreateSubKey(PinLib)
+            Registry.CurrentUser.CreateSubKey(PinLib) ' doesn't exist as default, normal behaviour
             MessageBox.Show("Please run me again!")
 
         Catch ex As Exception
@@ -507,28 +532,4 @@ Public Class HomeForm
             Console.WriteLine(Information)
         End If
     End Sub
-
-    Private Sub AppKeepBtn_Click(sender As Object, e As EventArgs) Handles AppKeepBtn.Click
-        Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
-            Case MsgBoxResult.Yes
-                Enabled = False
-                Dim RegKey As String = "Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
-                Try
-                    Static Key As RegistryKey
-                    Key = Registry.CurrentUser.OpenSubKey(RegKey, True)
-
-                    Key.SetValue("SilentInstalledAppsEnabled", AdsSwitch, RegistryValueKind.DWord)
-                    Key.Close()
-
-                    AddToConsole("Stopped automatic app install!")
-                    MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
-
-                Catch ex As Exception
-                    AddToConsole(ex.ToString)
-                    MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
-                End Try
-                Enabled = True
-        End Select
-    End Sub
-
 End Class

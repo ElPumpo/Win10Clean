@@ -12,7 +12,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("Cleanup your Windows 10 enviroment")>
 <Assembly: AssemblyCompany("Hawaii_Beach")>
 <Assembly: AssemblyProduct("Win10Clean")>
-<Assembly: AssemblyCopyright("Copyright ©  2016")>
+<Assembly: AssemblyCopyright("Copyright ©  2016-2017")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
