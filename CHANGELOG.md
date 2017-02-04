@@ -7,7 +7,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 - Added a query to check if the start menu ads already has been disabled, and if so - give user choice to re-enable.
-- The OneDrive uninstaller now remove any leftovers found in the task scheduler.
 - Added a fix for uninstalled apps reinstalling.
 
 ### Changed
