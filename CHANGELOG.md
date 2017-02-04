@@ -4,12 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [0.9.0] - 2017-02-04
 ### Added
 - Added a query to check if the start menu ads already has been disabled, and if so - give user choice to re-enable.
 - Added a fix for uninstalled apps reinstalling.
 - The OneDrive uninstaller now remove any leftovers found in the task scheduler.
 - Ability to uninstall multiple apps at once.
+
+### Changed
+- Cleanup in code, now using `Using` statements in a attempt in lowering the memory usage.
 
 ## [0.8.0] - 2016-11-15
 ### Fixed
