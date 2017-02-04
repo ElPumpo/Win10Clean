@@ -427,6 +427,74 @@ Public Class HomeForm
 
     End Sub
 
+    Private Sub DisShellBtn_Click(sender As Object, e As EventArgs) Handles DisShellBtn.Click
+
+        Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
+            Case MsgBoxResult.Yes
+                Enabled = False
+
+                ' provided by http://fragme.blogspot.se/2007/07/windows-tip-18-remove-unnecessary-right.html
+                Dim Extentions() As String =
+            {
+            "batfile",
+            "cmdfile",
+            "docfile",
+            "fonfile",
+            "htmlfile",
+            "inffile",
+            "inifile",
+            "JSEFile",
+            "JSFile",
+            "MSInfo.Document",
+            "otffile",
+            "pfmfile",
+            "regfile",
+            "rtffile",
+            "ttcfile",
+            "ttffile",
+            "txtfile",
+            "VBEFile",
+            "VBSFile",
+            "Wordpad.Document.1",
+            "WSFFile"
+            }
+
+                ' Disable print
+                For Each ext As String In Extentions
+                    Try
+                        Dim FinalKey As String = ext + "\shell\print"
+
+                        Using RegKey As RegistryKey = Registry.ClassesRoot.OpenSubKey(FinalKey, True)
+                            RegKey.SetValue("LegacyDisable", String.Empty)
+                            AddToConsole("Disabled print for: " + ext + "!")
+                        End Using
+                    Catch ex As Exception
+                        AddToConsole(ex.GetType().ToString() + " - couldn't disable print for: " + ext + "!")
+                        ' ignore errors
+                    End Try
+                Next
+
+                ' Disable edit
+                For Each ext As String In Extentions
+                    Try
+                        Dim FinalKey As String = ext + "\shell\edit"
+
+                        Using RegKey As RegistryKey = Registry.ClassesRoot.OpenSubKey(FinalKey, True)
+                            RegKey.SetValue("LegacyDisable", String.Empty, RegistryValueKind.String)
+                            AddToConsole("Disabled edit for: " + ext + "!")
+                        End Using
+                    Catch ex As Exception
+                        AddToConsole(ex.GetType().ToString() + " - couldn't disable edit for: " + ext + "!")
+                        ' ignore errors
+                    End Try
+                Next
+
+                MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+                Enabled = True
+        End Select
+    End Sub
+
     ' Metero related
     Private Sub RefreshBtn_Click(sender As Object, e As EventArgs) Handles RefreshBtn.Click
         Enabled = False
@@ -525,4 +593,5 @@ Public Class HomeForm
             Console.WriteLine(Information)
         End If
     End Sub
+
 End Class

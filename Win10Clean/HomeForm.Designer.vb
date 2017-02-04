@@ -26,6 +26,7 @@ Partial Class HomeForm
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(HomeForm))
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.HomeTab = New System.Windows.Forms.TabPage()
+        Me.DisShellBtn = New System.Windows.Forms.Button()
         Me.AppKeepBtn = New System.Windows.Forms.Button()
         Me.VerLabel = New System.Windows.Forms.Label()
         Me.CheckUpdatesBtn = New System.Windows.Forms.Button()
@@ -70,6 +71,7 @@ Partial Class HomeForm
         '
         'HomeTab
         '
+        Me.HomeTab.Controls.Add(Me.DisShellBtn)
         Me.HomeTab.Controls.Add(Me.AppKeepBtn)
         Me.HomeTab.Controls.Add(Me.VerLabel)
         Me.HomeTab.Controls.Add(Me.CheckUpdatesBtn)
@@ -87,6 +89,16 @@ Partial Class HomeForm
         Me.HomeTab.TabIndex = 0
         Me.HomeTab.Text = "Home"
         Me.HomeTab.UseVisualStyleBackColor = True
+        '
+        'DisShellBtn
+        '
+        Me.DisShellBtn.Location = New System.Drawing.Point(307, 114)
+        Me.DisShellBtn.Name = "DisShellBtn"
+        Me.DisShellBtn.Size = New System.Drawing.Size(220, 31)
+        Me.DisShellBtn.TabIndex = 26
+        Me.DisShellBtn.Text = "Disable extra right-click ..."
+        Me.ToolTip1.SetToolTip(Me.DisShellBtn, "menu items")
+        Me.DisShellBtn.UseVisualStyleBackColor = False
         '
         'AppKeepBtn
         '
@@ -356,4 +368,5 @@ Partial Class HomeForm
     Friend WithEvents AllUserBox As CheckBox
     Friend WithEvents DebugBox As RichTextBox
     Friend WithEvents AppKeepBtn As Button
+    Friend WithEvents DisShellBtn As Button
 End Class
