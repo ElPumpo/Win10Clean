@@ -34,21 +34,17 @@ Public Class HomeForm
     Private Sub HomeForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         VerLabel.Text = VerLabel.Text + OfflineVer
 
-
         Try
-            Static Key As RegistryKey
-
             ' Check ads
-            Key = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", True)
-            Select Case Key.GetValue("SystemPaneSuggestionsEnabled", 1)
-                Case 0
-                    AdsSwitch = 1
-                    AdsBtn.Text = "Enable start menu ads"
-                    ToolTip1.SetToolTip(AdsBtn, "Re-enable the ads if you really want")
-                    AdsMessage = "Enabled ads on start menu!"
-            End Select
-
-            Key.Close()
+            Using Key As RegistryKey = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", True)
+                Select Case Key.GetValue("SystemPaneSuggestionsEnabled", 1)
+                    Case 0
+                        AdsSwitch = 1
+                        AdsBtn.Text = "Enable start menu ads"
+                        ToolTip1.SetToolTip(AdsBtn, "Re-enable the ads if you really want")
+                        AdsMessage = "Enabled ads on start menu!"
+                End Select
+            End Using
 
         Catch ex As Exception
             ' nothing
@@ -90,15 +86,11 @@ Public Class HomeForm
         Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes
                 Enabled = False
-                Dim RegKey As String = "SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR"
+                Dim RegKey As String = "Software\Microsoft\Windows\CurrentVersion\GameDVR"
                 Try
-                    Static Key As RegistryKey
-                    Dim RegVal() As String = {"0x00000000", 0}
-                    Console.WriteLine("key='" + RegKey + "',val='" + RegVal(0) + "',type='" + RegistryValueKind.DWord.ToString() + "'")
-                    Key = Registry.CurrentUser.OpenSubKey(RegKey, True)
-
-                    Key.SetValue("AppCaptureEnabled", RegVal(1), RegistryValueKind.DWord)
-                    Key.Close()
+                    Using Key As RegistryKey = Registry.CurrentUser.OpenSubKey(RegKey, True)
+                        Key.SetValue("AppCaptureEnabled", 0, RegistryValueKind.DWord)
+                    End Using
                     MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                 Catch ex As NullReferenceException
@@ -118,34 +110,35 @@ Public Class HomeForm
                 Enabled = False
                 Try
                     ' Disable GUI and engine
-                    Static Key As RegistryKey
-                    Key = Registry.LocalMachine.OpenSubKey("SOFTWARE\Policies\Microsoft\Windows Defender", True)
-                    Key.SetValue("DisableAntiSpyware", 1, RegistryValueKind.DWord)
-                    AddToConsole("Disabled main Defender functions!")
+                    Using Key As RegistryKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\Policies\Microsoft\Windows Defender", True)
+                        Key.SetValue("DisableAntiSpyware", 1, RegistryValueKind.DWord)
+                        AddToConsole("Disabled main Defender functions!")
+                    End Using
 
                     ' Delete Defender from startup
-                    Key = Registry.LocalMachine.OpenSubKey("SOFTWARE\Microsoft\Windows\CurrentVersion\Run", True)
-                    Key.DeleteValue("WindowsDefender", False) ' Dont throw if key doesn't exist
-                    AddToConsole("Removed Defender from startup!")
-
-                    Key.Close()
+                    Using Key As RegistryKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\Microsoft\Windows\CurrentVersion\Run", True)
+                        Key.DeleteValue("WindowsDefender", False) ' Don't error out if key doesn't exist
+                        AddToConsole("Removed Defender from startup!")
+                    End Using
 
                     ' Unregister Defender shell extension
-                    Dim HomeProcess As Process = New Process
-                    HomeProcess.StartInfo.FileName = "cmd.exe"
-                    HomeProcess.StartInfo.CreateNoWindow = True
-                    HomeProcess.StartInfo.UseShellExecute = False
-                    HomeProcess.StartInfo.RedirectStandardInput = True
-                    HomeProcess.StartInfo.RedirectStandardOutput = True
-                    HomeProcess.Start()
+                    Using process As Process = New Process()
+                        ' unused: process.StandardOutput.ReadToEnd())
+                        process.StartInfo.FileName = "cmd.exe"
+                        process.StartInfo.CreateNoWindow = True
+                        process.StartInfo.UseShellExecute = False
+                        process.StartInfo.RedirectStandardInput = True
+                        process.StartInfo.RedirectStandardOutput = True
+                        process.Start()
 
-                    ' Silent unregister of dll file
-                    HomeProcess.StandardInput.WriteLine("regsvr32 /u /s ""C:\Program Files\Windows Defender\shellext.dll""")
-                    HomeProcess.StandardInput.Flush()
-                    HomeProcess.StandardInput.Close()
-                    HomeProcess.WaitForExit()
+                        ' Silent unregister of dll file
+                        process.StandardInput.WriteLine("regsvr32 /u /s ""C:\Program Files\Windows Defender\shellext.dll""")
+                        'process.StandardInput.Flush()
+                        process.StandardInput.Close()
+                        process.WaitForExit()
 
-                    AddToConsole("Unregistered Defender shell addon!")
+                        AddToConsole("Unregistered Defender shell addon!")
+                    End Using
 
                     MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
@@ -164,22 +157,22 @@ Public Class HomeForm
             Case MsgBoxResult.Yes
 
                 Try
-                    ' unused: HomeProcess.StandardOutput.ReadToEnd())
-                    Dim HomeProcess As Process = New Process
-                    HomeProcess.StartInfo.FileName = "cmd.exe"
-                    HomeProcess.StartInfo.CreateNoWindow = True
-                    HomeProcess.StartInfo.UseShellExecute = False
-                    HomeProcess.StartInfo.RedirectStandardInput = True
-                    HomeProcess.StartInfo.RedirectStandardOutput = True
-                    HomeProcess.Start()
+                    Using process As Process = New Process()
+                        process.StartInfo.FileName = "cmd.exe"
+                        process.StartInfo.CreateNoWindow = True
+                        process.StartInfo.UseShellExecute = False
+                        process.StartInfo.RedirectStandardInput = True
+                        process.StartInfo.RedirectStandardOutput = True
+                        process.Start()
 
-                    HomeProcess.StandardInput.WriteLine("sc config ""HomeGroupProvider"" start= disabled")
-                    HomeProcess.StandardInput.WriteLine("sc stop ""HomeGroupProvider""")
-                    HomeProcess.StandardInput.Flush()
-                    HomeProcess.StandardInput.Close()
-                    HomeProcess.WaitForExit()
+                        process.StandardInput.WriteLine("sc config ""HomeGroupProvider"" start= disabled")
+                        process.StandardInput.WriteLine("sc stop ""HomeGroupProvider""")
+                        'process.StandardInput.Flush()
+                        process.StandardInput.Close()
+                        process.WaitForExit()
 
-                    AddToConsole("Disabled HomeGroup!")
+                        AddToConsole("Disabled HomeGroup!")
+                    End Using
 
                     MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Catch ex As Exception
@@ -201,11 +194,12 @@ Public Class HomeForm
             'Start request
             Dim theRequest As HttpWebRequest = WebRequest.Create(ServerURL)
             theRequest.Timeout = 10000 '10sec timeout
-            Dim responce As HttpWebResponse = theRequest.GetResponse()
-            Dim reader As StreamReader = New StreamReader(responce.GetResponseStream())
-            OnlineVer = reader.ReadToEnd.Trim()
-            reader.Close()
-            responce.Close()
+
+            Using responce As HttpWebResponse = theRequest.GetResponse()
+                Using reader As StreamReader = New StreamReader(responce.GetResponseStream())
+                    OnlineVer = reader.ReadToEnd.Trim()
+                End Using
+            End Using
 
         Catch ex As Exception
             'Letting itself know that it cannot reach to the server
@@ -247,15 +241,12 @@ Public Class HomeForm
         Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes
                 Enabled = False
-                Dim RegKey As String = "Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
                 Try
-                    Static Key As RegistryKey
-                    Key = Registry.CurrentUser.OpenSubKey(RegKey, True)
+                    Using Key As RegistryKey = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", True)
+                        Key.SetValue("SystemPaneSuggestionsEnabled", AdsSwitch, RegistryValueKind.DWord)
+                        AddToConsole(AdsMessage)
+                    End Using
 
-                    Key.SetValue("SystemPaneSuggestionsEnabled", AdsSwitch, RegistryValueKind.DWord)
-                    Key.Close()
-
-                    AddToConsole(AdsMessage)
                     MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                 Catch ex As Exception
@@ -270,15 +261,13 @@ Public Class HomeForm
         Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes
                 Enabled = False
-                Dim RegKey As String = "Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
+
                 Try
-                    Static Key As RegistryKey
-                    Key = Registry.CurrentUser.OpenSubKey(RegKey, True)
+                    Using Key As RegistryKey = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", True)
+                        Key.SetValue("SilentInstalledAppsEnabled", AdsSwitch, RegistryValueKind.DWord)
+                        AddToConsole("Stopped automatic app install!")
+                    End Using
 
-                    Key.SetValue("SilentInstalledAppsEnabled", AdsSwitch, RegistryValueKind.DWord)
-                    Key.Close()
-
-                    AddToConsole("Stopped automatic app install!")
                     MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                 Catch ex As Exception
@@ -334,12 +323,11 @@ Public Class HomeForm
         Dim OneKeyExplorer As String = "CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}"
 
         Try
-            Static OneKey As RegistryKey
+            Using Key As RegistryKey = Registry.ClassesRoot.OpenSubKey(OneKeyExplorer, True)
+                Key.SetValue("System.IsPinnedToNameSpaceTree", 0, RegistryValueKind.DWord)
+                AddToConsole("Deleted OneDrive from Explorer!")
+            End Using
 
-            OneKey = Registry.ClassesRoot.OpenSubKey(OneKeyExplorer, True)
-            OneKey.SetValue("System.IsPinnedToNameSpaceTree", 0, RegistryValueKind.DWord)
-            AddToConsole("Deleted OneDrive from Explorer!")
-            OneKey.Close()
         Catch ex As NullReferenceException
             Registry.ClassesRoot.CreateSubKey(OneKeyExplorer)
             MessageBox.Show("Please run me again!")
@@ -351,21 +339,22 @@ Public Class HomeForm
 
         ' Delete scheduled leftovers
         Try
-            ' unused: HomeProcess.StandardOutput.ReadToEnd())
-            Dim HomeProcess As Process = New Process
-            HomeProcess.StartInfo.FileName = "cmd.exe"
-            HomeProcess.StartInfo.CreateNoWindow = True
-            HomeProcess.StartInfo.UseShellExecute = False
-            HomeProcess.StartInfo.RedirectStandardInput = True
-            HomeProcess.StartInfo.RedirectStandardOutput = True
-            HomeProcess.Start()
+            ' unused: process.StandardOutput.ReadToEnd())
+            Using process As Process = New Process()
+                process.StartInfo.FileName = "cmd.exe"
+                process.StartInfo.CreateNoWindow = True
+                process.StartInfo.UseShellExecute = False
+                process.StartInfo.RedirectStandardInput = True
+                process.StartInfo.RedirectStandardOutput = True
+                process.Start()
 
-            HomeProcess.StandardInput.WriteLine("SCHTASKS /Delete /TN ""OneDrive Standalone Update Task"" /F")
-            HomeProcess.StandardInput.Flush()
-            HomeProcess.StandardInput.Close()
-            HomeProcess.WaitForExit()
+                process.StandardInput.WriteLine("SCHTASKS /Delete /TN ""OneDrive Standalone Update Task"" /F")
+                'process.StandardInput.Flush()
+                process.StandardInput.Close()
+                process.WaitForExit()
 
-            AddToConsole("Removed OneDrive scheduled tasks!")
+                AddToConsole("Removed OneDrive scheduled tasks!")
+            End Using
 
         Catch ex As Exception
             AddToConsole(ex.ToString)
@@ -378,20 +367,18 @@ Public Class HomeForm
     Private Sub Revert7()
 
         ' Get ride of libary folders in My PC
-        Static LibReg As RegistryKey
-        Dim LibVal As String = "Hide"
         Static LibKey As String = "SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\"
         Dim LibGUID() As String = {"{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}", "{7d83ee9b-2244-4e70-b1f5-5393042af1e4}", "{f42ee2d3-909f-4907-8871-4c22fc0bf756}", "{0ddd015d-b06c-45d5-8c4c-f59713854639}", "{a0c69a99-21c8-4671-8703-7934162fcf1d}", "{35286a68-3c57-41a1-bbb1-0eae73d76c95}"}
 
         For Each key As String In LibGUID
             Try
                 Dim FinalKey = LibKey + key + "\PropertyBag"
-                LibReg = Registry.LocalMachine.OpenSubKey(FinalKey, True)
 
-                LibReg.SetValue("ThisPCPolicy", LibVal)
-                LibReg.Close()
+                Using RegKey As RegistryKey = Registry.LocalMachine.OpenSubKey(FinalKey, True)
+                    RegKey.SetValue("ThisPCPolicy", "Hide")
+                    AddToConsole("Modified value of: " + key)
+                End Using
 
-                AddToConsole("Modified value of: " + key)
             Catch ex As Exception
                 AddToConsole(ex.GetType().Name + " - Couldn't modify the value of: " + key)
                 MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -403,12 +390,11 @@ Public Class HomeForm
         Static PinLib As String = "Software\Classes\CLSID\{031E4825-7B94-4dc3-B131-E946B44C8DD5}"
 
         Try
-            Static PinLibKey As RegistryKey
+            Using PinLibKey As RegistryKey = Registry.CurrentUser.OpenSubKey(PinLib, True)
+                PinLibKey.SetValue("System.IsPinnedToNameSpaceTree", 1, RegistryValueKind.DWord)
+                AddToConsole("Pinned the libary folders in Explorer!")
+            End Using
 
-            PinLibKey = Registry.CurrentUser.OpenSubKey(PinLib, True)
-            PinLibKey.SetValue("System.IsPinnedToNameSpaceTree", 1, RegistryValueKind.DWord)
-            AddToConsole("Pinned the libary folders in Explorer!")
-            PinLibKey.Close()
         Catch ex As NullReferenceException
             Registry.CurrentUser.CreateSubKey(PinLib) ' doesn't exist as default, normal behaviour
             MessageBox.Show("Please run me again!")
@@ -420,20 +406,19 @@ Public Class HomeForm
 
         ' New stuff
         Try
-            Static Key As RegistryKey
 
             ' Stop quick access from filling up with folders and files
-            Key = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\Explorer", True)
-            Key.SetValue("ShowFrequent", 0, RegistryValueKind.DWord) ' Folders
-            Key.SetValue("ShowRecent", 0, RegistryValueKind.DWord) ' Files
-            AddToConsole("Disabled quick access filling up!")
+            Using Key As RegistryKey = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\Explorer", True)
+                Key.SetValue("ShowFrequent", 0, RegistryValueKind.DWord) ' Folders
+                Key.SetValue("ShowRecent", 0, RegistryValueKind.DWord) ' Files
+                AddToConsole("Disabled quick access filling up!")
+            End Using
 
             ' Make explorer open 'My PC' by default
-            Key = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", True)
-            Key.SetValue("LaunchTo", 1, RegistryValueKind.DWord)
-            AddToConsole("Made 'My PC' the default dir when launching Explorer!")
-
-            Key.Close()
+            Using Key As RegistryKey = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", True)
+                Key.SetValue("LaunchTo", 1, RegistryValueKind.DWord)
+                AddToConsole("Made 'My PC' the default dir when launching Explorer!")
+            End Using
 
         Catch ex As Exception
             AddToConsole(ex.ToString)
@@ -449,12 +434,15 @@ Public Class HomeForm
         Enabled = True
     End Sub
 
-    Private Sub UninstallBtn_Click(sender As Object, e As EventArgs) Handles UninstallBtn.Click
+    Private Async Sub UninstallBtn_Click(sender As Object, e As EventArgs) Handles UninstallBtn.Click
         Enabled = False
         If Not AppBox.SelectedItem = Nothing Then
             Select Case MsgBox("Are you sure you want to uninstall " + AppBox.SelectedItem + "?", MsgBoxStyle.YesNo)
                 Case MsgBoxResult.Yes
-                    UninstallApp(AppBox.SelectedItem)
+                    For Each app In AppBox.SelectedItems
+                        Await UninstallApp(app)
+                    Next
+                    RefreshList(True) ' refresh list when we're done
                     MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End Select
         Else
@@ -471,15 +459,19 @@ Public Class HomeForm
 
         ' Go back to where the user was before refresh,
         ' If the app is uninstalled, we want to get the last item or else the application will flip
-        If (MinusOne) Then
-            AppBox.SelectedIndex = GoBack - 1
-        Else
-            AppBox.SelectedIndex = GoBack
-        End If
+        Try
+            If (MinusOne) Then
+                AppBox.SelectedIndex = GoBack - 1
+            Else
+                AppBox.SelectedIndex = GoBack
+            End If
+        Catch ex As Exception
+
+        End Try
 
     End Sub
 
-    Private Sub UninstallApp(AppName As String)
+    Private Async Function UninstallApp(AppName As String) As Task
         Using PowerScript As PowerShell = PowerShell.Create()
 
             If (AllUserBox.Checked) Then
@@ -493,8 +485,9 @@ Public Class HomeForm
 
         ' TODO is app really uninstalled?
         AddToConsole("Uninstalled app: " + AppName)
-        RefreshList(True)
-    End Sub
+        'RefreshList(True)
+        Return
+    End Function
 
     Private Sub FindApps()
         Using PowerScript As PowerShell = PowerShell.Create()

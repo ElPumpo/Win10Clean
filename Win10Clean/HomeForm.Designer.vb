@@ -253,6 +253,7 @@ Partial Class HomeForm
         Me.AppBox.Location = New System.Drawing.Point(3, 2)
         Me.AppBox.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.AppBox.Name = "AppBox"
+        Me.AppBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
         Me.AppBox.Size = New System.Drawing.Size(367, 340)
         Me.AppBox.TabIndex = 5
         '
