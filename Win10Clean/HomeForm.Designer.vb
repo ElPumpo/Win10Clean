@@ -93,7 +93,7 @@ Partial Class HomeForm
         Me.AppKeepBtn.Location = New System.Drawing.Point(3, 114)
         Me.AppKeepBtn.Name = "AppKeepBtn"
         Me.AppKeepBtn.Size = New System.Drawing.Size(220, 31)
-        Me.AppKeepBtn.TabIndex = 26
+        Me.AppKeepBtn.TabIndex = 7
         Me.AppKeepBtn.Text = "Don't reinstall uninstalled apps"
         Me.ToolTip1.SetToolTip(Me.AppKeepBtn, "Stop Windows from re-installing pre-installed apps you just uninstalled")
         Me.AppKeepBtn.UseVisualStyleBackColor = True
@@ -302,7 +302,7 @@ Partial Class HomeForm
         '
         'RichTextBox1
         '
-        Me.RichTextBox1.Location = New System.Drawing.Point(-4, 2)
+        Me.RichTextBox1.Location = New System.Drawing.Point(0, 0)
         Me.RichTextBox1.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.RichTextBox1.Name = "RichTextBox1"
         Me.RichTextBox1.ReadOnly = True
