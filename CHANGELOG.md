@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Added a query to check if the start menu ads already has been disabled, and if so - give user choice to re-enable.
 - Added a fix for uninstalled apps reinstalling.
+- The OneDrive uninstaller now remove any leftovers found in the task scheduler.
 
 ### Changed
 - Made the metero app selector only select one app (as it was in older versions).
