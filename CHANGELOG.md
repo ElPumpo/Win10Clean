@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Added
+- Ability to hide certian right-click extentions, printing and edit in notepad - more to come.
+
 ## [0.9.0] - 2017-02-04
 ### Added
 - Added a query to check if the start menu ads already has been disabled, and if so - give user choice to re-enable.
