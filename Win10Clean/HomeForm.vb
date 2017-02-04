@@ -464,8 +464,8 @@ Public Class HomeForm
                     Try
                         Dim FinalKey As String = ext + "\shell\print"
 
-                        Using RegKey As RegistryKey = Registry.ClassesRoot.OpenSubKey(FinalKey, True)
-                            RegKey.SetValue("LegacyDisable", String.Empty)
+                        Using Key As RegistryKey = Registry.ClassesRoot.OpenSubKey(FinalKey, True)
+                            Key.SetValue("LegacyDisable", String.Empty)
                             AddToConsole("Disabled print for: " + ext + "!")
                         End Using
                     Catch ex As Exception
@@ -479,8 +479,8 @@ Public Class HomeForm
                     Try
                         Dim FinalKey As String = ext + "\shell\edit"
 
-                        Using RegKey As RegistryKey = Registry.ClassesRoot.OpenSubKey(FinalKey, True)
-                            RegKey.SetValue("LegacyDisable", String.Empty, RegistryValueKind.String)
+                        Using Key As RegistryKey = Registry.ClassesRoot.OpenSubKey(FinalKey, True)
+                            Key.SetValue("LegacyDisable", String.Empty, RegistryValueKind.String)
                             AddToConsole("Disabled edit for: " + ext + "!")
                         End Using
                     Catch ex As Exception
@@ -488,6 +488,31 @@ Public Class HomeForm
                         ' ignore errors
                     End Try
                 Next
+
+                Try
+                    Static Key As RegistryKey
+
+                    ' txt file
+                    Key = Registry.ClassesRoot.OpenSubKey("SystemFileAssociations\text\shell\edit", True)
+                    Key.SetValue("LegacyDisable", String.Empty, RegistryValueKind.String)
+                    AddToConsole("Disabled edit for: txt file!")
+
+                    ' WMP #1 - add to list
+                    Key = Registry.ClassesRoot.OpenSubKey("SystemFileAssociations\audio\shell\Enqueue", True)
+                    Key.SetValue("LegacyDisable", String.Empty, RegistryValueKind.String)
+                    AddToConsole("Disabled add to play list for: audio files!")
+
+                    ' WMP #2 - play
+                    Key = Registry.ClassesRoot.OpenSubKey("SystemFileAssociations\audio\shell\Play", True)
+                    Key.SetValue("LegacyDisable", String.Empty, RegistryValueKind.String)
+                    AddToConsole("Disabled play song for: audio files!")
+
+                    Key.Dispose()
+
+                Catch ex As Exception
+                    AddToConsole(ex.GetType().ToString() + " - couldn't disable edit for")
+                    ' ignore errors
+                End Try
 
                 MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
