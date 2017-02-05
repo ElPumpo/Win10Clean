@@ -21,7 +21,6 @@ Runnable executables are available for download [here](https://github.com/ElPump
 + .NET framework 4.6
 
 # Todo
-- The Win10 app uninstaller can only uninstall one app at the same time
 - Implement undo button for undoing changes made to system (working on atm)
 
 # Legal
