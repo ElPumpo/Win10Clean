@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 - Ability to hide certian right-click extentions, printing and edit in notepad - more to come.
+- Uninstalling apps now have correct feedback (sucess, fail).
+
+### Fixed
+- Prompt for uninstalling apps now tell every app to be uninstalled.
 
 ## [0.9.0] - 2017-02-04
 ### Added
