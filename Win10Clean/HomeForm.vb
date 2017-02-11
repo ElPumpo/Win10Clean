@@ -26,6 +26,7 @@ Public Class HomeForm
     Dim ServerURL As String = "http://raw.githubusercontent.com/ElPumpo/Win10Clean/master/Win10Clean/Resources/version"
     Dim Is64 As Boolean = Environment.Is64BitOperatingSystem
     Dim GoBack As Integer
+    Dim TheApps As String = Nothing
 
     ' States
     Dim AdsSwitch As Integer = 0
@@ -529,8 +530,19 @@ Public Class HomeForm
 
     Private Async Sub UninstallBtn_Click(sender As Object, e As EventArgs) Handles UninstallBtn.Click
         Enabled = False
+        TheApps = Nothing ' Reset list
+
+        ' Displays all the apps to be uninstalled
         If Not AppBox.SelectedItem = Nothing Then
-            Select Case MsgBox("Are you sure you want to uninstall " + AppBox.SelectedItem + "?", MsgBoxStyle.YesNo)
+            For Each app In AppBox.SelectedItems
+                If TheApps Is Nothing Then
+                    TheApps = app ' First app
+                Else
+                    TheApps = TheApps + ", " + app ' If user selected multiple apps, seperate with a comma
+                End If
+
+            Next
+            Select Case MsgBox("Are you sure you want to uninstall " + TheApps + "?", MsgBoxStyle.YesNo)
                 Case MsgBoxResult.Yes
                     For Each app In AppBox.SelectedItems
                         Await UninstallApp(app)
