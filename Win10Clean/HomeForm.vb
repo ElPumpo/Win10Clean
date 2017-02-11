@@ -435,29 +435,29 @@ Public Class HomeForm
 
                 ' provided by http://fragme.blogspot.se/2007/07/windows-tip-18-remove-unnecessary-right.html
                 Dim Extentions() As String =
-            {
-            "batfile",
-            "cmdfile",
-            "docfile",
-            "fonfile",
-            "htmlfile",
-            "inffile",
-            "inifile",
-            "JSEFile",
-            "JSFile",
-            "MSInfo.Document",
-            "otffile",
-            "pfmfile",
-            "regfile",
-            "rtffile",
-            "ttcfile",
-            "ttffile",
-            "txtfile",
-            "VBEFile",
-            "VBSFile",
-            "Wordpad.Document.1",
-            "WSFFile"
-            }
+                {
+                "batfile",
+                "cmdfile",
+                "docfile",
+                "fonfile",
+                "htmlfile",
+                "inffile",
+                "inifile",
+                "JSEFile",
+                "JSFile",
+                "MSInfo.Document",
+                "otffile",
+                "pfmfile",
+                "regfile",
+                "rtffile",
+                "ttcfile",
+                "ttffile",
+                "txtfile",
+                "VBEFile",
+                "VBSFile",
+                "Wordpad.Document.1",
+                "WSFFile"
+                }
 
                 ' Disable print
                 For Each ext As String In Extentions
