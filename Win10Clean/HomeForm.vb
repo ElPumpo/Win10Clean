@@ -577,6 +577,7 @@ Public Class HomeForm
     End Sub
 
     Private Async Function UninstallApp(AppName As String) As Task
+        Dim WasError As Boolean = False
         Using PowerScript As PowerShell = PowerShell.Create()
 
             If (AllUserBox.Checked) Then
@@ -586,11 +587,16 @@ Public Class HomeForm
             End If
 
             PowerScript.Invoke()
+
+            WasError = PowerScript.HadErrors ' Doesn't work in some cases
         End Using
 
-        ' TODO is app really uninstalled?
-        AddToConsole("Uninstalled app: " + AppName)
-        'RefreshList(True)
+        ' Is app really uninstalled?-
+        If WasError = True Then
+            AddToConsole("Couldn't uninstall app: " + AppName)
+        Else
+            AddToConsole("Uninstalled app: " + AppName)
+        End If
         Return
     End Function
 
