@@ -329,6 +329,14 @@ Public Class HomeForm
                 AddToConsole("Deleted OneDrive from Explorer!")
             End Using
 
+            ' Remove from the Explorer file dialog (amd64 only)
+            If Is64 Then
+                Using Key As RegistryKey = Registry.ClassesRoot.OpenSubKey("WOW6432Node\" + OneKeyExplorer, True)
+                    Key.SetValue("System.IsPinnedToNameSpaceTree", 0, RegistryValueKind.DWord)
+                    AddToConsole("Deleted OneDrive from Explorer (FileDialog)!")
+                End Using
+            End If
+
         Catch ex As NullReferenceException
             Registry.ClassesRoot.CreateSubKey(OneKeyExplorer)
             MessageBox.Show("Please run me again!")
