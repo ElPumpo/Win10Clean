@@ -96,8 +96,9 @@ Partial Class HomeForm
         Me.DisShellBtn.Name = "DisShellBtn"
         Me.DisShellBtn.Size = New System.Drawing.Size(220, 31)
         Me.DisShellBtn.TabIndex = 26
-        Me.DisShellBtn.Text = "Disable extra right-click ..."
-        Me.ToolTip1.SetToolTip(Me.DisShellBtn, "menu items")
+        Me.DisShellBtn.Text = "Disable extra menus"
+        Me.ToolTip1.SetToolTip(Me.DisShellBtn, "Disables unnecessary stuff in the extra right-click menus, like printing and edit" &
+        "ing in Notepad" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10))
         Me.DisShellBtn.UseVisualStyleBackColor = False
         '
         'AppKeepBtn
