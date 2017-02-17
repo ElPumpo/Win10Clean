@@ -96,7 +96,7 @@ Partial Class HomeForm
         Me.DisShellBtn.Name = "DisShellBtn"
         Me.DisShellBtn.Size = New System.Drawing.Size(220, 31)
         Me.DisShellBtn.TabIndex = 26
-        Me.DisShellBtn.Text = "Disable extra menus"
+        Me.DisShellBtn.Text = "Cleanup context menu"
         Me.ToolTip1.SetToolTip(Me.DisShellBtn, "Disables unnecessary stuff in the extra right-click menus, like printing and edit" &
         "ing in Notepad" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10))
         Me.DisShellBtn.UseVisualStyleBackColor = False
