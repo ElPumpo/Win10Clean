@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Ability to cleanup the context menu for extensions. Like printing, editing (notepad), play song and add to playlist (wmp).
 - Uninstalling apps now have correct feedback (sucess, fail).
 - Added removing OneDrive from Explorer file dialogs.
+- Added proper credit and added links to licenses.
 
 ### Fixed
 - Prompt for uninstalling apps now tell every app to be uninstalled.
