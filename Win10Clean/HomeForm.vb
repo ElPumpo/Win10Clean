@@ -188,7 +188,6 @@ Public Class HomeForm
 
     Private Sub CheckUpdatesBtn_Click(sender As Object, e As EventArgs) Handles CheckUpdatesBtn.Click
         Enabled = False
-        Dim ErrorExists As Boolean = False
         Try
             AddToConsole("Searching for updates . . .")
 
@@ -204,34 +203,31 @@ Public Class HomeForm
 
         Catch ex As Exception
             'Letting itself know that it cannot reach to the server
+            OnlineVer = "0.0.0"
             AddToConsole("Could not search for updates!")
             MessageBox.Show("Could not search for updates!")
-            ErrorExists = True
 
         End Try
 
-        If ErrorExists = False Then
+        Dim OfflineVerI As Integer = Convert.ToInt32(OfflineVer.Replace(".", String.Empty))
+        Dim OnlineVerI As Integer = Convert.ToInt32(OnlineVer.Replace(".", String.Empty))
 
-            Dim OfflineVerI As Integer = Convert.ToInt32(OfflineVer.Replace(".", String.Empty))
-            Dim OnlineVerI As Integer = Convert.ToInt32(OnlineVer.Replace(".", String.Empty))
+        If OnlineVerI = OfflineVerI Then
+            MessageBox.Show("Client is up to date")
+        Else
 
-            If OnlineVerI = OfflineVerI Then
+            If OfflineVerI > OnlineVerI Then
+                MessageBox.Show("OfflineVer is greater than OnlineVer!")
+            End If
+
+            If OnlineVerI < OfflineVerI Then
                 MessageBox.Show("Client is up to date")
             Else
 
-                If OfflineVerI > OnlineVerI Then
-                    MessageBox.Show("OfflineVer is greater than OnlineVer!")
-                End If
-
-                If OnlineVerI < OfflineVerI Then
-                    MessageBox.Show("Client is up to date")
-                Else
-
-                    Select Case MsgBox("Your client is outdated and a new update can be downloaded from the offical webpage, do you want me to open a webpage of the download page?", MsgBoxStyle.YesNo)
-                        Case MsgBoxResult.Yes
-                            Process.Start("https://github.com/ElPumpo/Win10Clean/releases")
-                    End Select
-                End If
+                Select Case MsgBox("Your client is outdated and a new update can be downloaded from the offical webpage, do you want me to open a webpage of the download page?", MsgBoxStyle.YesNo)
+                    Case MsgBoxResult.Yes
+                        Process.Start("https://github.com/ElPumpo/Win10Clean/releases")
+                End Select
             End If
         End If
 
