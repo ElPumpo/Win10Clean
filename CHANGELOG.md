@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added removing OneDrive from Explorer file dialogs.
 - Added proper credit and added links to licenses.
 
+### Changed
+- Improved fallback code for the update checker.
+
 ### Fixed
 - Prompt for uninstalling apps now tell every app to be uninstalled.
 
