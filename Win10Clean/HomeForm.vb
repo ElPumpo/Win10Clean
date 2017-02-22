@@ -211,15 +211,19 @@ Public Class HomeForm
         End Try
 
         If ErrorExists = False Then
-            If OnlineVer = OfflineVer Then
+
+            Dim OfflineVerI As Integer = Convert.ToInt32(OfflineVer.Replace(".", String.Empty))
+            Dim OnlineVerI As Integer = Convert.ToInt32(OnlineVer.Replace(".", String.Empty))
+
+            If OnlineVerI = OfflineVerI Then
                 MessageBox.Show("Client is up to date")
             Else
 
-                If OfflineVer > OnlineVer Then
+                If OfflineVerI > OnlineVerI Then
                     MessageBox.Show("OfflineVer is greater than OnlineVer!")
                 End If
 
-                If OnlineVer < OfflineVer Then
+                If OnlineVerI < OfflineVerI Then
                     MessageBox.Show("Client is up to date")
                 Else
 
