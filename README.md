@@ -36,7 +36,10 @@ This program Is free software: you can redistribute it And/Or modify it under th
 
 This program Is distributed In the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty Of MERCHANTABILITY Or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License For more details.
 
-You should have received a copy Of the GNU General Public License along with this program. If Not, see <http://www.gnu.org/licenses/>.
+You should have received a copy Of the GNU General Public License along with this program. If Not, see <http://www.gnu.org/licenses/>
 
 ### Icons by famfamfam
-Icons by famfamfam <http://famfamfam.com> are licensed under [CC BY 2.5](https://creativecommons.org/licenses/by/2.5/).
+Icons by famfamfam <http://famfamfam.com> are licensed under [CC BY 2.5](https://creativecommons.org/licenses/by/2.5/)
+
+### Project icon
+Project icon by Maddoc42 <https://github.com/Maddoc42/Android-Material-Icon-Generator> is licensed under CC BY-NC 3.0 <https://creativecommons.org/licenses/by-nc/3.0/>
