@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
-- Ability to hide certian right-click extentions, printing and edit in notepad - more to come.
+- Ability to cleanup the context menu for extensions. Like printing, editing (notepad), play song and add to playlist (wmp).
 - Uninstalling apps now have correct feedback (sucess, fail).
 - Added removing OneDrive from Explorer file dialogs (amd64 only).
 
