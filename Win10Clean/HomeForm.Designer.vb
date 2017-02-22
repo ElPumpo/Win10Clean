@@ -182,7 +182,8 @@ Partial Class HomeForm
         Me.DefenderBtn.Size = New System.Drawing.Size(220, 31)
         Me.DefenderBtn.TabIndex = 1
         Me.DefenderBtn.Text = "Disable Windows Defender"
-        Me.ToolTip1.SetToolTip(Me.DefenderBtn, "Please only disable Defender if you have another strong anti-malware program")
+        Me.ToolTip1.SetToolTip(Me.DefenderBtn, "Please only disable Defender if you have another strong anti-malware program, res" &
+        "tart for changes to take effect" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10))
         Me.DefenderBtn.UseVisualStyleBackColor = True
         '
         'OneDriveBtn

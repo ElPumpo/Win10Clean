@@ -337,6 +337,13 @@ Public Class HomeForm
                 End Using
             End If
 
+            ' Remove from the alternative file dialog (legacy)
+            Using Key As RegistryKey = Registry.ClassesRoot.OpenSubKey(OneKeyExplorer + "\ShellFolder", True)
+                Key.SetValue("Attributes", &HB090010D, RegistryValueKind.DWord)
+                AddToConsole("Deleted OneDrive from Explorer (Legacy FileDialog)!")
+            End Using
+
+
         Catch ex As NullReferenceException
             Registry.ClassesRoot.CreateSubKey(OneKeyExplorer)
             MessageBox.Show("Please run me again!")
@@ -370,7 +377,6 @@ Public Class HomeForm
             MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
-
     End Sub
 
     Private Sub Revert7()
@@ -399,8 +405,8 @@ Public Class HomeForm
         Static PinLib As String = "Software\Classes\CLSID\{031E4825-7B94-4dc3-B131-E946B44C8DD5}"
 
         Try
-            Using PinLibKey As RegistryKey = Registry.CurrentUser.OpenSubKey(PinLib, True)
-                PinLibKey.SetValue("System.IsPinnedToNameSpaceTree", 1, RegistryValueKind.DWord)
+            Using Key As RegistryKey = Registry.CurrentUser.OpenSubKey(PinLib, True)
+                Key.SetValue("System.IsPinnedToNameSpaceTree", 1, RegistryValueKind.DWord)
                 AddToConsole("Pinned the libary folders in Explorer!")
             End Using
 
@@ -413,9 +419,7 @@ Public Class HomeForm
             MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
-        ' New stuff
         Try
-
             ' Stop quick access from filling up with folders and files
             Using Key As RegistryKey = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\Explorer", True)
                 Key.SetValue("ShowFrequent", 0, RegistryValueKind.DWord) ' Folders
