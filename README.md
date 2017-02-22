@@ -10,6 +10,8 @@ It does not have any functions to disable Windows 10 spying, for that stuff you'
 
 Should also be noted that Win10Clean doesn't doesn't harm your computer in any way. Other Windows 10 cleanup tools tend to delete important registry keys (which Win10Clean doesn't), resulting in reverting changes being a pain in the butt - and other tools use bad modifications which aren't safe to apply. Everything done with Win10Clean can be reverted very easily has zero chance in frying your computer!
 
+You might wonder why I went with a very high level API, and it's because I couldn't get PowerShell working in C#.
+
 ![alt tag](http://i.imgur.com/w5nbL6o.png)
 ![alt tag](http://i.imgur.com/cih36BG.png)
 
