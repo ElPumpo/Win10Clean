@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Improved fallback code for the update checker.
+- The form will now become non interactive when doing a task.
 
 ### Fixed
 - Prompt for uninstalling apps now tell every app to be uninstalled.
