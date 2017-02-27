@@ -42,7 +42,7 @@ Public Class HomeForm
                     Case 0
                         AdsSwitch = 1
                         AdsBtn.Text = "Enable start menu ads"
-                        ToolTip1.SetToolTip(AdsBtn, "Re-enable the ads if you really want")
+                        ToolTip1.SetToolTip(AdsBtn, "Re-enable the ads")
                         AdsMessage = "Enabled ads on start menu!"
                 End Select
             End Using
@@ -84,9 +84,10 @@ Public Class HomeForm
     End Sub
 
     Private Sub GameDVRBtn_Click(sender As Object, e As EventArgs) Handles GameDVRBtn.Click
+        Enabled = False
+
         Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes
-                Enabled = False
                 Dim RegKey As String = "Software\Microsoft\Windows\CurrentVersion\GameDVR"
                 Try
                     Using Key As RegistryKey = Registry.CurrentUser.OpenSubKey(RegKey, True)
@@ -101,14 +102,16 @@ Public Class HomeForm
                 Catch ex As Exception
                     MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Try
-                Enabled = True
         End Select
+
+        Enabled = True
     End Sub
 
     Private Sub DefenderBtn_Click(sender As Object, e As EventArgs) Handles DefenderBtn.Click
+        Enabled = False
+
         Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes
-                Enabled = False
                 Try
                     ' Disable GUI and engine
                     Using Key As RegistryKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\Policies\Microsoft\Windows Defender", True)
@@ -147,8 +150,9 @@ Public Class HomeForm
                     AddToConsole(ex.ToString)
                     MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Try
-                Enabled = True
         End Select
+
+        Enabled = True
     End Sub
 
     Private Sub HomeGroupBtn_Click(sender As Object, e As EventArgs) Handles HomeGroupBtn.Click
@@ -188,6 +192,7 @@ Public Class HomeForm
 
     Private Sub CheckUpdatesBtn_Click(sender As Object, e As EventArgs) Handles CheckUpdatesBtn.Click
         Enabled = False
+
         Try
             AddToConsole("Searching for updates . . .")
 
@@ -235,13 +240,13 @@ Public Class HomeForm
         AddToConsole("OnlineVer: " + OnlineVer)
 
         Enabled = True
-
     End Sub
 
     Private Sub AdsBtn_Click(sender As Object, e As EventArgs) Handles AdsBtn.Click
+        Enabled = False
+
         Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes
-                Enabled = False
                 Try
                     Using Key As RegistryKey = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", True)
                         Key.SetValue("SystemPaneSuggestionsEnabled", AdsSwitch, RegistryValueKind.DWord)
@@ -254,14 +259,16 @@ Public Class HomeForm
                     AddToConsole(ex.ToString)
                     MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Try
-                Enabled = True
         End Select
+
+        Enabled = True
     End Sub
 
     Private Sub AppKeepBtn_Click(sender As Object, e As EventArgs) Handles AppKeepBtn.Click
+        Enabled = False
+
         Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes
-                Enabled = False
 
                 Try
                     Using Key As RegistryKey = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", True)
@@ -275,8 +282,9 @@ Public Class HomeForm
                     AddToConsole(ex.ToString)
                     MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Try
-                Enabled = True
         End Select
+
+        Enabled = True
     End Sub
 
     Private Sub UninstallOneDrive()
@@ -440,7 +448,8 @@ Public Class HomeForm
 
     End Sub
 
-    Private Sub DisShellBtn_Click(sender As Object, e As EventArgs) Handles DisShellBtn.Click
+    Private Sub ContextBtn_Click(sender As Object, e As EventArgs) Handles ContextBtn.Click
+        Enabled = False
 
         Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes
@@ -531,6 +540,8 @@ Public Class HomeForm
 
                 Enabled = True
         End Select
+
+        Enabled = True
     End Sub
 
     ' Metero related
