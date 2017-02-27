@@ -19,7 +19,7 @@ You might wonder why I went with a very high level API, and it's because I could
 Runnable executables are available for download [here](https://github.com/ElPumpo/Win10Clean/releases).
 
 # Requirements
-+ Windows 10 and 8.x are supported
++ Windows 10 and 8.x are supported (but you should only apply these fixes to Windows 10)
 + .NET framework 4.6
 
 # Todo
