@@ -328,20 +328,23 @@ Public Class HomeForm
         Next
 
         ' Remove OneDrive from Explorer
-        ' Update: do not delete the entire key, (should) also fix a bug for some users where OneDrive doesn't get removed from Explorer.
+
+        ' Default Attribute: 0xf080004d
         Dim OneKeyExplorer As String = "CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}"
 
         Try
+
+            ' Remove from the Explorer file dialog
             Using Key As RegistryKey = Registry.ClassesRoot.OpenSubKey(OneKeyExplorer, True)
                 Key.SetValue("System.IsPinnedToNameSpaceTree", 0, RegistryValueKind.DWord)
-                AddToConsole("Deleted OneDrive from Explorer!")
+                AddToConsole("Deleted OneDrive from Explorer (FileDialog)!")
             End Using
 
-            ' Remove from the Explorer file dialog (amd64 only)
+            ' amd64 system fix 
             If Is64 Then
                 Using Key As RegistryKey = Registry.ClassesRoot.OpenSubKey("WOW6432Node\" + OneKeyExplorer, True)
                     Key.SetValue("System.IsPinnedToNameSpaceTree", 0, RegistryValueKind.DWord)
-                    AddToConsole("Deleted OneDrive from Explorer (FileDialog)!")
+                    AddToConsole("Deleted OneDrive from Explorer (FileDialog, amd64)!")
                 End Using
             End If
 
@@ -351,6 +354,13 @@ Public Class HomeForm
                 AddToConsole("Deleted OneDrive from Explorer (Legacy FileDialog)!")
             End Using
 
+            ' amd64 system fix
+            If Is64 Then
+                Using Key As RegistryKey = Registry.ClassesRoot.OpenSubKey("WOW6432Node\" + OneKeyExplorer + "\ShellFolder", True)
+                    Key.SetValue("Attributes", &HB090010D, RegistryValueKind.DWord)
+                    AddToConsole("Deleted OneDrive from Explorer (Legacy FileDialog, amd64)!")
+                End Using
+            End If
 
         Catch ex As NullReferenceException
             Registry.ClassesRoot.CreateSubKey(OneKeyExplorer)
@@ -660,4 +670,7 @@ Public Class HomeForm
         End If
     End Sub
 
+    Private Sub PhotoRegBtn_Click(sender As Object, e As EventArgs) Handles PhotoRegBtn.Click
+
+    End Sub
 End Class
