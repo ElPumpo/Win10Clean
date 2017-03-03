@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Added
+- Bringing back the original photo viewer.
+
+### Fixed
+- Fixed OneDrive deletion in the legacy Explorer file dialog.
+
 ## [0.10.0] - 2017-02-27
 ### Added
 - Ability to cleanup the context menu for extensions. Like printing, editing (notepad), play song and add to playlist (wmp).
