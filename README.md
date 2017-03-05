@@ -39,7 +39,7 @@ This program Is distributed In the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy Of the GNU General Public License along with this program. If Not, see <http://www.gnu.org/licenses/>
 
 ### Icons by famfamfam
-Icons by famfamfam <http://famfamfam.com> are licensed under [CC BY 2.5](https://creativecommons.org/licenses/by/2.5/)
+Icons by [famfamfam](http://famfamfam.com) are licensed under [CC BY 2.5](https://creativecommons.org/licenses/by/2.5/)
 
 ### Project icon
-Project icon by Maddoc42 <https://github.com/Maddoc42/Android-Material-Icon-Generator> is licensed under CC BY-NC 3.0 <https://creativecommons.org/licenses/by-nc/3.0/>
+[Project icon](https://github.com/Maddoc42/Android-Material-Icon-Generator) by [Maddoc42](https://github.com/Maddoc42) is licensed under [CC BY-NC 3.0](https://creativecommons.org/licenses/by-nc/3.0/)
