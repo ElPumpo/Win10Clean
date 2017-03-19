@@ -669,8 +669,4 @@ Public Class HomeForm
             Console.WriteLine(Information)
         End If
     End Sub
-
-    Private Sub PhotoRegBtn_Click(sender As Object, e As EventArgs) Handles PhotoRegBtn.Click
-
-    End Sub
 End Class

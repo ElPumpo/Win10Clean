@@ -48,7 +48,6 @@ Partial Class HomeForm
         Me.Tab3 = New System.Windows.Forms.TabPage()
         Me.RichTextBox1 = New System.Windows.Forms.RichTextBox()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.PhotoRegBtn = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.HomeTab.SuspendLayout()
         Me.MeteroTab.SuspendLayout()
@@ -72,7 +71,6 @@ Partial Class HomeForm
         '
         'HomeTab
         '
-        Me.HomeTab.Controls.Add(Me.PhotoRegBtn)
         Me.HomeTab.Controls.Add(Me.ContextBtn)
         Me.HomeTab.Controls.Add(Me.AppKeepBtn)
         Me.HomeTab.Controls.Add(Me.VerLabel)
@@ -326,16 +324,6 @@ Partial Class HomeForm
         Me.RichTextBox1.TabIndex = 5
         Me.RichTextBox1.Text = resources.GetString("RichTextBox1.Text")
         '
-        'PhotoRegBtn
-        '
-        Me.PhotoRegBtn.Location = New System.Drawing.Point(3, 151)
-        Me.PhotoRegBtn.Name = "PhotoRegBtn"
-        Me.PhotoRegBtn.Size = New System.Drawing.Size(220, 31)
-        Me.PhotoRegBtn.TabIndex = 27
-        Me.PhotoRegBtn.Text = "Register Photo Viewer"
-        Me.ToolTip1.SetToolTip(Me.PhotoRegBtn, "Microsoft haven't registered Photo Viewer in Windows 10 as a photo viewer" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10))
-        Me.PhotoRegBtn.UseVisualStyleBackColor = True
-        '
         'HomeForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -383,5 +371,4 @@ Partial Class HomeForm
     Friend WithEvents DebugBox As RichTextBox
     Friend WithEvents AppKeepBtn As Button
     Friend WithEvents ContextBtn As Button
-    Friend WithEvents PhotoRegBtn As Button
 End Class
