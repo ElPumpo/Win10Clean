@@ -35,23 +35,7 @@ Public Class HomeForm
     Private Sub HomeForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         VerLabel.Text = VerLabel.Text + OfflineVer
 
-        Try
-            ' Check ads
-            Using Key As RegistryKey = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", True)
-                Select Case Key.GetValue("SystemPaneSuggestionsEnabled", 1)
-                    Case 0
-                        AdsSwitch = 1
-                        AdsBtn.Text = "Enable start menu ads"
-                        ToolTip1.SetToolTip(AdsBtn, "Re-enable the ads")
-                        AdsMessage = "Enabled ads on start menu!"
-                End Select
-            End Using
-
-        Catch ex As Exception
-            ' nothing
-        End Try
-
-
+        UpdateForm()
     End Sub
 
     ' Home related
@@ -64,7 +48,64 @@ Public Class HomeForm
 
         Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes
-                Revert7()
+
+                ' Get ride of libary folders in My PC
+                Static LibKey As String = "SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\"
+                Dim LibGUID() As String = {"{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}", "{7d83ee9b-2244-4e70-b1f5-5393042af1e4}", "{f42ee2d3-909f-4907-8871-4c22fc0bf756}", "{0ddd015d-b06c-45d5-8c4c-f59713854639}", "{a0c69a99-21c8-4671-8703-7934162fcf1d}", "{35286a68-3c57-41a1-bbb1-0eae73d76c95}"}
+
+                For Each key As String In LibGUID
+                    Try
+                        Dim FinalKey = LibKey + key + "\PropertyBag"
+
+                        Using RegKey As RegistryKey = Registry.LocalMachine.OpenSubKey(FinalKey, True)
+                            RegKey.SetValue("ThisPCPolicy", "Hide")
+                            AddToConsole("Modified value of: " + key)
+                        End Using
+
+                    Catch ex As Exception
+                        AddToConsole(ex.GetType().Name + " - Couldn't modify the value of: " + key)
+                        MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    End Try
+
+                Next
+
+                ' Pin libary folders
+                Static PinLib As String = "Software\Classes\CLSID\{031E4825-7B94-4dc3-B131-E946B44C8DD5}"
+
+                Try
+                    Using Key As RegistryKey = Registry.CurrentUser.OpenSubKey(PinLib, True)
+                        Key.SetValue("System.IsPinnedToNameSpaceTree", 1, RegistryValueKind.DWord)
+                        AddToConsole("Pinned the libary folders in Explorer!")
+                    End Using
+
+                Catch ex As NullReferenceException
+                    Registry.CurrentUser.CreateSubKey(PinLib) ' doesn't exist as default, normal behaviour
+                    MessageBox.Show("Please run me again!")
+
+                Catch ex As Exception
+                    AddToConsole(ex.ToString)
+                    MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+
+                Try
+                    ' Stop quick access from filling up with folders and files
+                    Using Key As RegistryKey = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\Explorer", True)
+                        Key.SetValue("ShowFrequent", 0, RegistryValueKind.DWord) ' Folders
+                        Key.SetValue("ShowRecent", 0, RegistryValueKind.DWord) ' Files
+                        AddToConsole("Disabled quick access filling up!")
+                    End Using
+
+                    ' Make explorer open 'My PC' by default
+                    Using Key As RegistryKey = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", True)
+                        Key.SetValue("LaunchTo", 1, RegistryValueKind.DWord)
+                        AddToConsole("Made 'My PC' the default dir when launching Explorer!")
+                    End Using
+
+                Catch ex As Exception
+                    AddToConsole(ex.ToString)
+                    MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+
                 MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Select
 
@@ -76,7 +117,110 @@ Public Class HomeForm
 
         Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes
-                UninstallOneDrive()
+
+                Dim ProcessName As String = "OneDrive"
+                Try
+                    Process.GetProcessesByName(ProcessName)(0).Kill()
+                Catch ex As Exception
+                    AddToConsole("Could not kill process: " + ProcessName)
+                    ' ignore errors
+                End Try
+
+                Dim OnePath As String = Nothing
+                If Is64 Then
+                    OnePath = Environment.GetFolderPath(Environment.SpecialFolder.SystemX86) + "\OneDriveSetup.exe"
+                Else
+                    OnePath = Environment.GetFolderPath(Environment.SpecialFolder.System) + "\OneDriveSetup.exe"
+                End If
+                Process.Start(OnePath, "/uninstall")
+                AddToConsole("Uninstalled OneDrive using the setup!")
+
+                ' All the folders to be deleted
+                Dim OnePaths() As String = {
+                    Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\OneDrive",
+                    Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.System)) + "OneDriveTemp",
+                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\Microsoft\OneDrive",
+                    Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\Microsoft OneDrive"
+                }
+
+                For Each dir As String In OnePaths
+                    If (Directory.Exists(dir)) Then
+                        Try
+                            Directory.Delete(dir, True)
+                            AddToConsole("Deleted dir: " + dir)
+                        Catch ex As Exception
+                            AddToConsole("Could not delete dir: " + dir)
+                            ' ignore errors
+                        End Try
+                    End If
+                Next
+
+                ' Remove OneDrive from Explorer
+                Dim OneKeyExplorer As String = "CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}"
+
+                Try
+
+                    ' Remove from the Explorer file dialog
+                    Using Key As RegistryKey = Registry.ClassesRoot.OpenSubKey(OneKeyExplorer, True)
+                        Key.SetValue("System.IsPinnedToNameSpaceTree", 0, RegistryValueKind.DWord)
+                        AddToConsole("Deleted OneDrive from Explorer (FileDialog)!")
+                    End Using
+
+                    ' amd64 system fix 
+                    If Is64 Then
+                        Using Key As RegistryKey = Registry.ClassesRoot.OpenSubKey("WOW6432Node\" + OneKeyExplorer, True)
+                            Key.SetValue("System.IsPinnedToNameSpaceTree", 0, RegistryValueKind.DWord)
+                            AddToConsole("Deleted OneDrive from Explorer (FileDialog, amd64)!")
+                        End Using
+                    End If
+
+                    ' Remove from the alternative file dialog (legacy)
+                    Using Key As RegistryKey = Registry.ClassesRoot.OpenSubKey(OneKeyExplorer + "\ShellFolder", True)
+                        Key.SetValue("Attributes", &HB090010D, RegistryValueKind.DWord) '0xf080004d
+                        AddToConsole("Deleted OneDrive from Explorer (Legacy FileDialog)!")
+                    End Using
+
+                    ' amd64 system fix
+                    If Is64 Then
+                        Using Key As RegistryKey = Registry.ClassesRoot.OpenSubKey("WOW6432Node\" + OneKeyExplorer + "\ShellFolder", True)
+                            Key.SetValue("Attributes", &HB090010D, RegistryValueKind.DWord)
+                            AddToConsole("Deleted OneDrive from Explorer (Legacy FileDialog, amd64)!")
+                        End Using
+                    End If
+
+                Catch ex As NullReferenceException
+                    Registry.ClassesRoot.CreateSubKey(OneKeyExplorer)
+                    MessageBox.Show("Please run me again!")
+
+                Catch ex As Exception
+                    AddToConsole(ex.ToString)
+                    MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+
+                ' Delete scheduled leftovers
+                Try
+                    ' unused: process.StandardOutput.ReadToEnd())
+                    Using process As Process = New Process()
+                        process.StartInfo.FileName = "cmd.exe"
+                        process.StartInfo.CreateNoWindow = True
+                        process.StartInfo.UseShellExecute = False
+                        process.StartInfo.RedirectStandardInput = True
+                        process.StartInfo.RedirectStandardOutput = True
+                        process.Start()
+
+                        process.StandardInput.WriteLine("SCHTASKS /Delete /TN ""OneDrive Standalone Update Task"" /F")
+                        'process.StandardInput.Flush()
+                        process.StandardInput.Close()
+                        process.WaitForExit()
+
+                        AddToConsole("Removed OneDrive scheduled tasks!")
+                    End Using
+
+                Catch ex As Exception
+                    AddToConsole(ex.ToString)
+                    MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+
                 MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Select
 
@@ -285,177 +429,6 @@ Public Class HomeForm
         End Select
 
         Enabled = True
-    End Sub
-
-    Private Sub UninstallOneDrive()
-
-        Dim ProcessName As String = "OneDrive"
-        Try
-            Process.GetProcessesByName(ProcessName)(0).Kill()
-        Catch ex As Exception
-            AddToConsole("Could not kill process: " + ProcessName)
-            ' ignore errors
-        End Try
-
-        Dim OnePath As String = Nothing
-        If Is64 Then
-            OnePath = Environment.GetFolderPath(Environment.SpecialFolder.SystemX86) + "\OneDriveSetup.exe"
-        Else
-            OnePath = Environment.GetFolderPath(Environment.SpecialFolder.System) + "\OneDriveSetup.exe"
-        End If
-        Process.Start(OnePath, "/uninstall")
-        AddToConsole("Uninstalled OneDrive using the setup!")
-
-        ' All the folders to be deleted
-        Dim OnePaths() As String =
-        {
-            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\OneDrive",
-            Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.System)) + "OneDriveTemp",
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\Microsoft\OneDrive",
-            Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\Microsoft OneDrive"
-        }
-
-        For Each dir As String In OnePaths
-            If (Directory.Exists(dir)) Then
-                Try
-                    Directory.Delete(dir, True)
-                    AddToConsole("Deleted dir: " + dir)
-                Catch ex As Exception
-                    AddToConsole("Could not delete dir: " + dir)
-                    ' ignore errors
-                End Try
-            End If
-        Next
-
-        ' Remove OneDrive from Explorer
-
-        ' Default Attribute: 0xf080004d
-        Dim OneKeyExplorer As String = "CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}"
-
-        Try
-
-            ' Remove from the Explorer file dialog
-            Using Key As RegistryKey = Registry.ClassesRoot.OpenSubKey(OneKeyExplorer, True)
-                Key.SetValue("System.IsPinnedToNameSpaceTree", 0, RegistryValueKind.DWord)
-                AddToConsole("Deleted OneDrive from Explorer (FileDialog)!")
-            End Using
-
-            ' amd64 system fix 
-            If Is64 Then
-                Using Key As RegistryKey = Registry.ClassesRoot.OpenSubKey("WOW6432Node\" + OneKeyExplorer, True)
-                    Key.SetValue("System.IsPinnedToNameSpaceTree", 0, RegistryValueKind.DWord)
-                    AddToConsole("Deleted OneDrive from Explorer (FileDialog, amd64)!")
-                End Using
-            End If
-
-            ' Remove from the alternative file dialog (legacy)
-            Using Key As RegistryKey = Registry.ClassesRoot.OpenSubKey(OneKeyExplorer + "\ShellFolder", True)
-                Key.SetValue("Attributes", &HB090010D, RegistryValueKind.DWord)
-                AddToConsole("Deleted OneDrive from Explorer (Legacy FileDialog)!")
-            End Using
-
-            ' amd64 system fix
-            If Is64 Then
-                Using Key As RegistryKey = Registry.ClassesRoot.OpenSubKey("WOW6432Node\" + OneKeyExplorer + "\ShellFolder", True)
-                    Key.SetValue("Attributes", &HB090010D, RegistryValueKind.DWord)
-                    AddToConsole("Deleted OneDrive from Explorer (Legacy FileDialog, amd64)!")
-                End Using
-            End If
-
-        Catch ex As NullReferenceException
-            Registry.ClassesRoot.CreateSubKey(OneKeyExplorer)
-            MessageBox.Show("Please run me again!")
-
-        Catch ex As Exception
-            AddToConsole(ex.ToString)
-            MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
-
-        ' Delete scheduled leftovers
-        Try
-            ' unused: process.StandardOutput.ReadToEnd())
-            Using process As Process = New Process()
-                process.StartInfo.FileName = "cmd.exe"
-                process.StartInfo.CreateNoWindow = True
-                process.StartInfo.UseShellExecute = False
-                process.StartInfo.RedirectStandardInput = True
-                process.StartInfo.RedirectStandardOutput = True
-                process.Start()
-
-                process.StandardInput.WriteLine("SCHTASKS /Delete /TN ""OneDrive Standalone Update Task"" /F")
-                'process.StandardInput.Flush()
-                process.StandardInput.Close()
-                process.WaitForExit()
-
-                AddToConsole("Removed OneDrive scheduled tasks!")
-            End Using
-
-        Catch ex As Exception
-            AddToConsole(ex.ToString)
-            MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
-
-    End Sub
-
-    Private Sub Revert7()
-
-        ' Get ride of libary folders in My PC
-        Static LibKey As String = "SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\"
-        Dim LibGUID() As String = {"{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}", "{7d83ee9b-2244-4e70-b1f5-5393042af1e4}", "{f42ee2d3-909f-4907-8871-4c22fc0bf756}", "{0ddd015d-b06c-45d5-8c4c-f59713854639}", "{a0c69a99-21c8-4671-8703-7934162fcf1d}", "{35286a68-3c57-41a1-bbb1-0eae73d76c95}"}
-
-        For Each key As String In LibGUID
-            Try
-                Dim FinalKey = LibKey + key + "\PropertyBag"
-
-                Using RegKey As RegistryKey = Registry.LocalMachine.OpenSubKey(FinalKey, True)
-                    RegKey.SetValue("ThisPCPolicy", "Hide")
-                    AddToConsole("Modified value of: " + key)
-                End Using
-
-            Catch ex As Exception
-                AddToConsole(ex.GetType().Name + " - Couldn't modify the value of: " + key)
-                MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End Try
-
-        Next
-
-        ' Pin libary folders
-        Static PinLib As String = "Software\Classes\CLSID\{031E4825-7B94-4dc3-B131-E946B44C8DD5}"
-
-        Try
-            Using Key As RegistryKey = Registry.CurrentUser.OpenSubKey(PinLib, True)
-                Key.SetValue("System.IsPinnedToNameSpaceTree", 1, RegistryValueKind.DWord)
-                AddToConsole("Pinned the libary folders in Explorer!")
-            End Using
-
-        Catch ex As NullReferenceException
-            Registry.CurrentUser.CreateSubKey(PinLib) ' doesn't exist as default, normal behaviour
-            MessageBox.Show("Please run me again!")
-
-        Catch ex As Exception
-            AddToConsole(ex.ToString)
-            MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
-
-        Try
-            ' Stop quick access from filling up with folders and files
-            Using Key As RegistryKey = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\Explorer", True)
-                Key.SetValue("ShowFrequent", 0, RegistryValueKind.DWord) ' Folders
-                Key.SetValue("ShowRecent", 0, RegistryValueKind.DWord) ' Files
-                AddToConsole("Disabled quick access filling up!")
-            End Using
-
-            ' Make explorer open 'My PC' by default
-            Using Key As RegistryKey = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", True)
-                Key.SetValue("LaunchTo", 1, RegistryValueKind.DWord)
-                AddToConsole("Made 'My PC' the default dir when launching Explorer!")
-            End Using
-
-        Catch ex As Exception
-            AddToConsole(ex.ToString)
-            MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
-
     End Sub
 
     Private Sub ContextBtn_Click(sender As Object, e As EventArgs) Handles ContextBtn.Click
@@ -669,4 +642,26 @@ Public Class HomeForm
             Console.WriteLine(Information)
         End If
     End Sub
+
+    ' Other stuff
+    Private Sub UpdateForm()
+        Try
+            ' Check ads
+            Using Key As RegistryKey = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", True)
+                Select Case Key.GetValue("SystemPaneSuggestionsEnabled", 1)
+                    Case 0
+                        AdsSwitch = 1
+                        AdsBtn.Text = "Enable start menu ads"
+                        ToolTip1.SetToolTip(AdsBtn, "Re-enable the ads")
+                        AdsMessage = "Enabled ads on start menu!"
+                End Select
+            End Using
+
+
+
+        Catch ex As Exception
+            ' nothing
+        End Try
+    End Sub
+
 End Class
