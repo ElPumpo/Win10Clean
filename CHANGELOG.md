@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
-- Bringing back the original photo viewer.
+- Export console log.
 
 ### Fixed
 - Fixed OneDrive deletion in the legacy Explorer file dialog.
