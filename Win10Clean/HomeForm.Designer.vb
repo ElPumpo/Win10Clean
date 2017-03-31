@@ -44,6 +44,7 @@ Partial Class HomeForm
         Me.AppBox = New System.Windows.Forms.ListBox()
         Me.RefreshBtn = New System.Windows.Forms.Button()
         Me.Tab2 = New System.Windows.Forms.TabPage()
+        Me.ExportBtn = New System.Windows.Forms.Button()
         Me.DebugBox = New System.Windows.Forms.RichTextBox()
         Me.Tab3 = New System.Windows.Forms.TabPage()
         Me.RichTextBox1 = New System.Windows.Forms.RichTextBox()
@@ -114,7 +115,7 @@ Partial Class HomeForm
         'VerLabel
         '
         Me.VerLabel.AutoSize = True
-        Me.VerLabel.Location = New System.Drawing.Point(9, 352)
+        Me.VerLabel.Location = New System.Drawing.Point(8, 359)
         Me.VerLabel.Name = "VerLabel"
         Me.VerLabel.Size = New System.Drawing.Size(64, 17)
         Me.VerLabel.TabIndex = 25
@@ -122,7 +123,7 @@ Partial Class HomeForm
         '
         'CheckUpdatesBtn
         '
-        Me.CheckUpdatesBtn.Location = New System.Drawing.Point(375, 345)
+        Me.CheckUpdatesBtn.Location = New System.Drawing.Point(380, 352)
         Me.CheckUpdatesBtn.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.CheckUpdatesBtn.Name = "CheckUpdatesBtn"
         Me.CheckUpdatesBtn.Size = New System.Drawing.Size(79, 31)
@@ -132,7 +133,7 @@ Partial Class HomeForm
         '
         'CloseBtn
         '
-        Me.CloseBtn.Location = New System.Drawing.Point(460, 345)
+        Me.CloseBtn.Location = New System.Drawing.Point(465, 352)
         Me.CloseBtn.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.CloseBtn.Name = "CloseBtn"
         Me.CloseBtn.Size = New System.Drawing.Size(61, 31)
@@ -234,7 +235,7 @@ Partial Class HomeForm
         Me.CheckBox2.Size = New System.Drawing.Size(145, 21)
         Me.CheckBox2.TabIndex = 10
         Me.CheckBox2.Text = "Delete from image"
-        Me.ToolTip1.SetToolTip(Me.CheckBox2, "Delete the apps from the system image, currently unavailable")
+        Me.ToolTip1.SetToolTip(Me.CheckBox2, "Delete the app(s) from the system image, currently not implemented")
         Me.CheckBox2.UseVisualStyleBackColor = True
         '
         'AllUserBox
@@ -284,6 +285,7 @@ Partial Class HomeForm
         '
         'Tab2
         '
+        Me.Tab2.Controls.Add(Me.ExportBtn)
         Me.Tab2.Controls.Add(Me.DebugBox)
         Me.Tab2.Location = New System.Drawing.Point(4, 25)
         Me.Tab2.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
@@ -293,13 +295,23 @@ Partial Class HomeForm
         Me.Tab2.Text = "Console"
         Me.Tab2.UseVisualStyleBackColor = True
         '
+        'ExportBtn
+        '
+        Me.ExportBtn.Location = New System.Drawing.Point(465, 352)
+        Me.ExportBtn.Name = "ExportBtn"
+        Me.ExportBtn.Size = New System.Drawing.Size(61, 31)
+        Me.ExportBtn.TabIndex = 1
+        Me.ExportBtn.Text = "Export"
+        Me.ToolTip1.SetToolTip(Me.ExportBtn, "Export the console logs to a generic text file (.txt format)")
+        Me.ExportBtn.UseVisualStyleBackColor = True
+        '
         'DebugBox
         '
-        Me.DebugBox.Location = New System.Drawing.Point(0, 0)
+        Me.DebugBox.Location = New System.Drawing.Point(2, 2)
         Me.DebugBox.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.DebugBox.Name = "DebugBox"
         Me.DebugBox.ReadOnly = True
-        Me.DebugBox.Size = New System.Drawing.Size(533, 388)
+        Me.DebugBox.Size = New System.Drawing.Size(523, 345)
         Me.DebugBox.TabIndex = 0
         Me.DebugBox.Text = ""
         '
@@ -371,4 +383,5 @@ Partial Class HomeForm
     Friend WithEvents DebugBox As RichTextBox
     Friend WithEvents AppKeepBtn As Button
     Friend WithEvents ContextBtn As Button
+    Friend WithEvents ExportBtn As Button
 End Class

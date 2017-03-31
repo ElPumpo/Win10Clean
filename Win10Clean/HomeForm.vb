@@ -28,6 +28,8 @@ Public Class HomeForm
     Dim GoBack As Integer
     Dim TheApps As String = Nothing
 
+    Private LogInfo As String = Nothing
+
     ' States
     Dim AdsSwitch As Integer = 0
     Dim AdsMessage As String = "Disabled ads on start menu!"
@@ -236,7 +238,9 @@ Public Class HomeForm
                 Try
                     Using Key As RegistryKey = Registry.CurrentUser.OpenSubKey(RegKey, True)
                         Key.SetValue("AppCaptureEnabled", 0, RegistryValueKind.DWord)
+                        AddToConsole("Disabled GameDVR!")
                     End Using
+
                     MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                 Catch ex As NullReferenceException
@@ -639,6 +643,7 @@ Public Class HomeForm
     Private Sub AddToConsole(Information As String)
         If Not Information = Nothing Then
             DebugBox.Text = DebugBox.Text + Information + Environment.NewLine
+            LogInfo = LogInfo + Information + Environment.NewLine
             Console.WriteLine(Information)
         End If
     End Sub
@@ -657,11 +662,22 @@ Public Class HomeForm
                 End Select
             End Using
 
-
-
         Catch ex As Exception
             ' nothing
         End Try
     End Sub
 
+    Private Sub ExportBtn_Click(sender As Object, e As EventArgs) Handles ExportBtn.Click
+        Static fileDiag As SaveFileDialog = New SaveFileDialog
+        fileDiag.FileName = "Win10Clean - v" + OfflineVer + " - " + Date.Now.ToString("yyyy/MM/dd HH-mm-ss")
+        fileDiag.Filter = "Text Files | *.txt"
+        fileDiag.DefaultExt = "txt"
+        fileDiag.Title = "Export log"
+
+        Dim dialog As DialogResult = fileDiag.ShowDialog()
+        Select Case dialog
+            Case DialogResult.OK
+                File.WriteAllText(fileDiag.FileName.ToString(), LogInfo)
+        End Select
+    End Sub
 End Class
