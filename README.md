@@ -12,7 +12,7 @@ Should also be noted that Win10Clean doesn't doesn't harm your computer in any w
 
 You might wonder why I went with a very high level API, and it's because I couldn't get PowerShell working in C#.
 
-![alt tag](http://i.imgur.com/w5nbL6o.png)
+![alt tag](http://i.imgur.com/xSJ0lt7.png)
 ![alt tag](http://i.imgur.com/cih36BG.png)
 
 # Download
