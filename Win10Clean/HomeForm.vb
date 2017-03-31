@@ -516,10 +516,39 @@ Public Class HomeForm
                     Key.SetValue("LegacyDisable", String.Empty, RegistryValueKind.String)
                     AddToConsole("Disabled play song for: audio files!")
 
+                    ' WMP #3 - add to list (audio folder)
+                    Key = Registry.ClassesRoot.OpenSubKey("SystemFileAssociations\Directory.Audio\shell\Enqueue", True)
+                    Key.SetValue("LegacyDisable", String.Empty, RegistryValueKind.String)
+                    AddToConsole("Disabled add to play list for: audio directories!")
+
+                    ' WMP #4 - play (audio folder)
+                    Key = Registry.ClassesRoot.OpenSubKey("SystemFileAssociations\Directory.Audio\shell\Play", True)
+                    Key.SetValue("LegacyDisable", String.Empty, RegistryValueKind.String)
+                    AddToConsole("Disabled play song for: audio directories!")
+
+                    ' WMP #5 - add to list (image folder?!)
+                    Key = Registry.ClassesRoot.OpenSubKey("SystemFileAssociations\Directory.Image\shell\Enqueue", True)
+                    Key.SetValue("LegacyDisable", String.Empty, RegistryValueKind.String)
+                    AddToConsole("Disabled add to play list for: image directories!")
+                    ' WMP #6 - play (image folder?!)
+                    Key = Registry.ClassesRoot.OpenSubKey("SystemFileAssociations\Directory.Image\shell\Play", True)
+                    Key.SetValue("LegacyDisable", String.Empty, RegistryValueKind.String)
+                    AddToConsole("Disabled play song for: image directories!")
+
                     Key.Dispose()
 
+                    Registry.ClassesRoot.DeleteSubKey("SystemFileAssociations\Directory.Audio\shellex\ContextMenuHandlers\WMPShopMusic", False)
+                    AddToConsole("Removed buying music online context menu!")
+
+                    Registry.ClassesRoot.DeleteSubKey("AllFilesystemObjects\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}", False)
+                    AddToConsole("Removed restoring previous file version menu!")
+
+                    Registry.ClassesRoot.DeleteSubKey("Folder\shellex\ContextMenuHandlers\Library Location", False) ' The only value inside was {3dad6c5d-2167-4cae-9914-f99e41c12cfa}
+                    AddToConsole("Removed include in libary menu!")
+
+
                 Catch ex As Exception
-                    AddToConsole(ex.GetType().ToString() + " - couldn't disable edit for")
+                    AddToConsole(ex.GetType().ToString() + " - something went wrong!")
                     ' ignore errors
                 End Try
 
