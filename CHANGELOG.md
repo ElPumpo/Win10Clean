@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 - Export console log.
+- Form maximum size.
 
 ### Fixed
 - Fixed OneDrive deletion in the legacy Explorer file dialog.
