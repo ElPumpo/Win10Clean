@@ -537,12 +537,18 @@ Public Class HomeForm
 
                     Key.Dispose()
 
+                    ' Buy music?
                     Registry.ClassesRoot.DeleteSubKey("SystemFileAssociations\Directory.Audio\shellex\ContextMenuHandlers\WMPShopMusic", False)
                     AddToConsole("Removed buying music online context menu!")
 
+                    ' Restore previous file
                     Registry.ClassesRoot.DeleteSubKey("AllFilesystemObjects\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}", False)
-                    AddToConsole("Removed restoring previous file version menu!")
+                    AddToConsole("Removed restoring previous file version menu! (files)")
 
+                    Registry.ClassesRoot.DeleteSubKey("Directory\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}", False)
+                    AddToConsole("Removed restoring previous file version menu! (folders)")
+
+                    ' Include in library
                     Registry.ClassesRoot.DeleteSubKey("Folder\shellex\ContextMenuHandlers\Library Location", False) ' The only value inside was {3dad6c5d-2167-4cae-9914-f99e41c12cfa}
                     AddToConsole("Removed include in libary menu!")
 
