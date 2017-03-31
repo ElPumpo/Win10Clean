@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Export console log.
 - Form maximum size.
+- Context menu cleanup improved, now also removing the following: WMP integration (image folders?!, audio files and audio folders), restoring previous version of file and pinning to libary.
 
 ### Fixed
 - Fixed OneDrive deletion in the legacy Explorer file dialog.
