@@ -345,6 +345,7 @@ Partial Class HomeForm
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.MaximumSize = New System.Drawing.Size(555, 461)
         Me.Name = "HomeForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Win10Clean"
