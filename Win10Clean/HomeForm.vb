@@ -366,15 +366,15 @@ Public Class HomeForm
         Dim OnlineVerI As Integer = Convert.ToInt32(OnlineVer.Replace(".", String.Empty))
 
         If OnlineVerI = OfflineVerI Then
-            MessageBox.Show("Client is up to date")
+            MessageBox.Show("Client is up to date!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
 
             If OfflineVerI > OnlineVerI Then
-                MessageBox.Show("OfflineVer is greater than OnlineVer!")
+                MessageBox.Show("OfflineVer is greater than OnlineVer!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
 
             If OnlineVerI < OfflineVerI Then
-                MessageBox.Show("Client is up to date")
+                MessageBox.Show("Client is up to date!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
 
                 Select Case MsgBox("Your client is outdated and a new update can be downloaded from the offical webpage, do you want me to open a webpage of the download page?", MsgBoxStyle.YesNo)
@@ -706,16 +706,21 @@ Public Class HomeForm
     End Sub
 
     Private Sub ExportBtn_Click(sender As Object, e As EventArgs) Handles ExportBtn.Click
-        Static fileDiag As SaveFileDialog = New SaveFileDialog
-        fileDiag.FileName = "Win10Clean - v" + OfflineVer + " - " + Date.Now.ToString("yyyy/MM/dd HH-mm-ss")
-        fileDiag.Filter = "Text Files | *.txt"
-        fileDiag.DefaultExt = "txt"
-        fileDiag.Title = "Export log"
+        If LogInfo IsNot Nothing Then
+            Static fileDiag As SaveFileDialog = New SaveFileDialog
+            fileDiag.FileName = "Win10Clean - v" + OfflineVer + " - " + Date.Now.ToString("yyyy/MM/dd HH-mm-ss")
+            fileDiag.Filter = "Text Files | *.txt"
+            fileDiag.DefaultExt = "txt"
+            fileDiag.Title = "Export log"
 
-        Dim dialog As DialogResult = fileDiag.ShowDialog()
-        Select Case dialog
-            Case DialogResult.OK
-                File.WriteAllText(fileDiag.FileName.ToString(), LogInfo)
-        End Select
+            Dim dialog As DialogResult = fileDiag.ShowDialog()
+            Select Case dialog
+                Case DialogResult.OK
+                    File.WriteAllText(fileDiag.FileName.ToString(), LogInfo)
+            End Select
+        Else
+            MessageBox.Show("There is nothing to export!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
+
     End Sub
 End Class
