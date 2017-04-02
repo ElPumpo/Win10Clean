@@ -25,6 +25,7 @@ Runnable executables are available for download [here](https://github.com/ElPump
 
 # Todo
 - Undo button
+- Improve error handling where needed
 
 # Legal
 
