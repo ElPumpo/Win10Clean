@@ -530,28 +530,31 @@ Public Class HomeForm
                     Key = Registry.ClassesRoot.OpenSubKey("SystemFileAssociations\Directory.Image\shell\Enqueue", True)
                     Key.SetValue("LegacyDisable", String.Empty, RegistryValueKind.String)
                     AddToConsole("Disabled add to play list for: image directories!")
+
                     ' WMP #6 - play (image folder?!)
                     Key = Registry.ClassesRoot.OpenSubKey("SystemFileAssociations\Directory.Image\shell\Play", True)
                     Key.SetValue("LegacyDisable", String.Empty, RegistryValueKind.String)
                     AddToConsole("Disabled play song for: image directories!")
 
-                    Key.Dispose()
+                    ' Include in library context
+                    Key = Registry.ClassesRoot.OpenSubKey("Folder\shellex\ContextMenuHandlers\Library Location", True)
+                    Key.SetValue(Nothing, "-{3dad6c5d-2167-4cae-9914-f99e41c12cfa}")
+                    AddToConsole("Disabled include in libary menu!")
 
                     ' Buy music?
-                    Registry.ClassesRoot.DeleteSubKey("SystemFileAssociations\Directory.Audio\shellex\ContextMenuHandlers\WMPShopMusic", False)
-                    AddToConsole("Removed buying music online context menu!")
+                    Key = Registry.ClassesRoot.OpenSubKey("SystemFileAssociations\Directory.Audio\shellex\ContextMenuHandlers\WMPShopMusic", True)
+                    Key.SetValue(Nothing, "-{8A734961-C4AA-4741-AC1E-791ACEBF5B39}")
+                    AddToConsole("Disabled buying music online context menu!")
 
-                    ' Restore previous file
+                    Key.Dispose()
+
+                    ' Restore previous version (file)
                     Registry.ClassesRoot.DeleteSubKey("AllFilesystemObjects\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}", False)
-                    AddToConsole("Removed restoring previous file version menu! (files)")
+                    AddToConsole("Removed restoring previous version menu! (files)")
 
+                    ' Restore previous version (directory)
                     Registry.ClassesRoot.DeleteSubKey("Directory\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}", False)
-                    AddToConsole("Removed restoring previous file version menu! (folders)")
-
-                    ' Include in library
-                    Registry.ClassesRoot.DeleteSubKey("Folder\shellex\ContextMenuHandlers\Library Location", False) ' The only value inside was {3dad6c5d-2167-4cae-9914-f99e41c12cfa}
-                    AddToConsole("Removed include in libary menu!")
-
+                    AddToConsole("Removed restoring previous version menu! (directory)")
 
                 Catch ex As Exception
                     AddToConsole(ex.GetType().ToString() + " - something went wrong!")
@@ -596,7 +599,7 @@ Public Class HomeForm
                     MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End Select
         Else
-            MsgBox("Please select a app!", MsgBoxStyle.Exclamation)
+            MsgBox("Please select an app!", MsgBoxStyle.Exclamation)
         End If
         Enabled = True
     End Sub
