@@ -24,7 +24,7 @@ Runnable executables are available for download [here](https://github.com/ElPump
 + .NET framework 4.6
 
 # Todo
-- Undo button
+- Undo button (seriously guys if you want this please open a issue!)
 - Improve error handling where needed
 
 # Legal
