@@ -1,3 +1,4 @@
+
 # Win10Clean
 Cleanup your Windows enviroment!
 
@@ -23,7 +24,7 @@ Runnable executables are available for download [here](https://github.com/ElPump
 + .NET framework 4.6
 
 # Todo
-- Implement undo button for undoing changes made to system (working on atm)
+- Undo button
 
 # Legal
 
