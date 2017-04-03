@@ -678,14 +678,6 @@ Public Class HomeForm
         Enabled = True
     End Sub
 
-    Private Sub AddToConsole(Information As String)
-        If Not Information = Nothing Then
-            DebugBox.Text = DebugBox.Text + Information + Environment.NewLine
-            LogInfo = LogInfo + Information + Environment.NewLine
-            Console.WriteLine(Information)
-        End If
-    End Sub
-
     ' Other stuff
     Private Sub UpdateForm()
         Try
@@ -722,5 +714,13 @@ Public Class HomeForm
             MessageBox.Show("There is nothing to export!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
 
+    End Sub
+
+    Private Sub AddToConsole(Information As String)
+        If Not Information = Nothing Then
+            DebugBox.Text = DebugBox.Text + Information + Environment.NewLine
+            LogInfo = LogInfo + Information + Environment.NewLine
+            Console.WriteLine(Information)
+        End If
     End Sub
 End Class
