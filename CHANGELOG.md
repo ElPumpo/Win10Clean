@@ -4,14 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [0.11.0] - 2017-04-03
+Well I'm still not dead, guess that I gotta admit that I've slowed down development a lot. The future is still bright and I will keep improving Win10Clean until the end of time :D Just that I don't have much else that I wanna implement, and am listening to feedback.
 ### Added
 - Export console log.
 - Form maximum size.
 - Context menu cleanup improved, now also removing the following: WMP integration (image folders?!, audio files and audio folders), restoring previous version and pinning to libary.
 
 ### Fixed
-- Fixed OneDrive deletion in the legacy Explorer file dialog.
+- Fixed OneDrive not hidden in the legacy Explorer file dialog.
 
 ## [0.10.0] - 2017-02-27
 ### Added
