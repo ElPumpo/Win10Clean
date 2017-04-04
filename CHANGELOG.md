@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Added
+- The app list will now refresh when the `All users` checkbox state changes.
+
 ## [0.11.0] - 2017-04-03
 Well I'm still not dead, guess that I gotta admit that I've slowed down development a lot. The future is still bright and I will keep improving Win10Clean until the end of time :D Just that I don't have much else that I wanna implement, and am listening to feedback.
 ### Added
