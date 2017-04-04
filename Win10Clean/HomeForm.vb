@@ -723,4 +723,8 @@ Public Class HomeForm
             Console.WriteLine(Information)
         End If
     End Sub
+
+    Private Sub AllUserBox_CheckedChanged(sender As Object, e As EventArgs) Handles AllUserBox.CheckedChanged
+        RefreshBtn.PerformClick() ' Update list when mode changes
+    End Sub
 End Class
