@@ -569,7 +569,7 @@ Public Class HomeForm
         Enabled = True
     End Sub
 
-    ' Metero related
+    ' Metro related
     Private Sub RefreshBtn_Click(sender As Object, e As EventArgs) Handles RefreshBtn.Click
         Enabled = False
         RefreshList(False)
@@ -671,7 +671,7 @@ Public Class HomeForm
         End Using
     End Sub
 
-    Private Sub MeteroTab_Enter(sender As Object, e As EventArgs) Handles MeteroTab.Enter
+    Private Sub MetroTab_Enter(sender As Object, e As EventArgs) Handles MetroTab.Enter
         ' When the user selects the tab
         Enabled = False
         RefreshList(False)

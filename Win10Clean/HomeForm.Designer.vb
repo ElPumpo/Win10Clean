@@ -37,7 +37,7 @@ Partial Class HomeForm
         Me.DefenderBtn = New System.Windows.Forms.Button()
         Me.OneDriveBtn = New System.Windows.Forms.Button()
         Me.Revert7Btn = New System.Windows.Forms.Button()
-        Me.MeteroTab = New System.Windows.Forms.TabPage()
+        Me.MetroTab = New System.Windows.Forms.TabPage()
         Me.CheckBox2 = New System.Windows.Forms.CheckBox()
         Me.AllUserBox = New System.Windows.Forms.CheckBox()
         Me.UninstallBtn = New System.Windows.Forms.Button()
@@ -51,7 +51,7 @@ Partial Class HomeForm
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.TabControl1.SuspendLayout()
         Me.HomeTab.SuspendLayout()
-        Me.MeteroTab.SuspendLayout()
+        Me.MetroTab.SuspendLayout()
         Me.Tab2.SuspendLayout()
         Me.Tab3.SuspendLayout()
         Me.SuspendLayout()
@@ -59,7 +59,7 @@ Partial Class HomeForm
         'TabControl1
         '
         Me.TabControl1.Controls.Add(Me.HomeTab)
-        Me.TabControl1.Controls.Add(Me.MeteroTab)
+        Me.TabControl1.Controls.Add(Me.MetroTab)
         Me.TabControl1.Controls.Add(Me.Tab2)
         Me.TabControl1.Controls.Add(Me.Tab3)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
@@ -210,20 +210,20 @@ Partial Class HomeForm
         "from filling up and explorer defaults to open My PC")
         Me.Revert7Btn.UseVisualStyleBackColor = True
         '
-        'MeteroTab
+        'MetroTab
         '
-        Me.MeteroTab.Controls.Add(Me.CheckBox2)
-        Me.MeteroTab.Controls.Add(Me.AllUserBox)
-        Me.MeteroTab.Controls.Add(Me.UninstallBtn)
-        Me.MeteroTab.Controls.Add(Me.AppBox)
-        Me.MeteroTab.Controls.Add(Me.RefreshBtn)
-        Me.MeteroTab.Location = New System.Drawing.Point(4, 25)
-        Me.MeteroTab.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
-        Me.MeteroTab.Name = "MeteroTab"
-        Me.MeteroTab.Size = New System.Drawing.Size(529, 385)
-        Me.MeteroTab.TabIndex = 1
-        Me.MeteroTab.Text = "Win10 / metero apps"
-        Me.MeteroTab.UseVisualStyleBackColor = True
+        Me.MetroTab.Controls.Add(Me.CheckBox2)
+        Me.MetroTab.Controls.Add(Me.AllUserBox)
+        Me.MetroTab.Controls.Add(Me.UninstallBtn)
+        Me.MetroTab.Controls.Add(Me.AppBox)
+        Me.MetroTab.Controls.Add(Me.RefreshBtn)
+        Me.MetroTab.Location = New System.Drawing.Point(4, 25)
+        Me.MetroTab.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.MetroTab.Name = "MetroTab"
+        Me.MetroTab.Size = New System.Drawing.Size(529, 385)
+        Me.MetroTab.TabIndex = 1
+        Me.MetroTab.Text = "Win10 / metro apps"
+        Me.MetroTab.UseVisualStyleBackColor = True
         '
         'CheckBox2
         '
@@ -352,8 +352,8 @@ Partial Class HomeForm
         Me.TabControl1.ResumeLayout(False)
         Me.HomeTab.ResumeLayout(False)
         Me.HomeTab.PerformLayout()
-        Me.MeteroTab.ResumeLayout(False)
-        Me.MeteroTab.PerformLayout()
+        Me.MetroTab.ResumeLayout(False)
+        Me.MetroTab.PerformLayout()
         Me.Tab2.ResumeLayout(False)
         Me.Tab3.ResumeLayout(False)
         Me.ResumeLayout(False)
@@ -362,7 +362,7 @@ Partial Class HomeForm
 
     Friend WithEvents TabControl1 As TabControl
     Friend WithEvents HomeTab As TabPage
-    Friend WithEvents MeteroTab As TabPage
+    Friend WithEvents MetroTab As TabPage
     Friend WithEvents Tab2 As TabPage
     Friend WithEvents Tab3 As TabPage
     Friend WithEvents AdsBtn As Button
