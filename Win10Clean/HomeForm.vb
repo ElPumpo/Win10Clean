@@ -678,6 +678,10 @@ Public Class HomeForm
         Enabled = True
     End Sub
 
+    Private Sub AllUserBox_CheckedChanged(sender As Object, e As EventArgs) Handles AllUserBox.CheckedChanged
+        RefreshBtn.PerformClick() ' Update list when mode changes
+    End Sub
+
     ' Other stuff
     Private Sub UpdateForm()
         Try
@@ -724,7 +728,4 @@ Public Class HomeForm
         End If
     End Sub
 
-    Private Sub AllUserBox_CheckedChanged(sender As Object, e As EventArgs) Handles AllUserBox.CheckedChanged
-        RefreshBtn.PerformClick() ' Update list when mode changes
-    End Sub
 End Class
