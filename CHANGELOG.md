@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - The app list will now refresh when the `All users` checkbox state changes.
 
+### Fixed
+- Fixed the obvious typo.
+
 ## [0.11.0] - 2017-04-03
 Well I'm still not dead, guess that I gotta admit that I've slowed down development a lot. The future is still bright and I will keep improving Win10Clean until the end of time :D Just that I don't have much else that I wanna implement, and am listening to feedback.
 ### Added
