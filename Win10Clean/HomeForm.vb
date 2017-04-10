@@ -211,6 +211,7 @@ Public Class HomeForm
                         process.Start()
 
                         process.StandardInput.WriteLine("SCHTASKS /Delete /TN ""OneDrive Standalone Update Task"" /F")
+                        process.StandardInput.WriteLine("SCHTASKS /Delete /TN ""OneDrive Standalone Update Task v2"" /F")
                         'process.StandardInput.Flush()
                         process.StandardInput.Close()
                         process.WaitForExit()
