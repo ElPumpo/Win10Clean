@@ -272,6 +272,9 @@ Public Class HomeForm
                     Using Key As RegistryKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\Microsoft\Windows\CurrentVersion\Run", True)
                         Key.DeleteValue("WindowsDefender", False) ' Don't error out if key doesn't exist
                         AddToConsole("Removed Defender from startup!")
+
+                        Key.DeleteValue("SecurityHealth", False) ' Don't error out if key doesn't exist
+                        AddToConsole("Removed new Defender from startup!")
                     End Using
 
                     ' Unregister Defender shell extension
