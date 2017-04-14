@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - The app list will now refresh when the `All users` checkbox state changes.
 - Now supporting Creators Update (removing the new Defender from startup).
+- Now also disabling the `Troubleshoot compability` context menu.
 
 ### Fixed
 - Fixed the obvious typo (metro).
