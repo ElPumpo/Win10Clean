@@ -559,8 +559,6 @@ Public Class HomeForm
                     Key.SetValue(Nothing, "-{1d27f844-3a1f-4410-85ac-14651078412d}")
                     AddToConsole("Disabled troubleshooting compability (MSI)!")
 
-                    '
-
                     Key.Dispose()
 
                     ' Restore previous version (file)
