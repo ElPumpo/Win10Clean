@@ -550,6 +550,17 @@ Public Class HomeForm
                     Key.SetValue(Nothing, "-{8A734961-C4AA-4741-AC1E-791ACEBF5B39}")
                     AddToConsole("Disabled buying music online context menu!")
 
+                    ' Troubleshoot compability EXE
+                    Key = Registry.ClassesRoot.OpenSubKey("exefile\shellex\ContextMenuHandlers\Compatibility", True)
+                    Key.SetValue(Nothing, "-{1d27f844-3a1f-4410-85ac-14651078412d}")
+                    AddToConsole("Disabled troubleshooting compability (EXE)!")
+
+                    Key = Registry.ClassesRoot.OpenSubKey("Msi.Package\shellex\ContextMenuHandlers\Compatibility", True)
+                    Key.SetValue(Nothing, "-{1d27f844-3a1f-4410-85ac-14651078412d}")
+                    AddToConsole("Disabled troubleshooting compability (MSI)!")
+
+                    '
+
                     Key.Dispose()
 
                     ' Restore previous version (file)
