@@ -442,6 +442,9 @@ Public Class HomeForm
     Private Sub ContextBtn_Click(sender As Object, e As EventArgs) Handles ContextBtn.Click
         Enabled = False
 
+        'Extended = only if shift
+        'LegacyDisable = disable
+
         Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes
                 Enabled = False
