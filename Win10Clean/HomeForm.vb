@@ -23,7 +23,7 @@ Public Class HomeForm
 
     Public OfflineVer As String = My.Application.Info.Version.Major.ToString + "." + My.Application.Info.Version.Minor.ToString + "." + My.Application.Info.Version.Build.ToString
     Dim OnlineVer As String = "Unknown"
-    Dim ServerURL As String = "http://raw.githubusercontent.com/ElPumpo/Win10Clean/master/Win10Clean/Resources/version"
+    Dim ServerURL As String = "https://raw.githubusercontent.com/ElPumpo/Win10Clean/master/Win10Clean/Resources/version"
     Dim Is64 As Boolean = Environment.Is64BitOperatingSystem
     Dim GoBack As Integer
     Dim TheApps As String = Nothing
