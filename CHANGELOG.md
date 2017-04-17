@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Now supporting Creators Update (removing the new Defender from startup).
 - Now also disabling the `Troubleshoot compability` context menu.
 
+### Changed
+- The remote server is now accessed via a secure link. (GitHub have already forced HTTPS)
+
 ### Fixed
 - Fixed the obvious typo (metro).
 - Now removing all OneDrive tasks.
