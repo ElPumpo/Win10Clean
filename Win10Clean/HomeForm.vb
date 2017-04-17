@@ -558,9 +558,15 @@ Public Class HomeForm
                     Key.SetValue(Nothing, "-{1d27f844-3a1f-4410-85ac-14651078412d}")
                     AddToConsole("Disabled troubleshooting compability (EXE)!")
 
+                    ' Troubleshoot compability MSI
                     Key = Registry.ClassesRoot.OpenSubKey("Msi.Package\shellex\ContextMenuHandlers\Compatibility", True)
                     Key.SetValue(Nothing, "-{1d27f844-3a1f-4410-85ac-14651078412d}")
                     AddToConsole("Disabled troubleshooting compability (MSI)!")
+
+                    ' Disable printing .url files - WIP
+                    ' Key = Registry.ClassesRoot.OpenSubKey("InternetShortcut\shell\print", True)
+                    ' Key.SetValue("LegacyDisable", String.Empty) ' take ownership!!
+                    ' AddToConsole("Disabled print for: InternetShortcut!")
 
                     Key.Dispose()
 
