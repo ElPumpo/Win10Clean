@@ -4,14 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [0.12.0] - 2017-04-17
+Even more minor update this time around, brings support for the Creators Update. When I get the context menu things finished I'm going to release it as v1.
 ### Added
 - The app list will now refresh when the `All users` checkbox state changes.
 - Now supporting Creators Update (removing the new Defender from startup).
 - Now also disabling the `Troubleshoot compability` context menu.
 
 ### Changed
-- The remote server is now accessed via a secure link. (GitHub have already forced HTTPS)
+- The remote server is now accessed via a secure link (GitHub have already forced HTTPS).
 
 ### Fixed
 - Fixed the obvious typo (metro).
