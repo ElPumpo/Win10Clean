@@ -646,6 +646,7 @@ Public Class HomeForm
 
     End Sub
 
+#Disable Warning BC42356 ' This async method lacks 'Await' operators and so will run synchronously
     Private Async Function UninstallApp(AppName As String) As Task
         Dim WasError As Boolean = False
         Using PowerScript As PowerShell = PowerShell.Create()
