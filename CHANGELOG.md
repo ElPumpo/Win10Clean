@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.12.1] - 2017-05-13
+### Fixed
+- Fixed the update checker.
+
 ## [0.12.0] - 2017-04-17
 Even more minor update this time around, brings support for the Creators Update. When I get the context menu things finished I'm going to release it as v1.
 ### Added
