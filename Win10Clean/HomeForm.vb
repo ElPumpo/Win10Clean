@@ -352,9 +352,10 @@ Public Class HomeForm
             'Start request
             Dim theRequest As HttpWebRequest = WebRequest.Create(ServerURL)
             theRequest.Timeout = 10000 '10sec timeout
+            theRequest.Headers.Set("Cache-Control", "no-cache, no-store, must-revalidate")
 
-            Using responce As HttpWebResponse = theRequest.GetResponse()
-                Using reader As StreamReader = New StreamReader(responce.GetResponseStream())
+            Using response As HttpWebResponse = theRequest.GetResponse()
+                Using reader As StreamReader = New StreamReader(response.GetResponseStream())
                     OnlineVer = reader.ReadToEnd.Trim()
                 End Using
             End Using
