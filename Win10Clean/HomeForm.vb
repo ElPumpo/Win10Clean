@@ -23,11 +23,12 @@ Public Class HomeForm
 
     Public OfflineVer As String = My.Application.Info.Version.Major.ToString + "." + My.Application.Info.Version.Minor.ToString + "." + My.Application.Info.Version.Build.ToString
     Dim OnlineVer As String = "Unknown"
-    Dim ServerURL As String = "https://raw.githubusercontent.com/ElPumpo/Win10Clean/master/Win10Clean/Resources/version"
+    Dim OfflineVer2 As Integer = 9
+    Dim ServerURL As String = "https://ElPumpo.github.io/Win10Clean/version.txt"
+
     Dim Is64 As Boolean = Environment.Is64BitOperatingSystem
     Dim GoBack As Integer
     Dim TheApps As String = Nothing
-
     Private LogInfo As String = Nothing
 
     ' States
@@ -360,24 +361,23 @@ Public Class HomeForm
 
         Catch ex As Exception
             'Letting itself know that it cannot reach to the server
-            OnlineVer = "0.0.0"
+            OnlineVer = "0"
             AddToConsole("Could not search for updates!")
             MessageBox.Show("Could not search for updates!")
 
         End Try
 
-        Dim OfflineVerI As Integer = Convert.ToInt32(OfflineVer.Replace(".", String.Empty))
-        Dim OnlineVerI As Integer = Convert.ToInt32(OnlineVer.Replace(".", String.Empty))
+        Dim OnlineVerI As Integer = Convert.ToInt32(OnlineVer)
 
-        If OnlineVerI = OfflineVerI Then
+        If OnlineVerI = OfflineVer2 Then
             MessageBox.Show("Client is up to date!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
 
-            If OfflineVerI > OnlineVerI Then
+            If OfflineVer2 > OnlineVerI Then
                 MessageBox.Show("OfflineVer is greater than OnlineVer!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
 
-            If OnlineVerI < OfflineVerI Then
+            If OnlineVerI < OfflineVer2 Then
                 MessageBox.Show("Client is up to date!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
 
@@ -388,7 +388,7 @@ Public Class HomeForm
             End If
         End If
 
-        AddToConsole("OfflineVer: " + OfflineVer)
+        AddToConsole("OfflineVer2: " + OfflineVer2.ToString())
         AddToConsole("OnlineVer: " + OnlineVer)
 
         Enabled = True
