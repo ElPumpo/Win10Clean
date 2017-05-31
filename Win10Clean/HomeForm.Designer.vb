@@ -32,7 +32,6 @@ Partial Class HomeForm
         Me.CheckUpdatesBtn = New System.Windows.Forms.Button()
         Me.CloseBtn = New System.Windows.Forms.Button()
         Me.AdsBtn = New System.Windows.Forms.Button()
-        Me.GameDVRBtn = New System.Windows.Forms.Button()
         Me.HomeGroupBtn = New System.Windows.Forms.Button()
         Me.DefenderBtn = New System.Windows.Forms.Button()
         Me.OneDriveBtn = New System.Windows.Forms.Button()
@@ -78,7 +77,6 @@ Partial Class HomeForm
         Me.HomeTab.Controls.Add(Me.CheckUpdatesBtn)
         Me.HomeTab.Controls.Add(Me.CloseBtn)
         Me.HomeTab.Controls.Add(Me.AdsBtn)
-        Me.HomeTab.Controls.Add(Me.GameDVRBtn)
         Me.HomeTab.Controls.Add(Me.HomeGroupBtn)
         Me.HomeTab.Controls.Add(Me.DefenderBtn)
         Me.HomeTab.Controls.Add(Me.OneDriveBtn)
@@ -93,7 +91,7 @@ Partial Class HomeForm
         '
         'ContextBtn
         '
-        Me.ContextBtn.Location = New System.Drawing.Point(307, 114)
+        Me.ContextBtn.Location = New System.Drawing.Point(306, 72)
         Me.ContextBtn.Name = "ContextBtn"
         Me.ContextBtn.Size = New System.Drawing.Size(220, 31)
         Me.ContextBtn.TabIndex = 26
@@ -104,7 +102,7 @@ Partial Class HomeForm
         '
         'AppKeepBtn
         '
-        Me.AppKeepBtn.Location = New System.Drawing.Point(3, 114)
+        Me.AppKeepBtn.Location = New System.Drawing.Point(8, 108)
         Me.AppKeepBtn.Name = "AppKeepBtn"
         Me.AppKeepBtn.Size = New System.Drawing.Size(220, 31)
         Me.AppKeepBtn.TabIndex = 7
@@ -143,7 +141,7 @@ Partial Class HomeForm
         '
         'AdsBtn
         '
-        Me.AdsBtn.Location = New System.Drawing.Point(307, 2)
+        Me.AdsBtn.Location = New System.Drawing.Point(306, 2)
         Me.AdsBtn.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.AdsBtn.Name = "AdsBtn"
         Me.AdsBtn.Size = New System.Drawing.Size(220, 31)
@@ -152,21 +150,9 @@ Partial Class HomeForm
         Me.ToolTip1.SetToolTip(Me.AdsBtn, "Disables ads on the start menu, will only disable for the current user")
         Me.AdsBtn.UseVisualStyleBackColor = True
         '
-        'GameDVRBtn
-        '
-        Me.GameDVRBtn.Location = New System.Drawing.Point(307, 78)
-        Me.GameDVRBtn.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
-        Me.GameDVRBtn.Name = "GameDVRBtn"
-        Me.GameDVRBtn.Size = New System.Drawing.Size(220, 31)
-        Me.GameDVRBtn.TabIndex = 6
-        Me.GameDVRBtn.Text = "Disable GameDVR"
-        Me.ToolTip1.SetToolTip(Me.GameDVRBtn, "Disable that new Windows 10 overlay when you start your fancy games, only for cur" &
-        "rent user")
-        Me.GameDVRBtn.UseVisualStyleBackColor = True
-        '
         'HomeGroupBtn
         '
-        Me.HomeGroupBtn.Location = New System.Drawing.Point(3, 78)
+        Me.HomeGroupBtn.Location = New System.Drawing.Point(8, 72)
         Me.HomeGroupBtn.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.HomeGroupBtn.Name = "HomeGroupBtn"
         Me.HomeGroupBtn.Size = New System.Drawing.Size(220, 31)
@@ -177,7 +163,7 @@ Partial Class HomeForm
         '
         'DefenderBtn
         '
-        Me.DefenderBtn.Location = New System.Drawing.Point(3, 2)
+        Me.DefenderBtn.Location = New System.Drawing.Point(8, 2)
         Me.DefenderBtn.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.DefenderBtn.Name = "DefenderBtn"
         Me.DefenderBtn.Size = New System.Drawing.Size(220, 31)
@@ -189,7 +175,7 @@ Partial Class HomeForm
         '
         'OneDriveBtn
         '
-        Me.OneDriveBtn.Location = New System.Drawing.Point(307, 39)
+        Me.OneDriveBtn.Location = New System.Drawing.Point(306, 37)
         Me.OneDriveBtn.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.OneDriveBtn.Name = "OneDriveBtn"
         Me.OneDriveBtn.Size = New System.Drawing.Size(220, 31)
@@ -200,7 +186,7 @@ Partial Class HomeForm
         '
         'Revert7Btn
         '
-        Me.Revert7Btn.Location = New System.Drawing.Point(3, 39)
+        Me.Revert7Btn.Location = New System.Drawing.Point(8, 37)
         Me.Revert7Btn.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.Revert7Btn.Name = "Revert7Btn"
         Me.Revert7Btn.Size = New System.Drawing.Size(220, 31)
@@ -366,7 +352,6 @@ Partial Class HomeForm
     Friend WithEvents Tab2 As TabPage
     Friend WithEvents Tab3 As TabPage
     Friend WithEvents AdsBtn As Button
-    Friend WithEvents GameDVRBtn As Button
     Friend WithEvents HomeGroupBtn As Button
     Friend WithEvents DefenderBtn As Button
     Friend WithEvents OneDriveBtn As Button

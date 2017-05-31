@@ -231,32 +231,6 @@ Public Class HomeForm
         Enabled = True
     End Sub
 
-    Private Sub GameDVRBtn_Click(sender As Object, e As EventArgs) Handles GameDVRBtn.Click
-        Enabled = False
-
-        Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
-            Case MsgBoxResult.Yes
-                Dim RegKey As String = "Software\Microsoft\Windows\CurrentVersion\GameDVR"
-                Try
-                    Using Key As RegistryKey = Registry.CurrentUser.OpenSubKey(RegKey, True)
-                        Key.SetValue("AppCaptureEnabled", 0, RegistryValueKind.DWord)
-                        AddToConsole("Disabled GameDVR!")
-                    End Using
-
-                    MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
-
-                Catch ex As NullReferenceException
-                    Registry.CurrentUser.CreateSubKey(RegKey)
-                    MessageBox.Show("Please try again, I may have solved a possible issue.")
-
-                Catch ex As Exception
-                    MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
-                End Try
-        End Select
-
-        Enabled = True
-    End Sub
-
     Private Sub DefenderBtn_Click(sender As Object, e As EventArgs) Handles DefenderBtn.Click
         Enabled = False
 
