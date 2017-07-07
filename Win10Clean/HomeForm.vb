@@ -33,6 +33,7 @@ Public Class HomeForm
 
     ' States
     Dim AdsSwitch As Integer = 0
+    Dim DefenderSwitch As Boolean = False
     Dim AdsMessage As String = "Disabled ads on start menu!"
 
     Private Sub HomeForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -236,47 +237,64 @@ Public Class HomeForm
 
         Select Case MsgBox("Are you sure?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes
-                Try
-                    ' Disable GUI and engine
-                    Using Key As RegistryKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\Policies\Microsoft\Windows Defender", True)
-                        Key.SetValue("DisableAntiSpyware", 1, RegistryValueKind.DWord)
-                        AddToConsole("Disabled main Defender functions!")
-                    End Using
+                If DefenderSwitch = False Then
+                    Try
+                        ' Disable GUI and engine
+                        Using Key As RegistryKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\Policies\Microsoft\Windows Defender", True)
+                            Key.SetValue("DisableAntiSpyware", 1, RegistryValueKind.DWord)
+                            AddToConsole("Disabled main Defender functions!")
+                        End Using
 
-                    ' Delete Defender from startup
-                    Using Key As RegistryKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\Microsoft\Windows\CurrentVersion\Run", True)
-                        Key.DeleteValue("WindowsDefender", False) ' Don't error out if key doesn't exist
-                        AddToConsole("Removed Defender from startup!")
+                        ' Delete Defender from startup
+                        Using Key As RegistryKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\Microsoft\Windows\CurrentVersion\Run", True)
+                            Key.DeleteValue("WindowsDefender", False) ' Don't error out if key doesn't exist
+                            AddToConsole("Removed Defender from startup!")
 
-                        Key.DeleteValue("SecurityHealth", False) ' Don't error out if key doesn't exist
-                        AddToConsole("Removed new Defender from startup!")
-                    End Using
+                            Key.DeleteValue("SecurityHealth", False) ' Don't error out if key doesn't exist
+                            AddToConsole("Removed new Defender from startup!")
+                        End Using
 
-                    ' Unregister Defender shell extension
-                    Using process As Process = New Process()
-                        ' unused: process.StandardOutput.ReadToEnd())
-                        process.StartInfo.FileName = "cmd.exe"
-                        process.StartInfo.CreateNoWindow = True
-                        process.StartInfo.UseShellExecute = False
-                        process.StartInfo.RedirectStandardInput = True
-                        process.StartInfo.RedirectStandardOutput = True
-                        process.Start()
+                        ' Unregister Defender shell extension
+                        Using process As Process = New Process()
+                            ' unused: process.StandardOutput.ReadToEnd())
+                            process.StartInfo.FileName = "cmd.exe"
+                            process.StartInfo.CreateNoWindow = True
+                            process.StartInfo.UseShellExecute = False
+                            process.StartInfo.RedirectStandardInput = True
+                            process.StartInfo.RedirectStandardOutput = True
+                            process.Start()
 
-                        ' Silent unregister of dll file
-                        process.StandardInput.WriteLine("regsvr32 /u /s ""C:\Program Files\Windows Defender\shellext.dll""")
-                        'process.StandardInput.Flush()
-                        process.StandardInput.Close()
-                        process.WaitForExit()
+                            ' Silent unregister of dll file
+                            process.StandardInput.WriteLine("regsvr32 /u /s ""C:\Program Files\Windows Defender\shellext.dll""")
+                            'process.StandardInput.Flush()
+                            process.StandardInput.Close()
+                            process.WaitForExit()
 
-                        AddToConsole("Unregistered Defender shell addon!")
-                    End Using
+                            AddToConsole("Unregistered Defender shell addon!")
+                        End Using
 
-                    MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
-                Catch ex As Exception
-                    AddToConsole(ex.ToString)
-                    MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
-                End Try
+                    Catch ex As Exception
+                        AddToConsole(ex.ToString)
+                        MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    End Try
+                Else
+                    Try
+                        ' Disable GUI and engine
+                        Using Key As RegistryKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\Policies\Microsoft\Windows Defender", True)
+                            Key.SetValue("DisableAntiSpyware", 0, RegistryValueKind.DWord)
+                            AddToConsole("Enabled main Defender functions!")
+                        End Using
+
+                        MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+                    Catch ex As Exception
+                        AddToConsole(ex.ToString)
+                        MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    End Try
+                End If
+
         End Select
 
         Enabled = True
@@ -684,13 +702,23 @@ Public Class HomeForm
     Private Sub UpdateForm()
         Try
             ' Check ads
-            Using Key As RegistryKey = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", True)
+            Using Key As RegistryKey = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", False)
                 Select Case Key.GetValue("SystemPaneSuggestionsEnabled", 1)
                     Case 0
                         AdsSwitch = 1
                         AdsBtn.Text = "Enable start menu ads"
                         ToolTip1.SetToolTip(AdsBtn, "Re-enable the ads")
                         AdsMessage = "Enabled ads on start menu!"
+                End Select
+            End Using
+
+            ' Check defender state
+            Using Key As RegistryKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\Policies\Microsoft\Windows Defender", False)
+                Select Case Key.GetValue("DisableAntiSpyware", 0)
+                    Case 1
+                        DefenderSwitch = True
+                        DefenderBtn.Text = "Enable defender"
+                        ToolTip1.SetToolTip(DefenderBtn, "Re-enable defender")
                 End Select
             End Using
 
