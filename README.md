@@ -1,3 +1,4 @@
+![Image preview](image.png)
 
 # Win10Clean
 Cleanup your Windows enviroment!
