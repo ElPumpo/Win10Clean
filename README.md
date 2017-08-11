@@ -3,30 +3,14 @@
 # Win10Clean
 Cleanup your Windows enviroment!
 
-### Background
-I have a zip file full of tweaks for Windows 10 which I use often. I have multiple copies of the scripts, so whenever I add something new I have to re-copy it to all my drives again which is a real pain in the butt.
-
-I wanted to make it into a real executable instead of being a zip file with a lot of script files, which doesn't even handle any possible errors or whatever - and I wanted to release it for other people to use it. So here it is!
-
-It does not have any functions to disable Windows 10 spying, for that stuff you'll have to look somewhere else.
-
-Should also be noted that Win10Clean doesn't doesn't harm your computer in any way. Other Windows 10 cleanup tools tend to delete important registry keys (which Win10Clean doesn't), resulting in reverting changes being a pain in the butt - and other tools use bad modifications which aren't safe to apply. Everything done with Win10Clean can be reverted very easily has zero chance in frying your computer!
-
-You might wonder why I went with a very high level API, and it's because I couldn't get PowerShell working in C#.
-
-![alt tag](http://i.imgur.com/xSJ0lt7.png)
-![alt tag](http://i.imgur.com/cih36BG.png)
+Check out the [wiki](https://github.com/ElPumpo/Win10Clean/wiki) for more information about the application
 
 # Download
-Runnable executables are available for download [here](https://github.com/ElPumpo/Win10Clean/releases).
+Runnable executables [are available for download](https://github.com/ElPumpo/Win10Clean/releases)
 
 # Requirements
 + Windows 10 and 8.x are supported (but you should only apply these fixes to Windows 10)
 + .NET framework 4.6
-
-# Todo
-- Undo button (seriously guys if you want this please open a issue!)
-- Improve error handling where needed
 
 # Legal
 
