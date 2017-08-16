@@ -110,6 +110,33 @@ Public Class HomeForm
                     MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Try
 
+                Dim bytes As Byte() = {2, 0, 0, 0, 151, 230, 147, 131, 198, 197, 210, 1, 0, 0, 0, 0, 67, 66, 1, 0, 203, 50, 10, 2, 5, 134, 145, 204, 147, 5, 36, 170, 163, 1, 68, 195, 132, 1, 102, 159, 247, 157, 177, 135, 203, 209, 172, 212, 1, 0, 5, 188, 201, 168, 164, 1, 36, 140, 172, 3, 68, 137, 133, 1, 102, 160, 129, 186, 203, 189, 215, 168, 164, 130, 1, 0, 194, 60, 1, 0}
+
+                ' Show Explorer from start menu
+                Try
+                    Using Key As RegistryKey = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows\CurrentVersion\CloudStore\Store\Cache\DefaultAccount\$$windows.data.unifiedtile.startglobalproperties\Current", True)
+                        Key.SetValue("Data", bytes, RegistryValueKind.Binary)
+                        AddToConsole("Enabled explorer from start menu!")
+                    End Using
+                Catch ex As Exception
+                    AddToConsole(ex.ToString)
+                    MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+
+                ' Restart explorer
+                Try
+                    Dim explorerProcess() As Process = Process.GetProcessesByName("explorer")
+
+                    For Each process As Process In explorerProcess
+                        process.Kill()
+                    Next
+
+                    AddToConsole("Restarted Explorer!")
+                Catch ex As Exception
+                    AddToConsole(ex.ToString)
+                    MessageBox.Show(ex.ToString, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+
                 MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Select
 
@@ -126,7 +153,7 @@ Public Class HomeForm
                 Try
                     Process.GetProcessesByName(ProcessName)(0).Kill()
                 Catch ex As Exception
-                    AddToConsole("Could not kill process: " + ProcessName)
+                    AddToConsole("Could not kill process:  " + ProcessName)
                     ' ignore errors
                 End Try
 
@@ -754,4 +781,7 @@ Public Class HomeForm
         End If
     End Sub
 
+    Private Sub Button1_Click(sender As Object, e As EventArgs)
+
+    End Sub
 End Class

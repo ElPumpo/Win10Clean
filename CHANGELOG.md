@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 - Re enable core Defender function if disabled
+- Pin Explorer on the start menu
+- Restart explorer once `Revert7` finishes
 
 ## [0.12.1] - 2017-05-13
 ### Fixed
