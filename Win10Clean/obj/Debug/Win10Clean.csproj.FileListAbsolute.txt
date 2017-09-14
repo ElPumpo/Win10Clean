@@ -1,0 +1,19 @@
+c:\users\deadmoon\documents\visual studio 2017\Projects\Win10Clean\Win10Clean\bin\Debug\Win10Clean.exe.config
+c:\users\deadmoon\documents\visual studio 2017\Projects\Win10Clean\Win10Clean\bin\Debug\Win10Clean.exe
+c:\users\deadmoon\documents\visual studio 2017\Projects\Win10Clean\Win10Clean\bin\Debug\Win10Clean.pdb
+c:\users\deadmoon\documents\visual studio 2017\Projects\Win10Clean\Win10Clean\obj\Debug\Win10Clean.csprojResolveAssemblyReference.cache
+c:\users\deadmoon\documents\visual studio 2017\Projects\Win10Clean\Win10Clean\obj\Debug\Win10Clean.MainForm.resources
+c:\users\deadmoon\documents\visual studio 2017\Projects\Win10Clean\Win10Clean\obj\Debug\Win10Clean.Properties.Resources.resources
+c:\users\deadmoon\documents\visual studio 2017\Projects\Win10Clean\Win10Clean\obj\Debug\Win10Clean.csproj.GenerateResource.Cache
+c:\users\deadmoon\documents\visual studio 2017\Projects\Win10Clean\Win10Clean\obj\Debug\Win10Clean.exe
+c:\users\deadmoon\documents\visual studio 2017\Projects\Win10Clean\Win10Clean\obj\Debug\Win10Clean.pdb
+X:\Projects\Win10Clean\Win10Clean\bin\Debug\Win10Clean.exe.config
+X:\Projects\Win10Clean\Win10Clean\bin\Debug\Win10Clean.exe
+X:\Projects\Win10Clean\Win10Clean\bin\Debug\Win10Clean.pdb
+X:\Projects\Win10Clean\Win10Clean\obj\Debug\Win10Clean.csprojResolveAssemblyReference.cache
+X:\Projects\Win10Clean\Win10Clean\obj\Debug\Win10Clean.MainForm.resources
+X:\Projects\Win10Clean\Win10Clean\obj\Debug\Win10Clean.Properties.Resources.resources
+X:\Projects\Win10Clean\Win10Clean\obj\Debug\Win10Clean.csproj.GenerateResource.Cache
+X:\Projects\Win10Clean\Win10Clean\obj\Debug\Win10Clean.csproj.CoreCompileInputs.cache
+X:\Projects\Win10Clean\Win10Clean\obj\Debug\Win10Clean.exe
+X:\Projects\Win10Clean\Win10Clean\obj\Debug\Win10Clean.pdb
