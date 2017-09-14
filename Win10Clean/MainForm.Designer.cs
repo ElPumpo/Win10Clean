@@ -39,13 +39,14 @@
             this.btnStartAds = new System.Windows.Forms.Button();
             this.btnApps = new System.Windows.Forms.Button();
             this.btnHomegroup = new System.Windows.Forms.Button();
-            this.btnTaskbar = new System.Windows.Forms.Button();
+            this.btnExplorer = new System.Windows.Forms.Button();
             this.btnDefender = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.consoleBox = new System.Windows.Forms.RichTextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.aboutBox = new System.Windows.Forms.RichTextBox();
+            this.btnExport = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -62,7 +63,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(644, 453);
+            this.tabControl1.Size = new System.Drawing.Size(652, 473);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -75,19 +76,21 @@
             this.tabPage1.Controls.Add(this.btnStartAds);
             this.tabPage1.Controls.Add(this.btnApps);
             this.tabPage1.Controls.Add(this.btnHomegroup);
-            this.tabPage1.Controls.Add(this.btnTaskbar);
+            this.tabPage1.Controls.Add(this.btnExplorer);
             this.tabPage1.Controls.Add(this.btnDefender);
             this.tabPage1.Location = new System.Drawing.Point(4, 29);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(636, 420);
+            this.tabPage1.Size = new System.Drawing.Size(644, 440);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Home";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(549, 372);
+            this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExit.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btnExit.Location = new System.Drawing.Point(557, 392);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(79, 40);
             this.btnExit.TabIndex = 9;
@@ -97,7 +100,9 @@
             // 
             // btnUpdate
             // 
-            this.btnUpdate.Location = new System.Drawing.Point(464, 372);
+            this.btnUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnUpdate.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btnUpdate.Location = new System.Drawing.Point(472, 392);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(79, 40);
             this.btnUpdate.TabIndex = 8;
@@ -107,8 +112,9 @@
             // 
             // lblVersion
             // 
+            this.lblVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblVersion.AutoSize = true;
-            this.lblVersion.Location = new System.Drawing.Point(6, 395);
+            this.lblVersion.Location = new System.Drawing.Point(6, 412);
             this.lblVersion.Name = "lblVersion";
             this.lblVersion.Size = new System.Drawing.Size(68, 20);
             this.lblVersion.TabIndex = 7;
@@ -122,6 +128,7 @@
             this.btnContext.TabIndex = 6;
             this.btnContext.Text = "Cleanup Context Menu";
             this.btnContext.UseVisualStyleBackColor = true;
+            this.btnContext.Click += new System.EventHandler(this.btnContext_Click);
             // 
             // btnOnedrive
             // 
@@ -131,6 +138,7 @@
             this.btnOnedrive.TabIndex = 5;
             this.btnOnedrive.Text = "Uninstall OneDrive";
             this.btnOnedrive.UseVisualStyleBackColor = true;
+            this.btnOnedrive.Click += new System.EventHandler(this.btnOnedrive_Click);
             // 
             // btnStartAds
             // 
@@ -140,6 +148,7 @@
             this.btnStartAds.TabIndex = 4;
             this.btnStartAds.Text = "Disable Start Menu ads";
             this.btnStartAds.UseVisualStyleBackColor = true;
+            this.btnStartAds.Click += new System.EventHandler(this.btnStartAds_Click);
             // 
             // btnApps
             // 
@@ -149,6 +158,7 @@
             this.btnApps.TabIndex = 3;
             this.btnApps.Text = "Don\'t reinstall Modern Apps";
             this.btnApps.UseVisualStyleBackColor = true;
+            this.btnApps.Click += new System.EventHandler(this.btnApps_Click);
             // 
             // btnHomegroup
             // 
@@ -158,15 +168,17 @@
             this.btnHomegroup.TabIndex = 2;
             this.btnHomegroup.Text = "Disable HomeGroup";
             this.btnHomegroup.UseVisualStyleBackColor = true;
+            this.btnHomegroup.Click += new System.EventHandler(this.btnHomegroup_Click);
             // 
-            // btnTaskbar
+            // btnExplorer
             // 
-            this.btnTaskbar.Location = new System.Drawing.Point(10, 62);
-            this.btnTaskbar.Name = "btnTaskbar";
-            this.btnTaskbar.Size = new System.Drawing.Size(261, 40);
-            this.btnTaskbar.TabIndex = 1;
-            this.btnTaskbar.Text = "Revert Explorer to Windows 7 Style";
-            this.btnTaskbar.UseVisualStyleBackColor = true;
+            this.btnExplorer.Location = new System.Drawing.Point(10, 62);
+            this.btnExplorer.Name = "btnExplorer";
+            this.btnExplorer.Size = new System.Drawing.Size(261, 40);
+            this.btnExplorer.TabIndex = 1;
+            this.btnExplorer.Text = "Revert Explorer to Windows 7 Style";
+            this.btnExplorer.UseVisualStyleBackColor = true;
+            this.btnExplorer.Click += new System.EventHandler(this.btnExplorer_Click);
             // 
             // btnDefender
             // 
@@ -190,11 +202,12 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.btnExport);
             this.tabPage3.Controls.Add(this.consoleBox);
             this.tabPage3.Location = new System.Drawing.Point(4, 29);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(636, 420);
+            this.tabPage3.Size = new System.Drawing.Size(644, 440);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Console";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -202,11 +215,10 @@
             // consoleBox
             // 
             this.consoleBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.consoleBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.consoleBox.Location = new System.Drawing.Point(3, 3);
+            this.consoleBox.Location = new System.Drawing.Point(8, 6);
             this.consoleBox.Name = "consoleBox";
             this.consoleBox.ReadOnly = true;
-            this.consoleBox.Size = new System.Drawing.Size(630, 414);
+            this.consoleBox.Size = new System.Drawing.Size(628, 380);
             this.consoleBox.TabIndex = 0;
             this.consoleBox.Text = "";
             // 
@@ -216,7 +228,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 29);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(636, 420);
+            this.tabPage4.Size = new System.Drawing.Size(644, 440);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "About";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -228,15 +240,27 @@
             this.aboutBox.Location = new System.Drawing.Point(3, 3);
             this.aboutBox.Name = "aboutBox";
             this.aboutBox.ReadOnly = true;
-            this.aboutBox.Size = new System.Drawing.Size(630, 414);
+            this.aboutBox.Size = new System.Drawing.Size(638, 434);
             this.aboutBox.TabIndex = 1;
             this.aboutBox.Text = resources.GetString("aboutBox.Text");
+            // 
+            // btnExport
+            // 
+            this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExport.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btnExport.Location = new System.Drawing.Point(557, 392);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(79, 40);
+            this.btnExport.TabIndex = 9;
+            this.btnExport.Text = "Export";
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.button1_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(644, 453);
+            this.ClientSize = new System.Drawing.Size(652, 473);
             this.Controls.Add(this.tabControl1);
             this.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.Black;
@@ -270,10 +294,11 @@
         private System.Windows.Forms.Button btnStartAds;
         private System.Windows.Forms.Button btnApps;
         private System.Windows.Forms.Button btnHomegroup;
-        private System.Windows.Forms.Button btnTaskbar;
+        private System.Windows.Forms.Button btnExplorer;
         private System.Windows.Forms.Button btnDefender;
         private System.Windows.Forms.RichTextBox consoleBox;
         private System.Windows.Forms.RichTextBox aboutBox;
+        private System.Windows.Forms.Button btnExport;
     }
 }
 
