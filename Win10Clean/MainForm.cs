@@ -61,6 +61,7 @@ namespace Win10Clean
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            this.Text += string.Format(" [{0}]", _currentVersion);
             lblVersion.Text += _currentVersion;
             CheckTweaks();
         }
@@ -111,7 +112,7 @@ namespace Win10Clean
                 reader.Close();
                 res.Close();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _onlineVersion = "0";
                 Log("Could not check for updates");
@@ -160,10 +161,12 @@ namespace Win10Clean
 
         private void CheckTweaks()
         {
+            RegistryKey k = null;
+
             try
             {
                 // check start menu ads
-                RegistryKey k = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", false);
+                k = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", false);
                 if ((int)k.GetValue("SystemPaneSuggestionsEnabled", 1) == 0)
                 {
                     _adsSwitch = 1;
@@ -178,10 +181,12 @@ namespace Win10Clean
                     _defenderSwitch = true;
                     btnDefender.Text = "Enable Windows Defender";
                 }
-
-                k.Close();
             }
             catch { }
+            finally
+            {
+                k.Close();
+            }
         }
 
         private void RunCommand(string cmd)
@@ -211,11 +216,13 @@ namespace Win10Clean
 
         private void DisableStartMenuAds()
         {
+            RegistryKey k = null;
+
             if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 try
                 {
-                    RegistryKey k = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", true);
+                    k = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", true);
                     k.SetValue("SystemPaneSuggestionsEnabled", _adsSwitch);
 
                     Log(_adsMessage);
@@ -225,6 +232,10 @@ namespace Win10Clean
                 {
                     Log(ex.ToString());
                     MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    k.Close();
                 }
             }
         }
@@ -251,13 +262,15 @@ namespace Win10Clean
 
         private void TweakDefender()
         {
+            RegistryKey k = null;
+
             if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 if (!_defenderSwitch)
                 {
                     try
                     {
-                        RegistryKey k = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", true);
+                        k = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", true);
                         k.SetValue("DisableAntiSpyware", 1, RegistryValueKind.DWord);
                         Log("Main Windows Defender functions disabled");
 
@@ -269,7 +282,6 @@ namespace Win10Clean
                         RunCommand("regsvr32 /u /s \"C:\\Program Files\\Windows Defender\\shellext.dll\"");
 
                         Log("Windows Defender shell addons unregistered");
-                        k.Close();
 
                         MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
@@ -277,23 +289,30 @@ namespace Win10Clean
                     {
                         Log(ex.ToString());
                         MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    finally
+                    {
+                        k.Close();
                     }
                 }
                 else
                 {
                     try
                     {
-                        RegistryKey k = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", true);
+                        k = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", true);
                         k.SetValue("DisableAntiSpyware", 0, RegistryValueKind.DWord);
-                        Log("Main Windows Defender functions enabled");
-                        k.Close();
 
+                        Log("Main Windows Defender functions enabled");
                         MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)
                     {
                         Log(ex.ToString());
                         MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    finally
+                    {
+                        k.Close();   
                     }
                 }
             }
@@ -301,13 +320,14 @@ namespace Win10Clean
          
         private void DisableSilentInstall()
         {
+            RegistryKey k = null;
+
             if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 try
                 {
-                    RegistryKey k = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", true);
+                    k = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", true);
                     k.SetValue("SilentInstalledAppsEnabled", _adsSwitch, RegistryValueKind.DWord);
-                    k.Close();
 
                     Log("Silent Modern App install disabled");
                     MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -316,6 +336,10 @@ namespace Win10Clean
                 {
                     Log(ex.ToString());
                     MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    k.Close();
                 }
             }
         }
@@ -327,7 +351,7 @@ namespace Win10Clean
                 string libKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\";
                 string[] libGuid = { "{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}", "{7d83ee9b-2244-4e70-b1f5-5393042af1e4}", "{f42ee2d3-909f-4907-8871-4c22fc0bf756}", "{0ddd015d-b06c-45d5-8c4c-f59713854639}", "{a0c69a99-21c8-4671-8703-7934162fcf1d}", "{35286a68-3c57-41a1-bbb1-0eae73d76c95}" };
                 string finalKey = string.Empty;
-                RegistryKey k;
+                RegistryKey k = null;
 
                 foreach (string x in libGuid)
                 {
@@ -356,6 +380,8 @@ namespace Win10Clean
                 catch (NullReferenceException)
                 {
                     Registry.CurrentUser.CreateSubKey(pinLib);
+
+                    // prompt user to run this again
                     //RevertExplorer();
                 }
                 catch (Exception ex)
@@ -394,6 +420,8 @@ namespace Win10Clean
                     Log(ex.ToString());
                     MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+
+                k.Close();
 
                 RestartExplorer();
 
