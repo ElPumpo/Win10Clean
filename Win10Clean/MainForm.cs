@@ -7,10 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Microsoft.Win32;
 using System.Net;
 using System.IO;
 using System.Diagnostics;
+using System.Management.Automation;
+using Microsoft.Win32;
 
 /*
  * Win10Clean - Cleanup your Windows 10 environment
@@ -206,12 +207,245 @@ namespace Win10Clean
 
         private void UninstallOneDrive()
         {
+            RegistryKey k = null;
+            string processName = "OneDrive";
 
+            if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                try
+                {
+                    Process.GetProcessesByName(processName)[0].Kill();
+                }
+                catch (Exception)
+                {
+                    Log("Could not kill process: " + processName);
+                }
+
+                string path = string.Empty;
+
+                if (_is64)
+                {
+                    path = Environment.GetFolderPath(Environment.SpecialFolder.SystemX86) + "\\OneDriveSetup.exe";
+                }
+                else
+                {
+                    path = Environment.GetFolderPath(Environment.SpecialFolder.System) + "\\OneDriveSetup.exe";
+                }
+
+                Process.Start(path, "/uninstall");
+                Log("OneDrive uninstalled");
+
+                string[] paths =
+                {
+                    Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\OneDrive",
+                    Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.System)) + "OneDriveTemp",
+                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Microsoft\\OneDrive",
+                    Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\\Microsoft OneDrive"
+                };
+
+                foreach (string x in paths)
+                {
+                    if (Directory.Exists(x))
+                    {
+                        try
+                        {
+                            Directory.Delete(x, true);
+                            Log("Folder deleted: " + x);
+                        }
+                        catch (Exception)
+                        {
+                            Log("Could not delete folder: " + x);
+                        }
+                    }
+                }
+
+                string oneKey = @"CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}";
+                Registry.ClassesRoot.CreateSubKey(oneKey);
+
+                try
+                {
+                    k = Registry.ClassesRoot.OpenSubKey(oneKey, true);
+                    k.SetValue("System.IsPinnedToNameSpaceTree", 0, RegistryValueKind.DWord);
+                    Log("OneDrive removed from File Explorer");
+
+                    if (_is64)
+                    {
+                        k = Registry.ClassesRoot.OpenSubKey("WOW6432Node\\" + oneKey, true);
+                        k.SetValue("System.IsPinnedToNameSpaceTree", 0, RegistryValueKind.DWord);
+                        Log("OneDrive removed from File Explorer");
+                    }
+
+                    k = Registry.ClassesRoot.OpenSubKey(oneKey + "\\ShellFolder", true);
+                    k.SetValue("Attributes", 0xf080004d, RegistryValueKind.DWord); // value needs testing
+                    Log("OneDrive removed from legacy File Dialog");
+
+                    if (_is64)
+                    {
+                        k = Registry.ClassesRoot.OpenSubKey("WOW6432Node\\" + oneKey + "\\ShellFolder", true);
+                        k.SetValue("Attributes", 0xf080004d, RegistryValueKind.DWord); // value needs testing
+                        Log("OneDrive removed from legacy File Dialog");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log(ex.ToString());
+                    MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    k.Close();
+                }
+
+                try
+                {
+                    RunCommand("SCHTASKS /Delete /TN \"OneDrive Standalone Update Task\" /F");
+                    RunCommand("SCHTASKS /Delete /TN \"OneDrive Standalone Update Task v2\" /F");
+
+                    Log("OneDrive scheduled tasks removed");
+                }
+                catch (Exception ex)
+                {
+                    Log(ex.ToString());
+                    MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void CleanupContextMenu()
         {
+            // Extended = only when SHIFT is pressed
+            // LegacyDisable = item disabled
 
+            if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                string[] extensions =
+                {
+                    "batfile",
+                    "cmdfile",
+                    "docfile",
+                    "fonfile",
+                    "htmlfile",
+                    "inffile",
+                    "inifile",
+                    "JSEFile",
+                    "JSFile",
+                    "MSInfo.Document",
+                    "otffile",
+                    "pfmfile",
+                    "regfile",
+                    "rtffile",
+                    "ttcfile",
+                    "ttffile",
+                    "txtfile",
+                    "VBEFile",
+                    "VBSFile",
+                    "Wordpad.Document.1",
+                    "WSFFile"
+                };
+
+                foreach (string x in extensions)
+                {
+                    try
+                    {
+                        string finalKey = x + @"\shell\print";
+
+                        using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(finalKey, true))
+                        {
+                            key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
+                            Log("Print disabled for: " + x);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Log(ex.GetType().ToString() + " - couldn't disable print for: " + x);
+                    }
+                }
+
+                foreach (string x in extensions)
+                {
+                    try
+                    {
+                        string finalKey = x + @"\shell\edit";
+
+                        using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(finalKey, true))
+                        {
+                            key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
+                            Log("Edit disabled for: " + x);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Log(ex.GetType().ToString() + " - couldn't disable edit for: " + x);
+                    }
+                }
+
+                try
+                {
+                    RegistryKey key = null;
+
+                    key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\text\shell\edit", true);
+                    key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
+                    Log("Edit disabled for: TXT files");
+
+                    key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\audio\shell\Enqueue", true);
+                    key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
+                    Log("Disabled add to play list for: audio files!");
+
+                    key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\audio\shell\Play", true);
+                    key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
+                    Log("Disabled play song for: audio files!");
+
+                    key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\Directory.Audio\shell\Enqueue", true);
+                    key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
+                    Log("Disabled add to play list for: audio directories!");
+
+                    key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\Directory.Audio\shell\Play", true);
+                    key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
+                    Log("Disabled play song for: audio directories!");
+
+                    key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\Directory.Image\shell\Enqueue", true);
+                    key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
+                    Log("Disabled add to play list for: image directories!");
+
+                    key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\Directory.Image\shell\Play", true);
+                    key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
+                    Log("Disabled play song for: image directories!");
+
+                    // VB Nothing converted to C# null (?)
+
+                    key = Registry.ClassesRoot.OpenSubKey(@"Folder\shellex\ContextMenuHandlers\Library Location", true);
+                    key.SetValue(null, "-{3dad6c5d-2167-4cae-9914-f99e41c12cfa}");
+                    Log("Disabled include in library menu!");
+
+                    key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\Directory.Audio\shellex\ContextMenuHandlers\WMPShopMusic", true);
+                    key.SetValue(null, "-{8A734961-C4AA-4741-AC1E-791ACEBF5B39}");
+                    Log("Disabled buying music online context menu!");
+
+                    key = Registry.ClassesRoot.OpenSubKey(@"exefile\shellex\ContextMenuHandlers\Compatibility", true);
+                    key.SetValue(null, "-{1d27f844-3a1f-4410-85ac-14651078412d}");
+                    Log("Disabled troubleshooting compability (EXE)!");
+
+                    key = Registry.ClassesRoot.OpenSubKey(@"Msi.Package\shellex\ContextMenuHandlers\Compatibility", true);
+                    key.SetValue(null, "-{1d27f844-3a1f-4410-85ac-14651078412d}");
+                    Log("Disabled troubleshooting compability (MSI)!");
+
+                    key.Close();
+
+                    Registry.ClassesRoot.DeleteSubKey(@"AllFilesystemObjects\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}", false);
+                    Log("Removed restoring previous version menu! (files)");
+
+                    Registry.ClassesRoot.DeleteSubKey(@"Directory\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}", false);
+                    Log("Removed restoring previous version menu! (directory)");
+                }
+                catch (Exception ex)
+                {
+                    Log(ex.GetType().ToString() + " - something went wrong!");
+                }
+
+                MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void DisableStartMenuAds()
@@ -367,9 +601,14 @@ namespace Win10Clean
                         Log(ex.GetType().Name + " - Couldn't modify the value of: " + x);
                         MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
+                    finally
+                    {
+                        k.Close();
+                    }
                 }
 
                 string pinLib = @"Software\Classes\CLSID\{031E4825-7B94-4dc3-B131-E946B44C8DD5}";
+                Registry.CurrentUser.CreateSubKey(pinLib);
 
                 try
                 {
@@ -377,17 +616,14 @@ namespace Win10Clean
                     k.SetValue("System.IsPinnedToNameSpaceTree", 1, RegistryValueKind.DWord);
                     Log("Library folders pinned");
                 }
-                catch (NullReferenceException)
-                {
-                    Registry.CurrentUser.CreateSubKey(pinLib);
-
-                    // prompt user to run this again
-                    //RevertExplorer();
-                }
                 catch (Exception ex)
                 {
                     Log(ex.ToString());
                     MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    k.Close();
                 }
 
                 try
@@ -406,6 +642,10 @@ namespace Win10Clean
                     Log(ex.ToString());
                     MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                finally
+                {
+                    k.Close();
+                }
 
                 byte[] bytes = { 2, 0, 0, 0, 64, 31, 210, 5, 170, 22, 211, 1, 0, 0, 0, 0, 67, 66, 1, 0, 194, 10, 1, 203, 50, 10, 2, 5, 134, 145, 204, 147, 5, 36, 170, 163, 1, 68, 195, 132, 1, 102, 159, 247, 157, 177, 135, 203, 209, 172, 212, 1, 0, 5, 188, 201, 168, 164, 1, 36, 140, 172, 3, 68, 137, 133, 1, 102, 160, 129, 186, 203, 189, 215, 168, 164, 130, 1, 0, 194, 60, 1, 0 };
 
@@ -420,12 +660,119 @@ namespace Win10Clean
                     Log(ex.ToString());
                     MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-
-                k.Close();
+                finally
+                {
+                    k.Close();
+                }
 
                 RestartExplorer();
 
                 MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void RetrieveApps()
+        {
+            using (PowerShell script = PowerShell.Create())
+            {
+                if (chkAll.Checked)
+                {
+                    script.AddScript("Get-AppxPackage -AllUsers | Select Name | Out-String -Stream");
+                }
+                else
+                {
+                    script.AddScript("Get-AppxPackage | Select Name | Out-String -Stream");
+                }
+
+                string trimmed = string.Empty;
+                foreach (PSObject x in script.Invoke())
+                {
+                    trimmed = x.ToString().Trim();
+                    if (!string.IsNullOrEmpty(trimmed) && !trimmed.Contains("---"))
+                    {
+                        if (trimmed != "Name") appBox.Items.Add(trimmed);
+                    }
+                }
+            }
+        }
+
+        private void RefreshAppList(bool minusOne)
+        {
+            _goBack = appBox.SelectedIndex;
+            appBox.Items.Clear();
+            RetrieveApps();
+
+            try
+            {
+                if (minusOne)
+                {
+                    appBox.SelectedIndex = _goBack - 1;
+                }
+                else
+                {
+                    appBox.SelectedIndex = _goBack;
+                }
+            }
+            catch { }
+        }
+
+        private void UninstallApps()
+        {
+            _apps = string.Empty;
+
+            if (appBox.CheckedItems.Count > 0)
+            {
+                foreach (var x in appBox.CheckedItems)
+                {
+                    if (string.IsNullOrEmpty(_apps))
+                    {
+                        _apps = x.ToString();
+                    }
+                    else
+                    {
+                        _apps = _apps + "\n" + x.ToString();
+                    }
+                }
+
+                if (MessageBox.Show("Are you sure you want to uninstall these apps?\n\n" + _apps, "Confirm uninstall", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    foreach (var x in appBox.CheckedItems)
+                    {
+                        Task.Run(() => UninstallApp(x.ToString()));
+                    }
+
+                    RefreshAppList(true);
+                    MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void UninstallApp(string app)
+        {
+            bool error = false;
+
+            using (PowerShell script = PowerShell.Create())
+            {
+                if (chkAll.Checked)
+                {
+                    script.AddScript("Get-AppxPackage -AllUsers " + app + " | Remove-AppxPackage");
+                }
+                else
+                {
+                    script.AddScript("Get-AppxPackage " + app + " | Remove-AppxPackage");
+                }
+
+                script.Invoke();
+                error = script.HadErrors;
+            }
+
+            if (error)
+            {
+                Log("Could not uninstall app: " + app);
+            }
+            else
+            {
+                Log("App uninstalled: " + app);
             }
         }
 
@@ -472,6 +819,21 @@ namespace Win10Clean
         private void btnContext_Click(object sender, EventArgs e)
         {
             CleanupContextMenu();   
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            RefreshAppList(false);
+        }
+
+        private void chkAll_CheckedChanged(object sender, EventArgs e)
+        {
+            RefreshAppList(false);
+        }
+
+        private void btnUninstall_Click(object sender, EventArgs e)
+        {
+            UninstallApps();
         }
     }
 }

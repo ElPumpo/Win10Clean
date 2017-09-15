@@ -42,13 +42,21 @@
             this.btnExplorer = new System.Windows.Forms.Button();
             this.btnDefender = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.appPanel = new System.Windows.Forms.Panel();
+            this.btnUninstall = new System.Windows.Forms.Button();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.chkDelete = new System.Windows.Forms.CheckBox();
+            this.chkAll = new System.Windows.Forms.CheckBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.btnExport = new System.Windows.Forms.Button();
             this.consoleBox = new System.Windows.Forms.RichTextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.aboutBox = new System.Windows.Forms.RichTextBox();
-            this.btnExport = new System.Windows.Forms.Button();
+            this.appBox = new System.Windows.Forms.CheckedListBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.appPanel.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.SuspendLayout();
@@ -192,13 +200,72 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.appPanel);
+            this.tabPage2.Controls.Add(this.btnUninstall);
+            this.tabPage2.Controls.Add(this.btnRefresh);
+            this.tabPage2.Controls.Add(this.chkDelete);
+            this.tabPage2.Controls.Add(this.chkAll);
             this.tabPage2.Location = new System.Drawing.Point(4, 29);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(636, 420);
+            this.tabPage2.Size = new System.Drawing.Size(644, 440);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Modern Apps";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // appPanel
+            // 
+            this.appPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.appPanel.Controls.Add(this.appBox);
+            this.appPanel.Location = new System.Drawing.Point(6, 6);
+            this.appPanel.Name = "appPanel";
+            this.appPanel.Size = new System.Drawing.Size(468, 426);
+            this.appPanel.TabIndex = 12;
+            // 
+            // btnUninstall
+            // 
+            this.btnUninstall.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnUninstall.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btnUninstall.Location = new System.Drawing.Point(480, 135);
+            this.btnUninstall.Name = "btnUninstall";
+            this.btnUninstall.Size = new System.Drawing.Size(79, 40);
+            this.btnUninstall.TabIndex = 11;
+            this.btnUninstall.Text = "Uninstall";
+            this.btnUninstall.UseVisualStyleBackColor = true;
+            this.btnUninstall.Click += new System.EventHandler(this.btnUninstall_Click);
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRefresh.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btnRefresh.Location = new System.Drawing.Point(480, 89);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(79, 40);
+            this.btnRefresh.TabIndex = 10;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // chkDelete
+            // 
+            this.chkDelete.AutoSize = true;
+            this.chkDelete.Location = new System.Drawing.Point(480, 36);
+            this.chkDelete.Name = "chkDelete";
+            this.chkDelete.Size = new System.Drawing.Size(158, 24);
+            this.chkDelete.TabIndex = 2;
+            this.chkDelete.Text = "Delete from image";
+            this.chkDelete.UseVisualStyleBackColor = true;
+            // 
+            // chkAll
+            // 
+            this.chkAll.AutoSize = true;
+            this.chkAll.Location = new System.Drawing.Point(480, 6);
+            this.chkAll.Name = "chkAll";
+            this.chkAll.Size = new System.Drawing.Size(88, 24);
+            this.chkAll.TabIndex = 1;
+            this.chkAll.Text = "All users";
+            this.chkAll.UseVisualStyleBackColor = true;
+            this.chkAll.CheckedChanged += new System.EventHandler(this.chkAll_CheckedChanged);
             // 
             // tabPage3
             // 
@@ -211,6 +278,18 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Console";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // btnExport
+            // 
+            this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExport.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btnExport.Location = new System.Drawing.Point(557, 392);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(79, 40);
+            this.btnExport.TabIndex = 9;
+            this.btnExport.Text = "Export";
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.button1_Click);
             // 
             // consoleBox
             // 
@@ -244,17 +323,16 @@
             this.aboutBox.TabIndex = 1;
             this.aboutBox.Text = resources.GetString("aboutBox.Text");
             // 
-            // btnExport
+            // appBox
             // 
-            this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExport.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnExport.Location = new System.Drawing.Point(557, 392);
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(79, 40);
-            this.btnExport.TabIndex = 9;
-            this.btnExport.Text = "Export";
-            this.btnExport.UseVisualStyleBackColor = true;
-            this.btnExport.Click += new System.EventHandler(this.button1_Click);
+            this.appBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.appBox.CheckOnClick = true;
+            this.appBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.appBox.FormattingEnabled = true;
+            this.appBox.Location = new System.Drawing.Point(0, 0);
+            this.appBox.Name = "appBox";
+            this.appBox.Size = new System.Drawing.Size(466, 424);
+            this.appBox.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -273,6 +351,9 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            this.appPanel.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -299,6 +380,12 @@
         private System.Windows.Forms.RichTextBox consoleBox;
         private System.Windows.Forms.RichTextBox aboutBox;
         private System.Windows.Forms.Button btnExport;
+        private System.Windows.Forms.CheckBox chkDelete;
+        private System.Windows.Forms.CheckBox chkAll;
+        private System.Windows.Forms.Panel appPanel;
+        private System.Windows.Forms.Button btnUninstall;
+        private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.CheckedListBox appBox;
     }
 }
 
