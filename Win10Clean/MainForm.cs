@@ -416,19 +416,19 @@ namespace Win10Clean
                     // VB Nothing converted to C# null (?)
 
                     key = Registry.ClassesRoot.OpenSubKey(@"Folder\shellex\ContextMenuHandlers\Library Location", true);
-                    key.SetValue(null, "-{3dad6c5d-2167-4cae-9914-f99e41c12cfa}");
+                    key.SetValue(string.Empty, "-{3dad6c5d-2167-4cae-9914-f99e41c12cfa}");
                     Log("Disabled include in library menu!");
 
                     key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\Directory.Audio\shellex\ContextMenuHandlers\WMPShopMusic", true);
-                    key.SetValue(null, "-{8A734961-C4AA-4741-AC1E-791ACEBF5B39}");
+                    key.SetValue(string.Empty, "-{8A734961-C4AA-4741-AC1E-791ACEBF5B39}");
                     Log("Disabled buying music online context menu!");
 
                     key = Registry.ClassesRoot.OpenSubKey(@"exefile\shellex\ContextMenuHandlers\Compatibility", true);
-                    key.SetValue(null, "-{1d27f844-3a1f-4410-85ac-14651078412d}");
+                    key.SetValue(string.Empty, "-{1d27f844-3a1f-4410-85ac-14651078412d}");
                     Log("Disabled troubleshooting compability (EXE)!");
 
                     key = Registry.ClassesRoot.OpenSubKey(@"Msi.Package\shellex\ContextMenuHandlers\Compatibility", true);
-                    key.SetValue(null, "-{1d27f844-3a1f-4410-85ac-14651078412d}");
+                    key.SetValue(string.Empty, "-{1d27f844-3a1f-4410-85ac-14651078412d}");
                     Log("Disabled troubleshooting compability (MSI)!");
 
                     key.Close();
