@@ -162,32 +162,30 @@ namespace Win10Clean
 
         private void CheckTweaks()
         {
-            RegistryKey k = null;
-
             try
             {
                 // check start menu ads
-                k = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", false);
-                if ((int)k.GetValue("SystemPaneSuggestionsEnabled", 1) == 0)
+                using (RegistryKey k = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", false))
                 {
-                    _adsSwitch = 1;
-                    btnStartAds.Text = "Enable Start Menu ads";
-                    _adsMessage = "Start Menu ads enabled";
+                    if ((int)k.GetValue("SystemPaneSuggestionsEnabled", 1) == 0)
+                    {
+                        _adsSwitch = 1;
+                        btnStartAds.Text = "Enable Start Menu ads";
+                        _adsMessage = "Start Menu ads enabled";
+                    }
                 }
 
                 //  check defender state
-                k = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", false);
-                if ((int)k.GetValue("DisableAntiSpyware", 0) == 1)
+                using (RegistryKey k = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", false))
                 {
-                    _defenderSwitch = true;
-                    btnDefender.Text = "Enable Windows Defender";
+                    if ((int)k.GetValue("DisableAntiSpyware", 0) == 1)
+                    {
+                        _defenderSwitch = true;
+                        btnDefender.Text = "Enable Windows Defender";
+                    }
                 }
             }
             catch { }
-            finally
-            {
-                k.Close();
-            }
         }
 
         private void RunCommand(string cmd)
@@ -209,6 +207,9 @@ namespace Win10Clean
         {
             RegistryKey k = null;
             string processName = "OneDrive";
+
+            byte[] byteArray = BitConverter.GetBytes(0xb090010d);
+            int oneDriveSwitch = BitConverter.ToInt32(byteArray, 0);
 
             if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
@@ -276,13 +277,13 @@ namespace Win10Clean
                     }
 
                     k = Registry.ClassesRoot.OpenSubKey(oneKey + "\\ShellFolder", true);
-                    k.SetValue("Attributes", 0xf080004d, RegistryValueKind.DWord); // value needs testing
+                    k.SetValue("Attributes", oneDriveSwitch, RegistryValueKind.DWord); // value needs testing
                     Log("OneDrive removed from legacy File Dialog");
 
                     if (_is64)
                     {
                         k = Registry.ClassesRoot.OpenSubKey("WOW6432Node\\" + oneKey + "\\ShellFolder", true);
-                        k.SetValue("Attributes", 0xf080004d, RegistryValueKind.DWord); // value needs testing
+                        k.SetValue("Attributes", oneDriveSwitch, RegistryValueKind.DWord); // value needs testing
                         Log("OneDrive removed from legacy File Dialog");
                     }
                 }
@@ -351,9 +352,9 @@ namespace Win10Clean
                     {
                         string finalKey = x + @"\shell\print";
 
-                        using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(finalKey, true))
+                        using (RegistryKey k = Registry.ClassesRoot.OpenSubKey(finalKey, true))
                         {
-                            key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
+                            k.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
                             Log("Print disabled for: " + x);
                         }
                     }
@@ -369,9 +370,9 @@ namespace Win10Clean
                     {
                         string finalKey = x + @"\shell\edit";
 
-                        using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(finalKey, true))
+                        using (RegistryKey k = Registry.ClassesRoot.OpenSubKey(finalKey, true))
                         {
-                            key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
+                            k.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
                             Log("Edit disabled for: " + x);
                         }
                     }
@@ -381,10 +382,10 @@ namespace Win10Clean
                     }
                 }
 
+                RegistryKey key = null;
+
                 try
                 {
-                    RegistryKey key = null;
-
                     key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\text\shell\edit", true);
                     key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
                     Log("Edit disabled for: TXT files");
@@ -413,8 +414,6 @@ namespace Win10Clean
                     key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
                     Log("Disabled play song for: image directories!");
 
-                    // VB Nothing converted to C# null (?)
-
                     key = Registry.ClassesRoot.OpenSubKey(@"Folder\shellex\ContextMenuHandlers\Library Location", true);
                     key.SetValue(string.Empty, "-{3dad6c5d-2167-4cae-9914-f99e41c12cfa}");
                     Log("Disabled include in library menu!");
@@ -431,8 +430,6 @@ namespace Win10Clean
                     key.SetValue(string.Empty, "-{1d27f844-3a1f-4410-85ac-14651078412d}");
                     Log("Disabled troubleshooting compability (MSI)!");
 
-                    key.Close();
-
                     Registry.ClassesRoot.DeleteSubKey(@"AllFilesystemObjects\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}", false);
                     Log("Removed restoring previous version menu! (files)");
 
@@ -442,6 +439,10 @@ namespace Win10Clean
                 catch (Exception ex)
                 {
                     Log(ex.GetType().ToString() + " - something went wrong!");
+                }
+                finally
+                {
+                    key.Close();
                 }
 
                 MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
