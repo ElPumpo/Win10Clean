@@ -62,7 +62,6 @@ namespace Win10Clean
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            this.Text += string.Format(" [{0}]", _currentVersion);
             lblVersion.Text += _currentVersion;
             CheckTweaks();
         }

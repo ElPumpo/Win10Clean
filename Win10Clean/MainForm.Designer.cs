@@ -43,6 +43,7 @@
             this.btnDefender = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.appPanel = new System.Windows.Forms.Panel();
+            this.appBox = new System.Windows.Forms.CheckedListBox();
             this.btnUninstall = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.chkDelete = new System.Windows.Forms.CheckBox();
@@ -52,7 +53,6 @@
             this.consoleBox = new System.Windows.Forms.RichTextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.aboutBox = new System.Windows.Forms.RichTextBox();
-            this.appBox = new System.Windows.Forms.CheckedListBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -86,10 +86,10 @@
             this.tabPage1.Controls.Add(this.btnHomegroup);
             this.tabPage1.Controls.Add(this.btnExplorer);
             this.tabPage1.Controls.Add(this.btnDefender);
-            this.tabPage1.Location = new System.Drawing.Point(4, 29);
+            this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(644, 440);
+            this.tabPage1.Size = new System.Drawing.Size(644, 444);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Home";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -124,13 +124,13 @@
             this.lblVersion.AutoSize = true;
             this.lblVersion.Location = new System.Drawing.Point(6, 412);
             this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(68, 20);
+            this.lblVersion.Size = new System.Drawing.Size(64, 17);
             this.lblVersion.TabIndex = 7;
             this.lblVersion.Text = "Version: ";
             // 
             // btnContext
             // 
-            this.btnContext.Location = new System.Drawing.Point(277, 108);
+            this.btnContext.Location = new System.Drawing.Point(325, 225);
             this.btnContext.Name = "btnContext";
             this.btnContext.Size = new System.Drawing.Size(261, 40);
             this.btnContext.TabIndex = 6;
@@ -140,7 +140,7 @@
             // 
             // btnOnedrive
             // 
-            this.btnOnedrive.Location = new System.Drawing.Point(277, 62);
+            this.btnOnedrive.Location = new System.Drawing.Point(325, 179);
             this.btnOnedrive.Name = "btnOnedrive";
             this.btnOnedrive.Size = new System.Drawing.Size(261, 40);
             this.btnOnedrive.TabIndex = 5;
@@ -150,7 +150,7 @@
             // 
             // btnStartAds
             // 
-            this.btnStartAds.Location = new System.Drawing.Point(277, 16);
+            this.btnStartAds.Location = new System.Drawing.Point(325, 133);
             this.btnStartAds.Name = "btnStartAds";
             this.btnStartAds.Size = new System.Drawing.Size(261, 40);
             this.btnStartAds.TabIndex = 4;
@@ -160,7 +160,7 @@
             // 
             // btnApps
             // 
-            this.btnApps.Location = new System.Drawing.Point(10, 154);
+            this.btnApps.Location = new System.Drawing.Point(58, 271);
             this.btnApps.Name = "btnApps";
             this.btnApps.Size = new System.Drawing.Size(261, 40);
             this.btnApps.TabIndex = 3;
@@ -170,7 +170,7 @@
             // 
             // btnHomegroup
             // 
-            this.btnHomegroup.Location = new System.Drawing.Point(10, 108);
+            this.btnHomegroup.Location = new System.Drawing.Point(58, 225);
             this.btnHomegroup.Name = "btnHomegroup";
             this.btnHomegroup.Size = new System.Drawing.Size(261, 40);
             this.btnHomegroup.TabIndex = 2;
@@ -180,7 +180,7 @@
             // 
             // btnExplorer
             // 
-            this.btnExplorer.Location = new System.Drawing.Point(10, 62);
+            this.btnExplorer.Location = new System.Drawing.Point(58, 179);
             this.btnExplorer.Name = "btnExplorer";
             this.btnExplorer.Size = new System.Drawing.Size(261, 40);
             this.btnExplorer.TabIndex = 1;
@@ -190,7 +190,7 @@
             // 
             // btnDefender
             // 
-            this.btnDefender.Location = new System.Drawing.Point(10, 16);
+            this.btnDefender.Location = new System.Drawing.Point(58, 133);
             this.btnDefender.Name = "btnDefender";
             this.btnDefender.Size = new System.Drawing.Size(261, 40);
             this.btnDefender.TabIndex = 0;
@@ -205,10 +205,10 @@
             this.tabPage2.Controls.Add(this.btnRefresh);
             this.tabPage2.Controls.Add(this.chkDelete);
             this.tabPage2.Controls.Add(this.chkAll);
-            this.tabPage2.Location = new System.Drawing.Point(4, 29);
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(644, 440);
+            this.tabPage2.Size = new System.Drawing.Size(644, 444);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Modern Apps";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -221,6 +221,17 @@
             this.appPanel.Name = "appPanel";
             this.appPanel.Size = new System.Drawing.Size(468, 426);
             this.appPanel.TabIndex = 12;
+            // 
+            // appBox
+            // 
+            this.appBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.appBox.CheckOnClick = true;
+            this.appBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.appBox.FormattingEnabled = true;
+            this.appBox.Location = new System.Drawing.Point(0, 0);
+            this.appBox.Name = "appBox";
+            this.appBox.Size = new System.Drawing.Size(466, 424);
+            this.appBox.TabIndex = 0;
             // 
             // btnUninstall
             // 
@@ -251,7 +262,7 @@
             this.chkDelete.AutoSize = true;
             this.chkDelete.Location = new System.Drawing.Point(480, 36);
             this.chkDelete.Name = "chkDelete";
-            this.chkDelete.Size = new System.Drawing.Size(158, 24);
+            this.chkDelete.Size = new System.Drawing.Size(145, 21);
             this.chkDelete.TabIndex = 2;
             this.chkDelete.Text = "Delete from image";
             this.chkDelete.UseVisualStyleBackColor = true;
@@ -261,7 +272,7 @@
             this.chkAll.AutoSize = true;
             this.chkAll.Location = new System.Drawing.Point(480, 6);
             this.chkAll.Name = "chkAll";
-            this.chkAll.Size = new System.Drawing.Size(88, 24);
+            this.chkAll.Size = new System.Drawing.Size(84, 21);
             this.chkAll.TabIndex = 1;
             this.chkAll.Text = "All users";
             this.chkAll.UseVisualStyleBackColor = true;
@@ -271,10 +282,10 @@
             // 
             this.tabPage3.Controls.Add(this.btnExport);
             this.tabPage3.Controls.Add(this.consoleBox);
-            this.tabPage3.Location = new System.Drawing.Point(4, 29);
+            this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(644, 440);
+            this.tabPage3.Size = new System.Drawing.Size(644, 444);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Console";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -304,10 +315,10 @@
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.aboutBox);
-            this.tabPage4.Location = new System.Drawing.Point(4, 29);
+            this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(644, 440);
+            this.tabPage4.Size = new System.Drawing.Size(644, 444);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "About";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -319,20 +330,9 @@
             this.aboutBox.Location = new System.Drawing.Point(3, 3);
             this.aboutBox.Name = "aboutBox";
             this.aboutBox.ReadOnly = true;
-            this.aboutBox.Size = new System.Drawing.Size(638, 434);
+            this.aboutBox.Size = new System.Drawing.Size(638, 438);
             this.aboutBox.TabIndex = 1;
             this.aboutBox.Text = resources.GetString("aboutBox.Text");
-            // 
-            // appBox
-            // 
-            this.appBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.appBox.CheckOnClick = true;
-            this.appBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.appBox.FormattingEnabled = true;
-            this.appBox.Location = new System.Drawing.Point(0, 0);
-            this.appBox.Name = "appBox";
-            this.appBox.Size = new System.Drawing.Size(466, 424);
-            this.appBox.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -340,9 +340,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(652, 473);
             this.Controls.Add(this.tabControl1);
-            this.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.Execut‌​ablePath);
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
