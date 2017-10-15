@@ -720,25 +720,18 @@ namespace Win10Clean
         {
             _apps = string.Empty;
 
-            if (appBox.CheckedItems.Count > 0)
-            {
-                foreach (var x in appBox.CheckedItems)
-                {
-                    if (string.IsNullOrEmpty(_apps))
-                    {
+            if (appBox.CheckedItems.Count > 0) {
+                foreach (var x in appBox.CheckedItems) {
+                    if (string.IsNullOrEmpty(_apps)) {
                         _apps = x.ToString();
-                    }
-                    else
-                    {
-                        _apps = _apps + "\n" + x.ToString();
+                    } else {
+                        _apps = _apps + Environment.NewLine + x.ToString();
                     }
                 }
 
-                if (MessageBox.Show("Are you sure you want to uninstall these apps?\n\n" + _apps, "Confirm uninstall", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    foreach (var x in appBox.CheckedItems)
-                    {
-                        Task.Run(() => UninstallApp(x.ToString()));
+                if (MessageBox.Show("Are you sure you want to uninstall these apps?" + Environment.NewLine + _apps, "Confirm uninstall", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
+                    foreach (var app in appBox.CheckedItems) {
+                        Task.Run(() => UninstallApp(app.ToString()));
                     }
 
                     RefreshAppList(true);
@@ -747,7 +740,9 @@ namespace Win10Clean
             }
         }
 
-        private void UninstallApp(string app)
+        #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+        private async void UninstallApp(string app)
+        #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             bool error = false;
 
@@ -766,14 +761,13 @@ namespace Win10Clean
                 error = script.HadErrors;
             }
 
-            if (error)
-            {
+            if (error) {
                 Log("Could not uninstall app: " + app);
-            }
-            else
-            {
+            } else {
                 Log("App uninstalled: " + app);
             }
+
+            return;
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)

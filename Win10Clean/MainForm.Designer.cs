@@ -210,7 +210,7 @@
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(644, 444);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Modern Apps";
+            this.tabPage2.Text = "Win10 / metro apps";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // appPanel
@@ -342,7 +342,7 @@
             this.Controls.Add(this.tabControl1);
             this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.Execut‌​ablePath);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
