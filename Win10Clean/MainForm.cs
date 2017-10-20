@@ -141,24 +141,6 @@ namespace Win10Clean
             }
         }
 
-        private void RestartExplorer()
-        {
-            const string explorer = "explorer.exe";
-            string explorerPath = string.Format("{0}\\{1}", Environment.GetEnvironmentVariable("WINDIR"), explorer);
-            foreach (Process process in Process.GetProcesses())
-            {
-                try
-                {
-                    if (string.Compare(process.MainModule.FileName, explorerPath, StringComparison.OrdinalIgnoreCase) == 0)
-                    {
-                        process.Kill();
-                    }
-                }
-                catch { }
-            }
-            Process.Start(explorer);
-        }
-
         private void CheckTweaks()
         {
             try
@@ -580,116 +562,94 @@ namespace Win10Clean
 
         private void RevertExplorer()
         {
-            if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                string libKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\";
-                string[] libGuid = { "{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}", "{7d83ee9b-2244-4e70-b1f5-5393042af1e4}", "{f42ee2d3-909f-4907-8871-4c22fc0bf756}", "{0ddd015d-b06c-45d5-8c4c-f59713854639}", "{a0c69a99-21c8-4671-8703-7934162fcf1d}", "{35286a68-3c57-41a1-bbb1-0eae73d76c95}" };
-                string finalKey = string.Empty;
-                RegistryKey k = null;
+            string libKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\";
+            string[] guidArray = { "{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}", "{7d83ee9b-2244-4e70-b1f5-5393042af1e4}", "{f42ee2d3-909f-4907-8871-4c22fc0bf756}", "{0ddd015d-b06c-45d5-8c4c-f59713854639}", "{a0c69a99-21c8-4671-8703-7934162fcf1d}", "{35286a68-3c57-41a1-bbb1-0eae73d76c95}" };
+            string finalKey = string.Empty;
+            RegistryKey key = null;
 
-                foreach (string x in libGuid)
-                {
-                    try
-                    {
-                        finalKey = libKey + x + "\\PropertyBag";
-                        k = Registry.LocalMachine.OpenSubKey(finalKey, true);
-                        k.SetValue("ThisPCPolicy", "Hide");
-                        Log(string.Format("Value of {0} modified", x));
-                    }
-                    catch (Exception ex)
-                    {
-                        Log(ex.GetType().Name + " - Couldn't modify the value of: " + x);
-                        MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    finally
-                    {
-                        k.Close();
-                    }
-                }
-
-                string pinLib = @"Software\Classes\CLSID\{031E4825-7B94-4dc3-B131-E946B44C8DD5}";
-                Registry.CurrentUser.CreateSubKey(pinLib);
-
-                try
-                {
-                    k = Registry.CurrentUser.OpenSubKey(pinLib, true);
-                    k.SetValue("System.IsPinnedToNameSpaceTree", 1, RegistryValueKind.DWord);
-                    Log("Library folders pinned");
-                }
-                catch (Exception ex)
-                {
-                    Log(ex.ToString());
+            foreach (string guid in guidArray) {
+                try {
+                    finalKey = libKey + guid + @"\PropertyBag";
+                    key = Registry.LocalMachine.OpenSubKey(finalKey, true);
+                    key.SetValue("ThisPCPolicy", "Hide");
+                    Log(string.Format("Value of {0} modified", guid));
+                } catch (Exception ex) {
+                    Log(ex.GetType().Name + " - Couldn't modify the value of: " + guid);
                     MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                finally
-                {
-                    k.Close();
-                }
-
-                try
-                {
-                    k = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Explorer", true);
-                    k.SetValue("ShowFrequent", 0, RegistryValueKind.DWord); // folders
-                    k.SetValue("ShowRecent", 0, RegistryValueKind.DWord); //files
-                    Log("Quick Access disabled");
-
-                    k = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", true);
-                    k.SetValue("LaunchTo", 1, RegistryValueKind.DWord);
-                    Log("Open explorer to: This PC");
-                }
-                catch (Exception ex)
-                {
-                    Log(ex.ToString());
-                    MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    k.Close();
-                }
-
-                byte[] bytes = { 2, 0, 0, 0, 64, 31, 210, 5, 170, 22, 211, 1, 0, 0, 0, 0, 67, 66, 1, 0, 194, 10, 1, 203, 50, 10, 2, 5, 134, 145, 204, 147, 5, 36, 170, 163, 1, 68, 195, 132, 1, 102, 159, 247, 157, 177, 135, 203, 209, 172, 212, 1, 0, 5, 188, 201, 168, 164, 1, 36, 140, 172, 3, 68, 137, 133, 1, 102, 160, 129, 186, 203, 189, 215, 168, 164, 130, 1, 0, 194, 60, 1, 0 };
-
-                try
-                {
-                    k = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\CloudStore\Store\Cache\DefaultAccount\$$windows.data.unifiedtile.startglobalproperties\Current", true);
-                    k.SetValue("Data", bytes, RegistryValueKind.Binary);
-                    Log("File Explorer from Start Menu enabled");
-                }
-                catch (Exception ex)
-                {
-                    Log(ex.ToString());
-                    MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    k.Close();
-                }
-
-                RestartExplorer();
-
-                MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+
+            string builderGuid = "{31C0DD25-9439-4F12-BF41-7FF4EDA38722}";
+            try {
+                finalKey = libKey + builderGuid + @"\PropertyBag";
+                key = Registry.LocalMachine.CreateSubKey(finalKey, true);
+                key.SetValue("ThisPCPolicy", "Hide");
+                Log(string.Format("Value of {0} modified", builderGuid));
+            } catch (Exception ex) {
+                Log(ex.GetType().Name + " - Couldn't modify the value of: " + builderGuid);
+                MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
+            // pin libary folders
+            string pinLib = @"Software\Classes\CLSID\{031E4825-7B94-4dc3-B131-E946B44C8DD5}";
+            Registry.CurrentUser.CreateSubKey(pinLib);
+
+            try {
+                key = Registry.CurrentUser.OpenSubKey(pinLib, true);
+                key.SetValue("System.IsPinnedToNameSpaceTree", 1, RegistryValueKind.DWord);
+                Log("Library folders pinned");
+            } catch (Exception ex) {
+                Log(ex.Message);
+                MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            try {
+                key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Explorer", true);
+                key.SetValue("ShowFrequent", 0, RegistryValueKind.DWord); // folders
+                key.SetValue("ShowRecent", 0, RegistryValueKind.DWord);   // files
+                Log("Quick Access disabled");
+
+                key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", true);
+                key.SetValue("LaunchTo", 1, RegistryValueKind.DWord);
+                Log("Open explorer to: This PC");
+            } catch (Exception ex) {
+                Log(ex.Message);
+                MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            // add explorer on start menu
+            byte[] bytes = { 2, 0, 0, 0, 64, 31, 210, 5, 170, 22, 211, 1, 0, 0, 0, 0, 67, 66, 1, 0, 194, 10, 1, 203, 50, 10, 2, 5, 134, 145, 204, 147, 5, 36, 170, 163, 1, 68, 195, 132, 1, 102, 159, 247, 157, 177, 135, 203, 209, 172, 212, 1, 0, 5, 188, 201, 168, 164, 1, 36, 140, 172, 3, 68, 137, 133, 1, 102, 160, 129, 186, 203, 189, 215, 168, 164, 130, 1, 0, 194, 60, 1, 0 };
+
+            try {
+                key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\CloudStore\Store\Cache\DefaultAccount\$$windows.data.unifiedtile.startglobalproperties\Current", true);
+                Log("File Explorer from Start Menu enabled");
+                key.SetValue("Data", bytes, RegistryValueKind.Binary);
+            } catch (Exception ex) {
+                Log(ex.Message);
+                MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            key.Close();
+
+            RestartExplorer();
+            MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
         }
 
         private void RetrieveApps()
         {
-            using (PowerShell script = PowerShell.Create())
-            {
-                if (chkAll.Checked)
-                {
+            using (PowerShell script = PowerShell.Create()) {
+                if (chkAll.Checked) {
                     script.AddScript("Get-AppxPackage -AllUsers | Select Name | Out-String -Stream");
-                }
-                else
-                {
+                } else {
                     script.AddScript("Get-AppxPackage | Select Name | Out-String -Stream");
                 }
 
                 string trimmed = string.Empty;
-                foreach (PSObject x in script.Invoke())
-                {
+                foreach (PSObject x in script.Invoke()) {
                     trimmed = x.ToString().Trim();
-                    if (!string.IsNullOrEmpty(trimmed) && !trimmed.Contains("---"))
-                    {
+                    if (!string.IsNullOrEmpty(trimmed) && !trimmed.Contains("---")) {
                         if (trimmed != "Name") appBox.Items.Add(trimmed);
                     }
                 }
@@ -770,17 +730,6 @@ namespace Win10Clean
             return;
         }
 
-        private void Remove3DObjects()
-        {
-            Registry.LocalMachine.DeleteSubKeyTree(@"\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}", false);
-
-            if (_is64)
-            {
-                Registry.LocalMachine.DeleteSubKeyTree(@"\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}", false);
-            }
-
-            Log("3D Objects removed from File Explorer!");
-        }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
@@ -809,7 +758,9 @@ namespace Win10Clean
 
         private void btnExplorer_Click(object sender, EventArgs e)
         {
-            RevertExplorer();
+            if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
+                RevertExplorer();
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -842,9 +793,14 @@ namespace Win10Clean
             UninstallApps();
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+
+        private void RestartExplorer()
         {
-            Remove3DObjects();
+            Process[] explorerProcess = Process.GetProcessesByName("explorer");
+            foreach (var process in explorerProcess)
+            {
+                // process.Kill();
+            }
         }
     }
 }
