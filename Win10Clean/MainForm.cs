@@ -688,37 +688,41 @@ namespace Win10Clean
                     Log(ex.GetType().Name + " - Couldn't modify the value of: " + builderGuid);
                     MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-
-
                 
                 string pinLib = @"Software\Classes\CLSID\{031E4825-7B94-4dc3-B131-E946B44C8DD5}";
                 byte[] bytes = { 2, 0, 0, 0, 64, 31, 210, 5, 170, 22, 211, 1, 0, 0, 0, 0, 67, 66, 1, 0, 194, 10, 1, 203, 50, 10, 2, 5, 134, 145, 204, 147, 5, 36, 170, 163, 1, 68, 195, 132, 1, 102, 159, 247, 157, 177, 135, 203, 209, 172, 212, 1, 0, 5, 188, 201, 168, 164, 1, 36, 140, 172, 3, 68, 137, 133, 1, 102, 160, 129, 186, 203, 189, 215, 168, 164, 130, 1, 0, 194, 60, 1, 0 };
                 Registry.CurrentUser.CreateSubKey(pinLib); // doesn't exist as default, normal behaviour
 
                 try {
-                    // pin libary folders
+                    // Pin libary folders
                     using (var key = Registry.CurrentUser.OpenSubKey(pinLib, true)) {
                         key.SetValue("System.IsPinnedToNameSpaceTree", 1, RegistryValueKind.DWord);
-                        Log("Pinned the libary folders in Explorer");
+                        Log("Pinned the libary folders in Explorer!");
                     }
 
                     // Stop quick access from filling up with folders and files
                     using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Explorer", true)) {
                         key.SetValue("ShowFrequent", 0, RegistryValueKind.DWord); // folders
                         key.SetValue("ShowRecent", 0, RegistryValueKind.DWord);   // files
-                        Log("Disabled quick access filling up");
+                        Log("Disabled quick access filling up!");
                     }
 
                     // Make explorer open 'My PC' by default
                     using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", true)){
                         key.SetValue("LaunchTo", 1, RegistryValueKind.DWord);
-                        Log("Open explorer to: This PC");
+                        Log("Open explorer to: This PC!");
                     }
 
-                    // add explorer on start menu
+                    // Add explorer on start menu
                     using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\CloudStore\Store\Cache\DefaultAccount\$$windows.data.unifiedtile.startglobalproperties\Current", true)) {
                         key.SetValue("Data", bytes, RegistryValueKind.Binary);
-                        Log("File Explorer from Start Menu enabled");
+                        Log("File Explorer from Start Menu enabled!");
+                    }
+
+                    // Hide OneDrive popup in Explorer
+                    using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", true)) {
+                        key.SetValue("ShowSyncProviderNotifications", 0, RegistryValueKind.DWord);
+                        Log("Hidden OneDrive popup in Explorer!");
                     }
                 } catch (Exception ex) {
                     Log(ex.Message);
