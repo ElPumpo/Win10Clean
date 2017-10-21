@@ -632,6 +632,15 @@ namespace Win10Clean
 
             key.Close();
 
+            // hide sync provider notifications
+            try {
+                Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "ShowSyncProviderNotifications", "0", RegistryValueKind.DWord);
+            }
+            catch (Exception ex) {
+                Log(ex.Message);
+                MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
             RestartExplorer();
             MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
