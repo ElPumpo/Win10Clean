@@ -38,7 +38,7 @@
             this.OneDriveBtn = new System.Windows.Forms.Button();
             this.btnStartAds = new System.Windows.Forms.Button();
             this.btnApps = new System.Windows.Forms.Button();
-            this.btnHomegroup = new System.Windows.Forms.Button();
+            this.HomeGroupBtn = new System.Windows.Forms.Button();
             this.Revert7Btn = new System.Windows.Forms.Button();
             this.btnDefender = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -83,7 +83,7 @@
             this.tabPage1.Controls.Add(this.OneDriveBtn);
             this.tabPage1.Controls.Add(this.btnStartAds);
             this.tabPage1.Controls.Add(this.btnApps);
-            this.tabPage1.Controls.Add(this.btnHomegroup);
+            this.tabPage1.Controls.Add(this.HomeGroupBtn);
             this.tabPage1.Controls.Add(this.Revert7Btn);
             this.tabPage1.Controls.Add(this.btnDefender);
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
@@ -168,15 +168,15 @@
             this.btnApps.UseVisualStyleBackColor = true;
             this.btnApps.Click += new System.EventHandler(this.btnApps_Click);
             // 
-            // btnHomegroup
+            // HomeGroupBtn
             // 
-            this.btnHomegroup.Location = new System.Drawing.Point(58, 225);
-            this.btnHomegroup.Name = "btnHomegroup";
-            this.btnHomegroup.Size = new System.Drawing.Size(261, 40);
-            this.btnHomegroup.TabIndex = 2;
-            this.btnHomegroup.Text = "Disable HomeGroup";
-            this.btnHomegroup.UseVisualStyleBackColor = true;
-            this.btnHomegroup.Click += new System.EventHandler(this.btnHomegroup_Click);
+            this.HomeGroupBtn.Location = new System.Drawing.Point(58, 225);
+            this.HomeGroupBtn.Name = "HomeGroupBtn";
+            this.HomeGroupBtn.Size = new System.Drawing.Size(261, 40);
+            this.HomeGroupBtn.TabIndex = 2;
+            this.HomeGroupBtn.Text = "Disable HomeGroup";
+            this.HomeGroupBtn.UseVisualStyleBackColor = true;
+            this.HomeGroupBtn.Click += new System.EventHandler(this.HomeGroupBtn_Click);
             // 
             // Revert7Btn
             // 
@@ -374,7 +374,7 @@
         private System.Windows.Forms.Button OneDriveBtn;
         private System.Windows.Forms.Button btnStartAds;
         private System.Windows.Forms.Button btnApps;
-        private System.Windows.Forms.Button btnHomegroup;
+        private System.Windows.Forms.Button HomeGroupBtn;
         private System.Windows.Forms.Button Revert7Btn;
         private System.Windows.Forms.Button btnDefender;
         private System.Windows.Forms.RichTextBox consoleBox;

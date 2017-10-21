@@ -244,19 +244,26 @@ namespace Win10Clean
             catch { }
         }
 
-        private void RunCommand(string cmd)
+        private void RunCommand(string command)
         {
-            Process p = new Process();
-            p.StartInfo.FileName = "cmd.exe";
-            p.StartInfo.CreateNoWindow = true;
-            p.StartInfo.UseShellExecute = false;
-            p.StartInfo.RedirectStandardInput = true;
-            p.StartInfo.RedirectStandardOutput = true;
-            p.Start();
+            using (var p = new Process()) {
+                p.StartInfo.FileName = "cmd.exe";
+               // p.StartInfo.CreateNoWindow = true;
+                p.StartInfo.UseShellExecute = false;
+                p.StartInfo.RedirectStandardInput = true;
+                p.StartInfo.RedirectStandardOutput = true;
 
-            p.StandardInput.WriteLine(cmd);
-            p.StandardInput.Close();
-            p.WaitForExit();
+                try {
+                    p.Start(); // start a command prompt
+
+                    p.StandardInput.WriteLine(command); // run the command
+                    p.StandardInput.Close();
+                    p.WaitForExit();
+                } catch (Exception ex) {
+                    Log(ex.Message);
+                }
+
+            }
         }
 
         private void CleanupContextMenu()
@@ -431,26 +438,6 @@ namespace Win10Clean
                 }
             }
         }
-
-        private void DisableHomeGroup()
-        {
-            if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                try
-                {
-                    RunCommand("sc config \"HomeGroupProvider\" start=disabled");
-                    RunCommand("sc stop \"HomeGroupProvider\"");
-
-                    Log("HomeGroup disabled");
-                    MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    Log(ex.ToString());
-                    MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
          
         private void DisableSilentInstall()
         {
@@ -571,38 +558,35 @@ namespace Win10Clean
             if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
                 if (!_defenderSwitch) {
                     try {
-                        // main program switch
-                        using (RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", true))
-                        {
+                        // Disable engine
+                        using (RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", true)) {
                             key.SetValue("DisableAntiSpyware", 1, RegistryValueKind.DWord);
-                            Log("Main Windows Defender functions disabled");
+                            Log("Disabled main Defender functions!");
                         }
 
-                        // tray icons
-                        using (RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
-                        {
+                        // Delete Defender from startup / tray icons
+                        using (RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true)) {
                             key.DeleteValue("WindowsDefender", false);
                             key.DeleteValue("SecurityHealth", false);
-                            Log("Windows Defender removed from startup");
-                        } 
+                            Log("Windows Defender removed from startup!");
+                        }
 
-                        // context menu
+                        // Unregister Defender shell extension
                         RunCommand("regsvr32 /u /s \"C:\\Program Files\\Windows Defender\\shellext.dll\"");
-                        Log("Windows Defender shell addons unregistered");
+                        Log("Windows Defender shell addons unregistered!");
 
                         MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     } catch (Exception ex) {
                         Log(ex.Message);
                         MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                } else {
+                } else { // reenable Defender
                     try {
-                        using (RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", true))
-                        {
+                        using (var key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", true)) {
                             key.SetValue("DisableAntiSpyware", 0, RegistryValueKind.DWord);
                         }
 
-                        Log("Main Windows Defender functions enabled");
+                        Log("Main Windows Defender functions enabled!");
                         MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     } catch (Exception ex) {
                         Log(ex.Message);
@@ -612,9 +596,15 @@ namespace Win10Clean
             }
         }
 
-        private void btnHomegroup_Click(object sender, EventArgs e)
+        private void HomeGroupBtn_Click(object sender, EventArgs e)
         {
-            DisableHomeGroup();
+            if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
+                RunCommand("sc config \"HomeGroupProvider\" start=disabled"); // stop autorun
+                RunCommand("sc stop \"HomeGroupProvider\""); // stop process now
+                Log("HomeGroup disabled!");
+
+                MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void btnApps_Click(object sender, EventArgs e)
