@@ -44,7 +44,7 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.appPanel = new System.Windows.Forms.Panel();
             this.appBox = new System.Windows.Forms.CheckedListBox();
-            this.btnUninstall = new System.Windows.Forms.Button();
+            this.UninstallBtn = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.chkDelete = new System.Windows.Forms.CheckBox();
             this.chkAll = new System.Windows.Forms.CheckBox();
@@ -201,7 +201,7 @@
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.appPanel);
-            this.tabPage2.Controls.Add(this.btnUninstall);
+            this.tabPage2.Controls.Add(this.UninstallBtn);
             this.tabPage2.Controls.Add(this.btnRefresh);
             this.tabPage2.Controls.Add(this.chkDelete);
             this.tabPage2.Controls.Add(this.chkAll);
@@ -233,17 +233,17 @@
             this.appBox.Size = new System.Drawing.Size(466, 424);
             this.appBox.TabIndex = 0;
             // 
-            // btnUninstall
+            // UninstallBtn
             // 
-            this.btnUninstall.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnUninstall.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnUninstall.Location = new System.Drawing.Point(480, 135);
-            this.btnUninstall.Name = "btnUninstall";
-            this.btnUninstall.Size = new System.Drawing.Size(79, 40);
-            this.btnUninstall.TabIndex = 11;
-            this.btnUninstall.Text = "Uninstall";
-            this.btnUninstall.UseVisualStyleBackColor = true;
-            this.btnUninstall.Click += new System.EventHandler(this.btnUninstall_Click);
+            this.UninstallBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.UninstallBtn.Cursor = System.Windows.Forms.Cursors.Default;
+            this.UninstallBtn.Location = new System.Drawing.Point(480, 135);
+            this.UninstallBtn.Name = "UninstallBtn";
+            this.UninstallBtn.Size = new System.Drawing.Size(79, 40);
+            this.UninstallBtn.TabIndex = 11;
+            this.UninstallBtn.Text = "Uninstall";
+            this.UninstallBtn.UseVisualStyleBackColor = true;
+            this.UninstallBtn.Click += new System.EventHandler(this.UninstallBtn_Click);
             // 
             // btnRefresh
             // 
@@ -383,7 +383,7 @@
         private System.Windows.Forms.CheckBox chkDelete;
         private System.Windows.Forms.CheckBox chkAll;
         private System.Windows.Forms.Panel appPanel;
-        private System.Windows.Forms.Button btnUninstall;
+        private System.Windows.Forms.Button UninstallBtn;
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.CheckedListBox appBox;
     }

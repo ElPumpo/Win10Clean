@@ -541,30 +541,6 @@ namespace Win10Clean
             catch { }
         }
 
-        private void UninstallApps()
-        {
-            _apps = string.Empty;
-
-            if (appBox.CheckedItems.Count > 0) {
-                foreach (var x in appBox.CheckedItems) {
-                    if (string.IsNullOrEmpty(_apps)) {
-                        _apps = x.ToString();
-                    } else {
-                        _apps = _apps + Environment.NewLine + x.ToString();
-                    }
-                }
-
-                if (MessageBox.Show("Are you sure you want to uninstall these apps?" + Environment.NewLine + _apps, "Confirm uninstall", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
-                    foreach (var app in appBox.CheckedItems) {
-                        Task.Run(() => UninstallApp(app.ToString()));
-                    }
-
-                    RefreshAppList(true);
-                    MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-        }
-
         #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         private async void UninstallApp(string app)
         #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
@@ -761,18 +737,36 @@ namespace Win10Clean
             RefreshAppList(false);
         }
 
-        private void btnUninstall_Click(object sender, EventArgs e)
+        private void UninstallBtn_Click(object sender, EventArgs e)
         {
-            UninstallApps();
+            _apps = string.Empty;
+
+            if (appBox.CheckedItems.Count > 0) {
+                foreach (var x in appBox.CheckedItems) {
+                    if (string.IsNullOrEmpty(_apps)) {
+                        _apps = x.ToString();
+                    } else {
+                        _apps = _apps + Environment.NewLine + x.ToString();
+                    }
+                }
+
+                if (MessageBox.Show("Are you sure you want to uninstall these apps?" + Environment.NewLine + _apps, "Confirm uninstall", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
+                    foreach (var app in appBox.CheckedItems) {
+                        Task.Run(() => UninstallApp(app.ToString()));
+                    }
+
+                    RefreshAppList(true);
+                    MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
         }
 
 
         private void RestartExplorer()
         {
             Process[] explorerProcess = Process.GetProcessesByName("explorer");
-            foreach (var process in explorerProcess)
-            {
-                // process.Kill();
+            foreach (var process in explorerProcess) {
+                process.Kill();
             }
         }
     }
