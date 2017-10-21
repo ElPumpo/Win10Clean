@@ -39,7 +39,7 @@
             this.btnStartAds = new System.Windows.Forms.Button();
             this.btnApps = new System.Windows.Forms.Button();
             this.btnHomegroup = new System.Windows.Forms.Button();
-            this.btnExplorer = new System.Windows.Forms.Button();
+            this.Revert7Btn = new System.Windows.Forms.Button();
             this.btnDefender = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.appPanel = new System.Windows.Forms.Panel();
@@ -84,7 +84,7 @@
             this.tabPage1.Controls.Add(this.btnStartAds);
             this.tabPage1.Controls.Add(this.btnApps);
             this.tabPage1.Controls.Add(this.btnHomegroup);
-            this.tabPage1.Controls.Add(this.btnExplorer);
+            this.tabPage1.Controls.Add(this.Revert7Btn);
             this.tabPage1.Controls.Add(this.btnDefender);
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
@@ -178,15 +178,15 @@
             this.btnHomegroup.UseVisualStyleBackColor = true;
             this.btnHomegroup.Click += new System.EventHandler(this.btnHomegroup_Click);
             // 
-            // btnExplorer
+            // Revert7Btn
             // 
-            this.btnExplorer.Location = new System.Drawing.Point(58, 179);
-            this.btnExplorer.Name = "btnExplorer";
-            this.btnExplorer.Size = new System.Drawing.Size(261, 40);
-            this.btnExplorer.TabIndex = 1;
-            this.btnExplorer.Text = "Revert Explorer to Windows 7 Style";
-            this.btnExplorer.UseVisualStyleBackColor = true;
-            this.btnExplorer.Click += new System.EventHandler(this.btnExplorer_Click);
+            this.Revert7Btn.Location = new System.Drawing.Point(58, 179);
+            this.Revert7Btn.Name = "Revert7Btn";
+            this.Revert7Btn.Size = new System.Drawing.Size(261, 40);
+            this.Revert7Btn.TabIndex = 1;
+            this.Revert7Btn.Text = "Revert Explorer to Windows 7 Style";
+            this.Revert7Btn.UseVisualStyleBackColor = true;
+            this.Revert7Btn.Click += new System.EventHandler(this.Revert7Btn_Click);
             // 
             // btnDefender
             // 
@@ -375,7 +375,7 @@
         private System.Windows.Forms.Button btnStartAds;
         private System.Windows.Forms.Button btnApps;
         private System.Windows.Forms.Button btnHomegroup;
-        private System.Windows.Forms.Button btnExplorer;
+        private System.Windows.Forms.Button Revert7Btn;
         private System.Windows.Forms.Button btnDefender;
         private System.Windows.Forms.RichTextBox consoleBox;
         private System.Windows.Forms.RichTextBox aboutBox;
