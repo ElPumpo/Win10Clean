@@ -642,7 +642,7 @@ namespace Win10Clean
                 string builderGuid = "{31C0DD25-9439-4F12-BF41-7FF4EDA38722}";
                 try {
                     finalKey = libKey + builderGuid + @"\PropertyBag";
-                    
+                    Registry.LocalMachine.CreateSubKey(finalKey);
                     using (var key = Registry.LocalMachine.OpenSubKey(finalKey, true)) {
                         key.SetValue("ThisPCPolicy", "Hide");
                         Log(string.Format("Value of {0} modified", builderGuid));
