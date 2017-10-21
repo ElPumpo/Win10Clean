@@ -186,7 +186,6 @@ namespace Win10Clean
 
         private void UninstallOneDrive()
         {
-            RegistryKey k = null;
             string processName = "OneDrive";
 
             byte[] byteArray = BitConverter.GetBytes(0xb090010d);
@@ -246,36 +245,41 @@ namespace Win10Clean
 
                 try
                 {
-                    k = Registry.ClassesRoot.OpenSubKey(oneKey, true);
-                    k.SetValue("System.IsPinnedToNameSpaceTree", 0, RegistryValueKind.DWord);
-                    Log("OneDrive removed from File Explorer");
-
-                    if (_is64)
+                    using (RegistryKey k = Registry.ClassesRoot.OpenSubKey(oneKey, true))
                     {
-                        k = Registry.ClassesRoot.OpenSubKey("WOW6432Node\\" + oneKey, true);
                         k.SetValue("System.IsPinnedToNameSpaceTree", 0, RegistryValueKind.DWord);
                         Log("OneDrive removed from File Explorer");
                     }
 
-                    k = Registry.ClassesRoot.OpenSubKey(oneKey + "\\ShellFolder", true);
-                    k.SetValue("Attributes", oneDriveSwitch, RegistryValueKind.DWord); // value needs testing
-                    Log("OneDrive removed from legacy File Dialog");
+                    if (_is64)
+                    {
+                        using (RegistryKey k = Registry.ClassesRoot.OpenSubKey("WOW6432Node\\" + oneKey, true))
+                        {
+                            k.SetValue("System.IsPinnedToNameSpaceTree", 0, RegistryValueKind.DWord);
+                            Log("OneDrive removed from File Explorer");
+                        } 
+                    }
+
+                    using (RegistryKey k = Registry.ClassesRoot.OpenSubKey(oneKey + "\\ShellFolder", true))
+                    {
+                        k.SetValue("Attributes", oneDriveSwitch, RegistryValueKind.DWord);
+                        Log("OneDrive removed from legacy File Dialog");
+                    }
+                        
 
                     if (_is64)
                     {
-                        k = Registry.ClassesRoot.OpenSubKey("WOW6432Node\\" + oneKey + "\\ShellFolder", true);
-                        k.SetValue("Attributes", oneDriveSwitch, RegistryValueKind.DWord); // value needs testing
-                        Log("OneDrive removed from legacy File Dialog");
+                        using (RegistryKey k = Registry.ClassesRoot.OpenSubKey("WOW6432Node\\" + oneKey + "\\ShellFolder", true))
+                        {
+                            k.SetValue("Attributes", oneDriveSwitch, RegistryValueKind.DWord);
+                            Log("OneDrive removed from legacy File Dialog");
+                        }    
                     }
                 }
                 catch (Exception ex)
                 {
                     Log(ex.ToString());
                     MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    k.Close();
                 }
 
                 try
@@ -363,53 +367,73 @@ namespace Win10Clean
                     }
                 }
 
-                RegistryKey key = null;
-
                 try
                 {
-                    key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\text\shell\edit", true);
-                    key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
-                    Log("Edit disabled for: TXT files");
+                    using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\text\shell\edit", true))
+                    {
+                        key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
+                        Log("Edit disabled for: TXT files");
+                    }
 
-                    key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\audio\shell\Enqueue", true);
-                    key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
-                    Log("Disabled add to play list for: audio files!");
+                    using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\audio\shell\Enqueue", true))
+                    {
+                        key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
+                        Log("Disabled add to play list for: audio files!");
+                    }
 
-                    key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\audio\shell\Play", true);
-                    key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
-                    Log("Disabled play song for: audio files!");
+                    using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\audio\shell\Play", true))
+                    {
+                        key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
+                        Log("Disabled play song for: audio files!");
+                    }
 
-                    key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\Directory.Audio\shell\Enqueue", true);
-                    key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
-                    Log("Disabled add to play list for: audio directories!");
+                    using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\Directory.Audio\shell\Enqueue", true))
+                    {
+                        key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
+                        Log("Disabled add to play list for: audio directories!");
+                    }
 
-                    key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\Directory.Audio\shell\Play", true);
-                    key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
-                    Log("Disabled play song for: audio directories!");
+                    using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\Directory.Audio\shell\Play", true))
+                    {
+                        key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
+                        Log("Disabled play song for: audio directories!");
+                    }
 
-                    key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\Directory.Image\shell\Enqueue", true);
-                    key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
-                    Log("Disabled add to play list for: image directories!");
+                    using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\Directory.Image\shell\Enqueue", true))
+                    {
+                        key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
+                        Log("Disabled add to play list for: image directories!");
+                    }
 
-                    key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\Directory.Image\shell\Play", true);
-                    key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
-                    Log("Disabled play song for: image directories!");
+                    using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\Directory.Image\shell\Play", true))
+                    {
+                        key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
+                        Log("Disabled play song for: image directories!");
+                    }
 
-                    key = Registry.ClassesRoot.OpenSubKey(@"Folder\shellex\ContextMenuHandlers\Library Location", true);
-                    key.SetValue(string.Empty, "-{3dad6c5d-2167-4cae-9914-f99e41c12cfa}");
-                    Log("Disabled include in library menu!");
+                    using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(@"Folder\shellex\ContextMenuHandlers\Library Location", true))
+                    {
+                        key.SetValue(string.Empty, "-{3dad6c5d-2167-4cae-9914-f99e41c12cfa}");
+                        Log("Disabled include in library menu!");
+                    }
 
-                    key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\Directory.Audio\shellex\ContextMenuHandlers\WMPShopMusic", true);
-                    key.SetValue(string.Empty, "-{8A734961-C4AA-4741-AC1E-791ACEBF5B39}");
-                    Log("Disabled buying music online context menu!");
+                    using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\Directory.Audio\shellex\ContextMenuHandlers\WMPShopMusic", true))
+                    {
+                        key.SetValue(string.Empty, "-{8A734961-C4AA-4741-AC1E-791ACEBF5B39}");
+                        Log("Disabled buying music online context menu!");
+                    }
 
-                    key = Registry.ClassesRoot.OpenSubKey(@"exefile\shellex\ContextMenuHandlers\Compatibility", true);
-                    key.SetValue(string.Empty, "-{1d27f844-3a1f-4410-85ac-14651078412d}");
-                    Log("Disabled troubleshooting compability (EXE)!");
+                    using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(@"exefile\shellex\ContextMenuHandlers\Compatibility", true))
+                    {
+                        key.SetValue(string.Empty, "-{1d27f844-3a1f-4410-85ac-14651078412d}");
+                        Log("Disabled troubleshooting compability (EXE)!");
+                    }
 
-                    key = Registry.ClassesRoot.OpenSubKey(@"Msi.Package\shellex\ContextMenuHandlers\Compatibility", true);
-                    key.SetValue(string.Empty, "-{1d27f844-3a1f-4410-85ac-14651078412d}");
-                    Log("Disabled troubleshooting compability (MSI)!");
+                    using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(@"Msi.Package\shellex\ContextMenuHandlers\Compatibility", true))
+                    {
+                        key.SetValue(string.Empty, "-{1d27f844-3a1f-4410-85ac-14651078412d}");
+                        Log("Disabled troubleshooting compability (MSI)!");
+                    }   
 
                     Registry.ClassesRoot.DeleteSubKey(@"AllFilesystemObjects\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}", false);
                     Log("Removed restoring previous version menu! (files)");
@@ -421,10 +445,6 @@ namespace Win10Clean
                 {
                     Log(ex.GetType().ToString() + " - something went wrong!");
                 }
-                finally
-                {
-                    key.Close();
-                }
 
                 MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -432,15 +452,15 @@ namespace Win10Clean
 
         private void DisableStartMenuAds()
         {
-            RegistryKey k = null;
-
             if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 try
                 {
-                    k = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", true);
-                    k.SetValue("SystemPaneSuggestionsEnabled", _adsSwitch);
-
+                    using (RegistryKey k = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", true))
+                    {
+                        k.SetValue("SystemPaneSuggestionsEnabled", _adsSwitch);
+                    }
+                    
                     Log(_adsMessage);
                     MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -448,10 +468,6 @@ namespace Win10Clean
                 {
                     Log(ex.ToString());
                     MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    k.Close();
                 }
             }
         }
@@ -478,14 +494,14 @@ namespace Win10Clean
          
         private void DisableSilentInstall()
         {
-            RegistryKey k = null;
-
             if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 try
                 {
-                    k = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", true);
-                    k.SetValue("SilentInstalledAppsEnabled", _adsSwitch, RegistryValueKind.DWord);
+                    using (RegistryKey k = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", true))
+                    {
+                        k.SetValue("SilentInstalledAppsEnabled", _adsSwitch, RegistryValueKind.DWord);
+                    }
 
                     Log("Silent Modern App install disabled");
                     MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -494,10 +510,6 @@ namespace Win10Clean
                 {
                     Log(ex.ToString());
                     MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    k.Close();
                 }
             }
         }
@@ -575,21 +587,23 @@ namespace Win10Clean
 
         private void btnDefender_Click(object sender, EventArgs e)
         {
-            RegistryKey key = null;
-
             if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
                 if (!_defenderSwitch) {
                     try {
                         // main program switch
-                        key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", true);
-                        key.SetValue("DisableAntiSpyware", 1, RegistryValueKind.DWord);
-                        Log("Main Windows Defender functions disabled");
+                        using (RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", true))
+                        {
+                            key.SetValue("DisableAntiSpyware", 1, RegistryValueKind.DWord);
+                            Log("Main Windows Defender functions disabled");
+                        }
 
                         // tray icons
-                        key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
-                        key.DeleteValue("WindowsDefender", false);
-                        key.DeleteValue("SecurityHealth", false);
-                        Log("Windows Defender removed from startup");
+                        using (RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
+                        {
+                            key.DeleteValue("WindowsDefender", false);
+                            key.DeleteValue("SecurityHealth", false);
+                            Log("Windows Defender removed from startup");
+                        } 
 
                         // context menu
                         RunCommand("regsvr32 /u /s \"C:\\Program Files\\Windows Defender\\shellext.dll\"");
@@ -602,8 +616,10 @@ namespace Win10Clean
                     }
                 } else {
                     try {
-                        key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", true);
-                        key.SetValue("DisableAntiSpyware", 0, RegistryValueKind.DWord);
+                        using (RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", true))
+                        {
+                            key.SetValue("DisableAntiSpyware", 0, RegistryValueKind.DWord);
+                        }
 
                         Log("Main Windows Defender functions enabled");
                         MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
