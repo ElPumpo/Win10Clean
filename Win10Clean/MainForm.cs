@@ -770,6 +770,18 @@ namespace Win10Clean
             return;
         }
 
+        private void Remove3DObjects()
+        {
+            Registry.LocalMachine.DeleteSubKeyTree(@"\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}", false);
+
+            if (_is64)
+            {
+                Registry.LocalMachine.DeleteSubKeyTree(@"\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}", false);
+            }
+
+            Log("3D Objects removed from File Explorer!");
+        }
+
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             CheckForUpdates();
@@ -828,6 +840,11 @@ namespace Win10Clean
         private void btnUninstall_Click(object sender, EventArgs e)
         {
             UninstallApps();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            Remove3DObjects();
         }
     }
 }

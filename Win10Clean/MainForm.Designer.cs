@@ -53,6 +53,7 @@
             this.consoleBox = new System.Windows.Forms.RichTextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.aboutBox = new System.Windows.Forms.RichTextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -76,6 +77,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.button1);
             this.tabPage1.Controls.Add(this.btnExit);
             this.tabPage1.Controls.Add(this.btnUpdate);
             this.tabPage1.Controls.Add(this.lblVersion);
@@ -334,6 +336,16 @@
             this.aboutBox.TabIndex = 1;
             this.aboutBox.Text = resources.GetString("aboutBox.Text");
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(325, 271);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(261, 40);
+            this.button1.TabIndex = 10;
+            this.button1.Text = "Remove 3D Objects from Explorer";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -386,6 +398,7 @@
         private System.Windows.Forms.Button btnUninstall;
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.CheckedListBox appBox;
+        private System.Windows.Forms.Button button1;
     }
 }
 
