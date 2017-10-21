@@ -41,7 +41,7 @@ namespace Win10Clean
         string _serverUrl = "https://ElPumpo.github.io/Win10Clean/version.txt";
         string _releasesUrl = "https://github.com/ElPumpo/Win10Clean/releases";
 
-        bool _is64 = Environment.Is64BitOperatingSystem;
+        bool amd64 = Environment.Is64BitOperatingSystem;
         int _goBack;
         string _apps = string.Empty;
         string _logInfo = string.Empty;
@@ -55,22 +55,97 @@ namespace Win10Clean
             InitializeComponent();
         }
 
-        private void button9_Click(object sender, EventArgs e)
+        private void OneDriveBtn_Click(object sender, EventArgs e)
         {
-            Application.Exit();
-        }
+            if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
 
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            lblVersion.Text += _currentVersion;
-            CheckTweaks();
-        }
+                string processName = "OneDrive";
 
-        private void Log(string msg)
-        {
-            if (!string.IsNullOrEmpty(msg))
-            {
-                consoleBox.Text += msg + Environment.NewLine;
+                byte[] byteArray = BitConverter.GetBytes(0xb090010d);
+                int oneDriveSwitch = BitConverter.ToInt32(byteArray, 0);
+                string onePath;
+
+
+                try {
+                    Process.GetProcessesByName(processName)[0].Kill();
+                } catch (Exception) {
+                    Log("Could not kill process: " + processName);
+                    // ignore errors
+                }
+
+                if (amd64) {
+                    onePath = Environment.GetFolderPath(Environment.SpecialFolder.SystemX86) + "\\OneDriveSetup.exe";
+                } else {
+                    onePath = Environment.GetFolderPath(Environment.SpecialFolder.System) + "\\OneDriveSetup.exe";
+                }
+
+                Process.Start(onePath, "/uninstall");
+                Log("Uninstalled OneDrive using the setup!");
+
+                // All the folders to be deleted
+                string[] onePaths =
+                {
+                    Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\OneDrive",
+                    Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.System)) + "OneDriveTemp",
+                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Microsoft\\OneDrive",
+                    Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\\Microsoft OneDrive"
+                };
+
+                foreach (string dir in onePaths) {
+                    if (Directory.Exists(dir)) {
+                        try {
+                            Directory.Delete(dir, true);
+                            Log("Folder deleted: " + dir);
+                        } catch (Exception) {
+                            Log("Could not delete folder: " + dir);
+                            // ignore errors
+                        }
+                    }
+                }
+
+                // Remove OneDrive from Explorer
+                string oneKey = @"CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}";
+                Registry.ClassesRoot.CreateSubKey(oneKey);
+
+                try {
+                    // Remove from the Explorer file dialog
+                    using (var key = Registry.ClassesRoot.OpenSubKey(oneKey, true)) {
+                        key.SetValue("System.IsPinnedToNameSpaceTree", 0, RegistryValueKind.DWord);
+                        Log("OneDrive removed from Explorer (FileDialog)!");
+                    }
+
+                    // amd64 system fix
+                    if (amd64) {
+                        using (var key = Registry.ClassesRoot.OpenSubKey("WOW6432Node\\" + oneKey, true)) {
+                            key.SetValue("System.IsPinnedToNameSpaceTree", 0, RegistryValueKind.DWord);
+                            Log("OneDrive removed from Explorer (FileDialog, amd64)!");
+                        }
+                    }
+
+                    // Remove from the alternative file dialog (legacy)
+                    using (var key = Registry.ClassesRoot.OpenSubKey(oneKey + "\\ShellFolder", true)) {
+                        key.SetValue("Attributes", oneDriveSwitch, RegistryValueKind.DWord);
+                        Log("OneDrive removed from Explorer (Legacy FileDialog)!");
+                    }
+
+                    // amd64 system fix
+                    if (amd64) {
+                        using (var key = Registry.ClassesRoot.OpenSubKey("WOW6432Node\\" + oneKey + "\\ShellFolder", true)) {
+                            key.SetValue("Attributes", oneDriveSwitch, RegistryValueKind.DWord);
+                            Log("OneDrive removed from Explorer (Legacy FileDialog, amd64)!");
+                        }
+                    }
+                } catch (Exception ex) {
+                    Log(ex.Message);
+                    MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                // Delete scheduled leftovers
+                RunCommand("SCHTASKS /Delete /TN \"OneDrive Standalone Update Task\" /F");
+                RunCommand("SCHTASKS /Delete /TN \"OneDrive Standalone Update Task v2\" /F");
+                Log("OneDrive scheduled tasks deleted!");
+
+                MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -182,121 +257,6 @@ namespace Win10Clean
             p.StandardInput.WriteLine(cmd);
             p.StandardInput.Close();
             p.WaitForExit();
-        }
-
-        private void UninstallOneDrive()
-        {
-            string processName = "OneDrive";
-
-            byte[] byteArray = BitConverter.GetBytes(0xb090010d);
-            int oneDriveSwitch = BitConverter.ToInt32(byteArray, 0);
-
-            if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                try
-                {
-                    Process.GetProcessesByName(processName)[0].Kill();
-                }
-                catch (Exception)
-                {
-                    Log("Could not kill process: " + processName);
-                }
-
-                string path = string.Empty;
-
-                if (_is64)
-                {
-                    path = Environment.GetFolderPath(Environment.SpecialFolder.SystemX86) + "\\OneDriveSetup.exe";
-                }
-                else
-                {
-                    path = Environment.GetFolderPath(Environment.SpecialFolder.System) + "\\OneDriveSetup.exe";
-                }
-
-                Process.Start(path, "/uninstall");
-                Log("OneDrive uninstalled");
-
-                string[] paths =
-                {
-                    Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\OneDrive",
-                    Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.System)) + "OneDriveTemp",
-                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Microsoft\\OneDrive",
-                    Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\\Microsoft OneDrive"
-                };
-
-                foreach (string x in paths)
-                {
-                    if (Directory.Exists(x))
-                    {
-                        try
-                        {
-                            Directory.Delete(x, true);
-                            Log("Folder deleted: " + x);
-                        }
-                        catch (Exception)
-                        {
-                            Log("Could not delete folder: " + x);
-                        }
-                    }
-                }
-
-                string oneKey = @"CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}";
-                Registry.ClassesRoot.CreateSubKey(oneKey);
-
-                try
-                {
-                    using (RegistryKey k = Registry.ClassesRoot.OpenSubKey(oneKey, true))
-                    {
-                        k.SetValue("System.IsPinnedToNameSpaceTree", 0, RegistryValueKind.DWord);
-                        Log("OneDrive removed from File Explorer");
-                    }
-
-                    if (_is64)
-                    {
-                        using (RegistryKey k = Registry.ClassesRoot.OpenSubKey("WOW6432Node\\" + oneKey, true))
-                        {
-                            k.SetValue("System.IsPinnedToNameSpaceTree", 0, RegistryValueKind.DWord);
-                            Log("OneDrive removed from File Explorer");
-                        } 
-                    }
-
-                    using (RegistryKey k = Registry.ClassesRoot.OpenSubKey(oneKey + "\\ShellFolder", true))
-                    {
-                        k.SetValue("Attributes", oneDriveSwitch, RegistryValueKind.DWord);
-                        Log("OneDrive removed from legacy File Dialog");
-                    }
-                        
-
-                    if (_is64)
-                    {
-                        using (RegistryKey k = Registry.ClassesRoot.OpenSubKey("WOW6432Node\\" + oneKey + "\\ShellFolder", true))
-                        {
-                            k.SetValue("Attributes", oneDriveSwitch, RegistryValueKind.DWord);
-                            Log("OneDrive removed from legacy File Dialog");
-                        }    
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Log(ex.ToString());
-                    MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-
-                try
-                {
-                    RunCommand("SCHTASKS /Delete /TN \"OneDrive Standalone Update Task\" /F");
-                    RunCommand("SCHTASKS /Delete /TN \"OneDrive Standalone Update Task v2\" /F");
-
-                    Log("OneDrive scheduled tasks removed");
-                }
-                catch (Exception ex)
-                {
-                    Log(ex.ToString());
-                    MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-
-                MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
         }
 
         private void CleanupContextMenu()
@@ -553,6 +513,27 @@ namespace Win10Clean
             catch { }
         }
 
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            lblVersion.Text += _currentVersion;
+            CheckTweaks();
+        }
+
+        private void Log(string msg)
+        {
+            if (!string.IsNullOrEmpty(msg))
+            {
+                consoleBox.Text += msg + Environment.NewLine;
+            }
+        }
+
+
         #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         private async void UninstallApp(string app)
         #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
@@ -733,11 +714,6 @@ namespace Win10Clean
             ExportLog();
         }
 
-        private void btnOnedrive_Click(object sender, EventArgs e)
-        {
-            UninstallOneDrive();
-        }
-
         private void btnContext_Click(object sender, EventArgs e)
         {
             CleanupContextMenu();   
@@ -776,7 +752,6 @@ namespace Win10Clean
                 }
             }
         }
-
 
         private void RestartExplorer()
         {

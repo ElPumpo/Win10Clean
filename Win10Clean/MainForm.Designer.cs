@@ -35,7 +35,7 @@
             this.btnUpdate = new System.Windows.Forms.Button();
             this.lblVersion = new System.Windows.Forms.Label();
             this.btnContext = new System.Windows.Forms.Button();
-            this.btnOnedrive = new System.Windows.Forms.Button();
+            this.OneDriveBtn = new System.Windows.Forms.Button();
             this.btnStartAds = new System.Windows.Forms.Button();
             this.btnApps = new System.Windows.Forms.Button();
             this.btnHomegroup = new System.Windows.Forms.Button();
@@ -80,7 +80,7 @@
             this.tabPage1.Controls.Add(this.btnUpdate);
             this.tabPage1.Controls.Add(this.lblVersion);
             this.tabPage1.Controls.Add(this.btnContext);
-            this.tabPage1.Controls.Add(this.btnOnedrive);
+            this.tabPage1.Controls.Add(this.OneDriveBtn);
             this.tabPage1.Controls.Add(this.btnStartAds);
             this.tabPage1.Controls.Add(this.btnApps);
             this.tabPage1.Controls.Add(this.btnHomegroup);
@@ -138,15 +138,15 @@
             this.btnContext.UseVisualStyleBackColor = true;
             this.btnContext.Click += new System.EventHandler(this.btnContext_Click);
             // 
-            // btnOnedrive
+            // OneDriveBtn
             // 
-            this.btnOnedrive.Location = new System.Drawing.Point(325, 179);
-            this.btnOnedrive.Name = "btnOnedrive";
-            this.btnOnedrive.Size = new System.Drawing.Size(261, 40);
-            this.btnOnedrive.TabIndex = 5;
-            this.btnOnedrive.Text = "Uninstall OneDrive";
-            this.btnOnedrive.UseVisualStyleBackColor = true;
-            this.btnOnedrive.Click += new System.EventHandler(this.btnOnedrive_Click);
+            this.OneDriveBtn.Location = new System.Drawing.Point(325, 179);
+            this.OneDriveBtn.Name = "OneDriveBtn";
+            this.OneDriveBtn.Size = new System.Drawing.Size(261, 40);
+            this.OneDriveBtn.TabIndex = 5;
+            this.OneDriveBtn.Text = "Uninstall OneDrive";
+            this.OneDriveBtn.UseVisualStyleBackColor = true;
+            this.OneDriveBtn.Click += new System.EventHandler(this.OneDriveBtn_Click);
             // 
             // btnStartAds
             // 
@@ -371,7 +371,7 @@
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Label lblVersion;
         private System.Windows.Forms.Button btnContext;
-        private System.Windows.Forms.Button btnOnedrive;
+        private System.Windows.Forms.Button OneDriveBtn;
         private System.Windows.Forms.Button btnStartAds;
         private System.Windows.Forms.Button btnApps;
         private System.Windows.Forms.Button btnHomegroup;
