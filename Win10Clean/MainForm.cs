@@ -43,8 +43,8 @@ namespace Win10Clean
 
         bool amd64 = Environment.Is64BitOperatingSystem;
         int _goBack;
-        string _apps = string.Empty;
-        string _logInfo = string.Empty;
+        string selectedApps;
+        string _logInfo;
 
         int _adsSwitch = 0;
         bool _defenderSwitch = false;
@@ -172,6 +172,7 @@ namespace Win10Clean
 
         private void CheckForUpdates()
         {
+            // check internet connection
             try
             {
                 Log("Checking for updates...");
@@ -461,46 +462,6 @@ namespace Win10Clean
             }
         }
 
-        private void RetrieveApps()
-        {
-            using (PowerShell script = PowerShell.Create()) {
-                if (chkAll.Checked) {
-                    script.AddScript("Get-AppxPackage -AllUsers | Select Name | Out-String -Stream");
-                } else {
-                    script.AddScript("Get-AppxPackage | Select Name | Out-String -Stream");
-                }
-
-                string trimmed = string.Empty;
-                foreach (PSObject x in script.Invoke()) {
-                    trimmed = x.ToString().Trim();
-                    if (!string.IsNullOrEmpty(trimmed) && !trimmed.Contains("---")) {
-                        if (trimmed != "Name") appBox.Items.Add(trimmed);
-                    }
-                }
-            }
-        }
-
-        private void RefreshAppList(bool minusOne)
-        {
-            _goBack = appBox.SelectedIndex;
-            appBox.Items.Clear();
-            RetrieveApps();
-
-            try
-            {
-                if (minusOne)
-                {
-                    appBox.SelectedIndex = _goBack - 1;
-                }
-                else
-                {
-                    appBox.SelectedIndex = _goBack;
-                }
-            }
-            catch { }
-        }
-
-
         private void button9_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -519,34 +480,6 @@ namespace Win10Clean
                 consoleBox.Text += msg + Environment.NewLine;
             }
         }
-
-
-        #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-        private async void UninstallApp(string app)
-        #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
-        {
-            bool error = false;
-
-            using (PowerShell script = PowerShell.Create()) {
-                if (chkAll.Checked) {
-                    script.AddScript("Get-AppxPackage -AllUsers " + app + " | Remove-AppxPackage");
-                } else {
-                    script.AddScript("Get-AppxPackage " + app + " | Remove-AppxPackage");
-                }
-
-                script.Invoke();
-                error = script.HadErrors;
-            }
-
-            if (error) {
-                Log("Could not uninstall app: " + app);
-            } else {
-                Log("App uninstalled: " + app);
-            }
-
-            return;
-        }
-
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
@@ -580,7 +513,7 @@ namespace Win10Clean
                         Log(ex.Message);
                         MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                } else { // reenable Defender
+                } else { // re-enable Defender
                     try {
                         using (var key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", true)) {
                             key.SetValue("DisableAntiSpyware", 0, RegistryValueKind.DWord);
@@ -620,15 +553,25 @@ namespace Win10Clean
         private void Revert7Btn_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
+                
                 // Get ride of libary folders in My PC
                 string libKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\";
-                string[] guidArray = { "{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}", "{7d83ee9b-2244-4e70-b1f5-5393042af1e4}", "{f42ee2d3-909f-4907-8871-4c22fc0bf756}", "{0ddd015d-b06c-45d5-8c4c-f59713854639}", "{a0c69a99-21c8-4671-8703-7934162fcf1d}", "{35286a68-3c57-41a1-bbb1-0eae73d76c95}" };
+                string[] guidArray = {
+                    "{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}", // Desktop
+                    "{7d83ee9b-2244-4e70-b1f5-5393042af1e4}", // Downloads
+                    "{f42ee2d3-909f-4907-8871-4c22fc0bf756}", // Documents
+                    "{0ddd015d-b06c-45d5-8c4c-f59713854639}", // Pictures
+                    "{a0c69a99-21c8-4671-8703-7934162fcf1d}", // Music
+                    "{35286a68-3c57-41a1-bbb1-0eae73d76c95}", // Videos
+                    "{31C0DD25-9439-4F12-BF41-7FF4EDA38722}"  // 3D builder
+                };
                 string finalKey;
+                var baseReg = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64); // we don't want Wow6432Node
 
                 foreach (string guid in guidArray) {
                     try {
                         finalKey = libKey + guid + @"\PropertyBag";
-                        using (var key = Registry.LocalMachine.OpenSubKey(finalKey, true)) {
+                        using (var key = baseReg.CreateSubKey(finalKey, true)) {
                             key.SetValue("ThisPCPolicy", "Hide");
                             Log(string.Format("Value of {0} modified", guid));
                         }
@@ -636,20 +579,6 @@ namespace Win10Clean
                         Log(ex.GetType().Name + " - Couldn't modify the value of: " + guid);
                         MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                }
-
-                // hide 3d builder in my pc
-                string builderGuid = "{31C0DD25-9439-4F12-BF41-7FF4EDA38722}";
-                try {
-                    finalKey = libKey + builderGuid + @"\PropertyBag";
-                    Registry.LocalMachine.CreateSubKey(finalKey);
-                    using (var key = Registry.LocalMachine.OpenSubKey(finalKey, true)) {
-                        key.SetValue("ThisPCPolicy", "Hide");
-                        Log(string.Format("Value of {0} modified", builderGuid));
-                    }
-                } catch (Exception ex) {
-                    Log(ex.GetType().Name + " - Couldn't modify the value of: " + builderGuid);
-                    MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 
                 string pinLib = @"Software\Classes\CLSID\{031E4825-7B94-4dc3-B131-E946B44C8DD5}";
@@ -719,28 +648,94 @@ namespace Win10Clean
             RefreshAppList(false);
         }
 
+        /* Metro related */
         private void UninstallBtn_Click(object sender, EventArgs e)
         {
-            _apps = string.Empty;
-
             if (appBox.CheckedItems.Count > 0) {
-                foreach (var x in appBox.CheckedItems) {
-                    if (string.IsNullOrEmpty(_apps)) {
-                        _apps = x.ToString();
+                foreach (string app in appBox.CheckedItems) {
+                    if (string.IsNullOrEmpty(selectedApps)) {
+                        selectedApps = app;
                     } else {
-                        _apps = _apps + Environment.NewLine + x.ToString();
+                        selectedApps += Environment.NewLine + app;
                     }
                 }
 
-                if (MessageBox.Show("Are you sure you want to uninstall these apps?" + Environment.NewLine + _apps, "Confirm uninstall", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
-                    foreach (var app in appBox.CheckedItems) {
-                        Task.Run(() => UninstallApp(app.ToString()));
+                if (MessageBox.Show("Are you sure you want to uninstall the following app(s)?" + Environment.NewLine + selectedApps, "Confirm uninstall", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
+                    foreach (string app in appBox.CheckedItems) {
+                        Task.Run(() => UninstallApp(app));
                     }
 
                     RefreshAppList(true);
                     MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
+        }
+
+        private void RetrieveApps()
+        {
+            using (PowerShell script = PowerShell.Create()) {
+                if (chkAll.Checked) {
+                    script.AddScript("Get-AppxPackage -AllUsers | Select Name | Out-String -Stream");
+                } else {
+                    script.AddScript("Get-AppxPackage | Select Name | Out-String -Stream");
+                }
+
+                string trimmed = string.Empty;
+                foreach (PSObject x in script.Invoke()) {
+                    trimmed = x.ToString().Trim();
+                    if (!string.IsNullOrEmpty(trimmed) && !trimmed.Contains("---")) {
+                        if (trimmed != "Name") appBox.Items.Add(trimmed);
+                    }
+                }
+            }
+        }
+
+        private void RefreshAppList(bool minusOne)
+        {
+            _goBack = appBox.SelectedIndex;
+            appBox.Items.Clear();
+            RetrieveApps();
+
+            try {
+                if (minusOne) {
+                    appBox.SelectedIndex = _goBack - 1;
+                } else {
+                    appBox.SelectedIndex = _goBack;
+                }
+            } catch { }
+        }
+
+        #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+        private async void UninstallApp(string app)
+        #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+        {
+            bool error = false;
+
+            using (PowerShell script = PowerShell.Create())
+            {
+                if (chkAll.Checked)
+                {
+                    script.AddScript("Get-AppxPackage -AllUsers " + app + " | Remove-AppxPackage");
+                }
+                else
+                {
+                    script.AddScript("Get-AppxPackage " + app + " | Remove-AppxPackage");
+                }
+
+                script.Invoke();
+                error = script.HadErrors;
+            }
+
+            if (error)
+            {
+                Log("Could not uninstall app: " + app);
+            }
+            else
+            {
+                Log("App uninstalled: " + app);
+            }
+
+            return;
         }
 
         private void RestartExplorer()
