@@ -139,7 +139,7 @@ namespace Win10Clean
                     MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
-                baseReg.Close();
+                baseReg.Dispose();
 
                 // Delete scheduled leftovers
                 RunCommand("SCHTASKS /Delete /TN \"OneDrive Standalone Update Task\" /F");
@@ -209,13 +209,13 @@ namespace Win10Clean
                 if (!_defenderSwitch) {
                     try {
                         // Disable engine
-                        using (RegistryKey key = baseReg.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", true)) {
+                        using (var key = baseReg.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", true)) {
                             key.SetValue("DisableAntiSpyware", 1, RegistryValueKind.DWord);
                             Log("Disabled main Defender functions!");
                         }
 
                         // Delete Defender from startup / tray icons
-                        using (RegistryKey key = baseReg.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true)) {
+                        using (var key = baseReg.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true)) {
                             key.DeleteValue("WindowsDefender", false);
                             key.DeleteValue("SecurityHealth", false);
                             Log("Windows Defender removed from startup!");
@@ -243,6 +243,7 @@ namespace Win10Clean
                         MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
+                baseReg.Dispose();
             }
         }
 
@@ -406,6 +407,7 @@ namespace Win10Clean
             if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 var baseReg = RegistryKey.OpenBaseKey(RegistryHive.ClassesRoot, RegistryView.Registry64);
+                // Provided by http://fragme.blogspot.se/2007/07/windows-tip-18-remove-unnecessary-right.html
                 string[] extensions = {
                     "batfile",
                     "cmdfile",
@@ -430,6 +432,7 @@ namespace Win10Clean
                     "WSFFile"
                 };
 
+                // Disable print
                 foreach (string ext in extensions)
                 {
                     try
@@ -444,9 +447,11 @@ namespace Win10Clean
                     catch (Exception ex)
                     {
                         Log(ex.GetType().ToString() + " - couldn't disable print for: " + ext);
+                        // Ignore errors
                     }
                 }
 
+                // Disable edit
                 foreach (string ext in extensions)
                 {
                     try
@@ -461,88 +466,125 @@ namespace Win10Clean
                     catch (Exception ex)
                     {
                         Log(ex.GetType().ToString() + " - couldn't disable edit for: " + ext);
+                        // Ignore errors
                     }
                 }
 
-                try
-                {
+                // Extra things
+                try {
+                    // Manual fix for txt
                     using (var key = baseReg.OpenSubKey(@"SystemFileAssociations\text\shell\edit", true))
                     {
                         key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
                         Log("Edit disabled for: TXT files");
                     }
 
+                    // WMP #1 - add to list
                     using (var key = baseReg.OpenSubKey(@"SystemFileAssociations\audio\shell\Enqueue", true))
                     {
                         key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
                         Log("Disabled add to play list for: audio files!");
                     }
 
+                    // WMP #2 - play
                     using (var key = baseReg.OpenSubKey(@"SystemFileAssociations\audio\shell\Play", true))
                     {
                         key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
                         Log("Disabled play song for: audio files!");
                     }
 
+                    // WMP #3 - add to list (audio folder)
                     using (var key = baseReg.OpenSubKey(@"SystemFileAssociations\Directory.Audio\shell\Enqueue", true))
                     {
                         key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
                         Log("Disabled add to play list for: audio directories!");
                     }
 
+                    // WMP #4 - play (audio folder)
                     using (var key = baseReg.OpenSubKey(@"SystemFileAssociations\Directory.Audio\shell\Play", true))
                     {
                         key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
                         Log("Disabled play song for: audio directories!");
                     }
 
+                    // WMP #5 - add to list (image folder?!)
                     using (var key = baseReg.OpenSubKey(@"SystemFileAssociations\Directory.Image\shell\Enqueue", true))
                     {
                         key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
                         Log("Disabled add to play list for: image directories!");
                     }
 
+                    // WMP #6 - play (image folder?!)
                     using (var key = baseReg.OpenSubKey(@"SystemFileAssociations\Directory.Image\shell\Play", true))
                     {
                         key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
                         Log("Disabled play song for: image directories!");
                     }
 
+                    // Include in library context
                     using (var key = baseReg.OpenSubKey(@"Folder\shellex\ContextMenuHandlers\Library Location", true))
                     {
                         key.SetValue(string.Empty, "-{3dad6c5d-2167-4cae-9914-f99e41c12cfa}");
                         Log("Disabled include in library menu!");
                     }
 
+                    // Buy music?
                     using (var key = baseReg.OpenSubKey(@"SystemFileAssociations\Directory.Audio\shellex\ContextMenuHandlers\WMPShopMusic", true))
                     {
                         key.SetValue(string.Empty, "-{8A734961-C4AA-4741-AC1E-791ACEBF5B39}");
                         Log("Disabled buying music online context menu!");
                     }
 
+                    // Troubleshoot compability EXE
                     using (var key = baseReg.OpenSubKey(@"exefile\shellex\ContextMenuHandlers\Compatibility", true))
                     {
                         key.SetValue(string.Empty, "-{1d27f844-3a1f-4410-85ac-14651078412d}");
                         Log("Disabled troubleshooting compability (EXE)!");
                     }
 
+                    // Troubleshoot compability MSI
                     using (var key = baseReg.OpenSubKey(@"Msi.Package\shellex\ContextMenuHandlers\Compatibility", true))
                     {
                         key.SetValue(string.Empty, "-{1d27f844-3a1f-4410-85ac-14651078412d}");
                         Log("Disabled troubleshooting compability (MSI)!");
                     }
 
+                    RegistryUtilities.TakeOwnership(@"InternetShortcut\shell\print", RegistryHive.ClassesRoot);
+                    
+                    // Disable printing .url files - WIP
+                    using (var key = baseReg.OpenSubKey(@"InternetShortcut\shell\print", true))
+                    {
+                        key.SetValue("LegacyDisable", string.Empty); // take ownership!!
+                        Log("Disabled print for: InternetShortcut!");
+                    }
+
+                    // Restore previous version (file)
                     baseReg.DeleteSubKey(@"AllFilesystemObjects\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}", false);
                     Log("Removed restoring previous version menu! (files)");
 
+                    // Restore previous version (directory)
                     baseReg.DeleteSubKey(@"Directory\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}", false);
                     Log("Removed restoring previous version menu! (directories)");
 
+                    // https://superuser.com/a/808730
+                    // Pin to Start on recycle bin
+                    RegistryUtilities.TakeOwnership(@"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}", RegistryHive.ClassesRoot);
+                    RegistryUtilities.TakeOwnership(@"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell", RegistryHive.ClassesRoot);
+                    RegistryUtilities.TakeOwnership(@"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\empty", RegistryHive.ClassesRoot);
+                    RegistryUtilities.TakeOwnership(@"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\empty\command", RegistryHive.ClassesRoot);
+                    var regHelper = new RegistryUtilities();
+                    regHelper.RenameSubKey(baseReg, @"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\empty", @"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\pintostartscreen");
+
+
+                    Log("Disabled Pin to Start for: Recycle Bin!");
+                    
                 }
                 catch (Exception ex)
                 {
                     Log(ex.GetType().ToString() + " - something went wrong!");
+                    // Ignore errors
                 }
+         
 
                 baseReg.Dispose();
 
@@ -613,6 +655,9 @@ namespace Win10Clean
         /* Metro related */
         private void UninstallBtn_Click(object sender, EventArgs e)
         {
+            selectedApps = null;
+
+            // Displays all the apps to be uninstalled
             if (appBox.CheckedItems.Count > 0) {
                 foreach (string app in appBox.CheckedItems) {
                     if (string.IsNullOrEmpty(selectedApps)) {
@@ -627,9 +672,11 @@ namespace Win10Clean
                         Task.Run(() => UninstallApp(app));
                     }
 
-                    RefreshAppList(true);
+                    RefreshAppList(true); // refresh list when we're done
                     MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+            } else {
+                MessageBox.Show("You haven't selected anything!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
@@ -709,5 +756,13 @@ namespace Win10Clean
         {
             RefreshAppList(false);
         }
+
+        private void tabMetro_Enter(object sender, EventArgs e)
+        {
+            this.Enabled = false;
+            RefreshAppList(false);
+            this.Enabled = true;
+        }
+
     }
 }

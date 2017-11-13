@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Re enable core Defender function if disabled
 - Pin Explorer on the start menu
 - Restart explorer once `Revert7` finishes
+- Remove 'Pin on Start' for recycle bin
+- Disable print for .url files
 
 ### Changed
 - Rewritten application in C#

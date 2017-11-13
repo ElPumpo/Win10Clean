@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabHome = new System.Windows.Forms.TabPage();
             this.btnExit = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.lblVersion = new System.Windows.Forms.Label();
@@ -41,32 +41,32 @@
             this.HomeGroupBtn = new System.Windows.Forms.Button();
             this.Revert7Btn = new System.Windows.Forms.Button();
             this.btnDefender = new System.Windows.Forms.Button();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabMetro = new System.Windows.Forms.TabPage();
             this.appPanel = new System.Windows.Forms.Panel();
             this.appBox = new System.Windows.Forms.CheckedListBox();
             this.UninstallBtn = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.chkDelete = new System.Windows.Forms.CheckBox();
             this.chkAll = new System.Windows.Forms.CheckBox();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tabConsole = new System.Windows.Forms.TabPage();
             this.btnExport = new System.Windows.Forms.Button();
             this.consoleBox = new System.Windows.Forms.RichTextBox();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.tabAbout = new System.Windows.Forms.TabPage();
             this.aboutBox = new System.Windows.Forms.RichTextBox();
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.tabHome.SuspendLayout();
+            this.tabMetro.SuspendLayout();
             this.appPanel.SuspendLayout();
-            this.tabPage3.SuspendLayout();
-            this.tabPage4.SuspendLayout();
+            this.tabConsole.SuspendLayout();
+            this.tabAbout.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabHome);
+            this.tabControl1.Controls.Add(this.tabMetro);
+            this.tabControl1.Controls.Add(this.tabConsole);
+            this.tabControl1.Controls.Add(this.tabAbout);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -74,25 +74,25 @@
             this.tabControl1.Size = new System.Drawing.Size(652, 473);
             this.tabControl1.TabIndex = 0;
             // 
-            // tabPage1
+            // tabHome
             // 
-            this.tabPage1.Controls.Add(this.btnExit);
-            this.tabPage1.Controls.Add(this.btnUpdate);
-            this.tabPage1.Controls.Add(this.lblVersion);
-            this.tabPage1.Controls.Add(this.btnContext);
-            this.tabPage1.Controls.Add(this.OneDriveBtn);
-            this.tabPage1.Controls.Add(this.btnStartAds);
-            this.tabPage1.Controls.Add(this.btnApps);
-            this.tabPage1.Controls.Add(this.HomeGroupBtn);
-            this.tabPage1.Controls.Add(this.Revert7Btn);
-            this.tabPage1.Controls.Add(this.btnDefender);
-            this.tabPage1.Location = new System.Drawing.Point(4, 25);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(644, 444);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Home";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tabHome.Controls.Add(this.btnExit);
+            this.tabHome.Controls.Add(this.btnUpdate);
+            this.tabHome.Controls.Add(this.lblVersion);
+            this.tabHome.Controls.Add(this.btnContext);
+            this.tabHome.Controls.Add(this.OneDriveBtn);
+            this.tabHome.Controls.Add(this.btnStartAds);
+            this.tabHome.Controls.Add(this.btnApps);
+            this.tabHome.Controls.Add(this.HomeGroupBtn);
+            this.tabHome.Controls.Add(this.Revert7Btn);
+            this.tabHome.Controls.Add(this.btnDefender);
+            this.tabHome.Location = new System.Drawing.Point(4, 25);
+            this.tabHome.Name = "tabHome";
+            this.tabHome.Padding = new System.Windows.Forms.Padding(3);
+            this.tabHome.Size = new System.Drawing.Size(644, 444);
+            this.tabHome.TabIndex = 0;
+            this.tabHome.Text = "Home";
+            this.tabHome.UseVisualStyleBackColor = true;
             // 
             // btnExit
             // 
@@ -198,20 +198,21 @@
             this.btnDefender.UseVisualStyleBackColor = true;
             this.btnDefender.Click += new System.EventHandler(this.btnDefender_Click);
             // 
-            // tabPage2
+            // tabMetro
             // 
-            this.tabPage2.Controls.Add(this.appPanel);
-            this.tabPage2.Controls.Add(this.UninstallBtn);
-            this.tabPage2.Controls.Add(this.btnRefresh);
-            this.tabPage2.Controls.Add(this.chkDelete);
-            this.tabPage2.Controls.Add(this.chkAll);
-            this.tabPage2.Location = new System.Drawing.Point(4, 25);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(644, 444);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Win10 / metro apps";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabMetro.Controls.Add(this.appPanel);
+            this.tabMetro.Controls.Add(this.UninstallBtn);
+            this.tabMetro.Controls.Add(this.btnRefresh);
+            this.tabMetro.Controls.Add(this.chkDelete);
+            this.tabMetro.Controls.Add(this.chkAll);
+            this.tabMetro.Location = new System.Drawing.Point(4, 25);
+            this.tabMetro.Name = "tabMetro";
+            this.tabMetro.Padding = new System.Windows.Forms.Padding(3);
+            this.tabMetro.Size = new System.Drawing.Size(644, 444);
+            this.tabMetro.TabIndex = 1;
+            this.tabMetro.Text = "Win10 / metro apps";
+            this.tabMetro.UseVisualStyleBackColor = true;
+            this.tabMetro.Enter += new System.EventHandler(this.tabMetro_Enter);
             // 
             // appPanel
             // 
@@ -260,11 +261,12 @@
             // chkDelete
             // 
             this.chkDelete.AutoSize = true;
+            this.chkDelete.Enabled = false;
             this.chkDelete.Location = new System.Drawing.Point(480, 36);
             this.chkDelete.Name = "chkDelete";
-            this.chkDelete.Size = new System.Drawing.Size(145, 21);
+            this.chkDelete.Size = new System.Drawing.Size(115, 21);
             this.chkDelete.TabIndex = 2;
-            this.chkDelete.Text = "Delete from image";
+            this.chkDelete.Text = "Fully uninstall";
             this.chkDelete.UseVisualStyleBackColor = true;
             // 
             // chkAll
@@ -278,17 +280,17 @@
             this.chkAll.UseVisualStyleBackColor = true;
             this.chkAll.CheckedChanged += new System.EventHandler(this.chkAll_CheckedChanged);
             // 
-            // tabPage3
+            // tabConsole
             // 
-            this.tabPage3.Controls.Add(this.btnExport);
-            this.tabPage3.Controls.Add(this.consoleBox);
-            this.tabPage3.Location = new System.Drawing.Point(4, 25);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(644, 444);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Console";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.tabConsole.Controls.Add(this.btnExport);
+            this.tabConsole.Controls.Add(this.consoleBox);
+            this.tabConsole.Location = new System.Drawing.Point(4, 25);
+            this.tabConsole.Name = "tabConsole";
+            this.tabConsole.Padding = new System.Windows.Forms.Padding(3);
+            this.tabConsole.Size = new System.Drawing.Size(644, 444);
+            this.tabConsole.TabIndex = 2;
+            this.tabConsole.Text = "Console";
+            this.tabConsole.UseVisualStyleBackColor = true;
             // 
             // btnExport
             // 
@@ -312,16 +314,16 @@
             this.consoleBox.TabIndex = 0;
             this.consoleBox.Text = "";
             // 
-            // tabPage4
+            // tabAbout
             // 
-            this.tabPage4.Controls.Add(this.aboutBox);
-            this.tabPage4.Location = new System.Drawing.Point(4, 25);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(644, 444);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "About";
-            this.tabPage4.UseVisualStyleBackColor = true;
+            this.tabAbout.Controls.Add(this.aboutBox);
+            this.tabAbout.Location = new System.Drawing.Point(4, 25);
+            this.tabAbout.Name = "tabAbout";
+            this.tabAbout.Padding = new System.Windows.Forms.Padding(3);
+            this.tabAbout.Size = new System.Drawing.Size(644, 444);
+            this.tabAbout.TabIndex = 3;
+            this.tabAbout.Text = "About";
+            this.tabAbout.UseVisualStyleBackColor = true;
             // 
             // aboutBox
             // 
@@ -349,13 +351,13 @@
             this.Text = "Win10Clean";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
+            this.tabHome.ResumeLayout(false);
+            this.tabHome.PerformLayout();
+            this.tabMetro.ResumeLayout(false);
+            this.tabMetro.PerformLayout();
             this.appPanel.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage4.ResumeLayout(false);
+            this.tabConsole.ResumeLayout(false);
+            this.tabAbout.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -363,10 +365,10 @@
         #endregion
 
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.TabPage tabHome;
+        private System.Windows.Forms.TabPage tabMetro;
+        private System.Windows.Forms.TabPage tabConsole;
+        private System.Windows.Forms.TabPage tabAbout;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Label lblVersion;
