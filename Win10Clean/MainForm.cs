@@ -64,7 +64,6 @@ namespace Win10Clean
                 int oneDriveSwitch = BitConverter.ToInt32(byteArray, 0);
                 string onePath;
 
-
                 try {
                     Process.GetProcessesByName(processName)[0].Kill();
                 } catch (Exception) {
@@ -114,7 +113,8 @@ namespace Win10Clean
 
                     // amd64 system fix
                     if (amd64) {
-                        using (var key = Registry.ClassesRoot.OpenSubKey("WOW6432Node\\" + oneKey, true)) {
+                        var baseReg = RegistryKey.OpenBaseKey(RegistryHive.ClassesRoot, RegistryView.Registry64); // we don't want Wow6432Node
+                        using (var key = baseReg.OpenSubKey(oneKey, true)) {
                             key.SetValue("System.IsPinnedToNameSpaceTree", 0, RegistryValueKind.DWord);
                             Log("OneDrive removed from Explorer (FileDialog, amd64)!");
                         }
@@ -128,13 +128,14 @@ namespace Win10Clean
 
                     // amd64 system fix
                     if (amd64) {
-                        using (var key = Registry.ClassesRoot.OpenSubKey("WOW6432Node\\" + oneKey + "\\ShellFolder", true)) {
+                        var baseReg = RegistryKey.OpenBaseKey(RegistryHive.ClassesRoot, RegistryView.Registry64); // we don't want Wow6432Node
+                        using (var key = baseReg.OpenSubKey(oneKey + "\\ShellFolder", true)) {
                             key.SetValue("Attributes", oneDriveSwitch, RegistryValueKind.DWord);
                             Log("OneDrive removed from Explorer (Legacy FileDialog, amd64)!");
                         }
                     }
                 } catch (Exception ex) {
-                    Log(ex.Message);
+                    Log(ex.ToString());
                     MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
@@ -585,7 +586,7 @@ namespace Win10Clean
             using (var p = new Process())
             {
                 p.StartInfo.FileName = "cmd.exe";
-                // p.StartInfo.CreateNoWindow = true;
+                p.StartInfo.CreateNoWindow = true;
                 p.StartInfo.UseShellExecute = false;
                 p.StartInfo.RedirectStandardInput = true;
                 p.StartInfo.RedirectStandardOutput = true;
