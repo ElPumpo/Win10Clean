@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
@@ -44,16 +38,21 @@ namespace Win10Clean
         bool amd64 = Environment.Is64BitOperatingSystem;
         int _goBack;
         string selectedApps;
-        string _logInfo;
 
-        int _adsSwitch = 0;
         bool _defenderSwitch = false;
-        string _adsMessage = "Start Menu ads disabled";
 
         public MainForm()
         {
             InitializeComponent();
         }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            lblVersion.Text += _currentVersion;
+            CheckTweaks();
+        }
+
+        /* Buttons / Main stuff */
 
         private void OneDriveBtn_Click(object sender, EventArgs e)
         {
@@ -83,8 +82,7 @@ namespace Win10Clean
                 Log("Uninstalled OneDrive using the setup!");
 
                 // All the folders to be deleted
-                string[] onePaths =
-                {
+                string[] onePaths = {
                     Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\OneDrive",
                     Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.System)) + "OneDriveTemp",
                     Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Microsoft\\OneDrive",
@@ -149,28 +147,12 @@ namespace Win10Clean
             }
         }
 
-        private void ExportLog()
+        private void btnExit_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(consoleBox.Text))
-            {
-                SaveFileDialog dialog = new SaveFileDialog();
-                dialog.FileName = "Win10Clean - v" + _currentVersion + " - " + DateTime.Now.ToString("yyyy/MM/dd HH-mm-ss");
-                dialog.Filter = "Text files | *.txt";
-                dialog.DefaultExt = "txt";
-                dialog.Title = "Exporting log...";
-
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    File.WriteAllText(dialog.FileName, consoleBox.Text);
-                }
-            }
-            else
-            {
-                MessageBox.Show("There is nothing to export!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+            Application.Exit();
         }
 
-        private void CheckForUpdates()
+        private void btnUpdate_Click(object sender, EventArgs e)
         {
             // check internet connection
             try
@@ -215,275 +197,6 @@ namespace Win10Clean
                 Log("You have a beta version");
                 MessageBox.Show("You have a beta version!");
             }
-        }
-
-        private void CheckTweaks()
-        {
-            try
-            {
-                // check start menu ads
-                using (RegistryKey k = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", false))
-                {
-                    if ((int)k.GetValue("SystemPaneSuggestionsEnabled", 1) == 0)
-                    {
-                        _adsSwitch = 1;
-                        btnStartAds.Text = "Enable Start Menu ads";
-                        _adsMessage = "Start Menu ads enabled";
-                    }
-                }
-
-                //  check defender state
-                using (RegistryKey k = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", false))
-                {
-                    if ((int)k.GetValue("DisableAntiSpyware", 0) == 1)
-                    {
-                        _defenderSwitch = true;
-                        btnDefender.Text = "Enable Windows Defender";
-                    }
-                }
-            }
-            catch { }
-        }
-
-        private void RunCommand(string command)
-        {
-            using (var p = new Process()) {
-                p.StartInfo.FileName = "cmd.exe";
-               // p.StartInfo.CreateNoWindow = true;
-                p.StartInfo.UseShellExecute = false;
-                p.StartInfo.RedirectStandardInput = true;
-                p.StartInfo.RedirectStandardOutput = true;
-
-                try {
-                    p.Start(); // start a command prompt
-
-                    p.StandardInput.WriteLine(command); // run the command
-                    p.StandardInput.Close();
-                    p.WaitForExit();
-                } catch (Exception ex) {
-                    Log(ex.Message);
-                }
-
-            }
-        }
-
-        private void CleanupContextMenu()
-        {
-            // Extended = only when SHIFT is pressed
-            // LegacyDisable = item disabled
-
-            if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                string[] extensions =
-                {
-                    "batfile",
-                    "cmdfile",
-                    "docfile",
-                    "fonfile",
-                    "htmlfile",
-                    "inffile",
-                    "inifile",
-                    "JSEFile",
-                    "JSFile",
-                    "MSInfo.Document",
-                    "otffile",
-                    "pfmfile",
-                    "regfile",
-                    "rtffile",
-                    "ttcfile",
-                    "ttffile",
-                    "txtfile",
-                    "VBEFile",
-                    "VBSFile",
-                    "Wordpad.Document.1",
-                    "WSFFile"
-                };
-
-                foreach (string x in extensions)
-                {
-                    try
-                    {
-                        string finalKey = x + @"\shell\print";
-
-                        using (RegistryKey k = Registry.ClassesRoot.OpenSubKey(finalKey, true))
-                        {
-                            k.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
-                            Log("Print disabled for: " + x);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Log(ex.GetType().ToString() + " - couldn't disable print for: " + x);
-                    }
-                }
-
-                foreach (string x in extensions)
-                {
-                    try
-                    {
-                        string finalKey = x + @"\shell\edit";
-
-                        using (RegistryKey k = Registry.ClassesRoot.OpenSubKey(finalKey, true))
-                        {
-                            k.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
-                            Log("Edit disabled for: " + x);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Log(ex.GetType().ToString() + " - couldn't disable edit for: " + x);
-                    }
-                }
-
-                try
-                {
-                    using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\text\shell\edit", true))
-                    {
-                        key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
-                        Log("Edit disabled for: TXT files");
-                    }
-
-                    using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\audio\shell\Enqueue", true))
-                    {
-                        key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
-                        Log("Disabled add to play list for: audio files!");
-                    }
-
-                    using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\audio\shell\Play", true))
-                    {
-                        key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
-                        Log("Disabled play song for: audio files!");
-                    }
-
-                    using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\Directory.Audio\shell\Enqueue", true))
-                    {
-                        key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
-                        Log("Disabled add to play list for: audio directories!");
-                    }
-
-                    using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\Directory.Audio\shell\Play", true))
-                    {
-                        key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
-                        Log("Disabled play song for: audio directories!");
-                    }
-
-                    using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\Directory.Image\shell\Enqueue", true))
-                    {
-                        key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
-                        Log("Disabled add to play list for: image directories!");
-                    }
-
-                    using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\Directory.Image\shell\Play", true))
-                    {
-                        key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
-                        Log("Disabled play song for: image directories!");
-                    }
-
-                    using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(@"Folder\shellex\ContextMenuHandlers\Library Location", true))
-                    {
-                        key.SetValue(string.Empty, "-{3dad6c5d-2167-4cae-9914-f99e41c12cfa}");
-                        Log("Disabled include in library menu!");
-                    }
-
-                    using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\Directory.Audio\shellex\ContextMenuHandlers\WMPShopMusic", true))
-                    {
-                        key.SetValue(string.Empty, "-{8A734961-C4AA-4741-AC1E-791ACEBF5B39}");
-                        Log("Disabled buying music online context menu!");
-                    }
-
-                    using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(@"exefile\shellex\ContextMenuHandlers\Compatibility", true))
-                    {
-                        key.SetValue(string.Empty, "-{1d27f844-3a1f-4410-85ac-14651078412d}");
-                        Log("Disabled troubleshooting compability (EXE)!");
-                    }
-
-                    using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(@"Msi.Package\shellex\ContextMenuHandlers\Compatibility", true))
-                    {
-                        key.SetValue(string.Empty, "-{1d27f844-3a1f-4410-85ac-14651078412d}");
-                        Log("Disabled troubleshooting compability (MSI)!");
-                    }   
-
-                    Registry.ClassesRoot.DeleteSubKey(@"AllFilesystemObjects\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}", false);
-                    Log("Removed restoring previous version menu! (files)");
-
-                    Registry.ClassesRoot.DeleteSubKey(@"Directory\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}", false);
-                    Log("Removed restoring previous version menu! (directory)");
-                }
-                catch (Exception ex)
-                {
-                    Log(ex.GetType().ToString() + " - something went wrong!");
-                }
-
-                MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-
-        private void DisableStartMenuAds()
-        {
-            if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                try
-                {
-                    using (RegistryKey k = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", true))
-                    {
-                        k.SetValue("SystemPaneSuggestionsEnabled", _adsSwitch);
-                    }
-                    
-                    Log(_adsMessage);
-                    MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    Log(ex.ToString());
-                    MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-         
-        private void DisableSilentInstall()
-        {
-            if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                try
-                {
-                    using (RegistryKey k = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", true))
-                    {
-                        k.SetValue("SilentInstalledAppsEnabled", _adsSwitch, RegistryValueKind.DWord);
-                    }
-
-                    Log("Silent Modern App install disabled");
-                    MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    Log(ex.ToString());
-                    MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-
-        private void button9_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            lblVersion.Text += _currentVersion;
-            CheckTweaks();
-        }
-
-        private void Log(string msg)
-        {
-            if (!string.IsNullOrEmpty(msg))
-            {
-                consoleBox.Text += msg + Environment.NewLine;
-            }
-        }
-
-        private void btnUpdate_Click(object sender, EventArgs e)
-        {
-            CheckForUpdates();
         }
 
         private void btnDefender_Click(object sender, EventArgs e)
@@ -542,12 +255,46 @@ namespace Win10Clean
 
         private void btnApps_Click(object sender, EventArgs e)
         {
-            DisableSilentInstall();
+            if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                try
+                {
+                    using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", true))
+                    {
+                        key.SetValue("SilentInstalledAppsEnabled", 0, RegistryValueKind.DWord);
+                    }
+
+                    Log("Silent Modern App install disabled");
+                    MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    Log(ex.ToString());
+                    MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
         private void btnStartAds_Click(object sender, EventArgs e)
         {
-            DisableStartMenuAds();
+            if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                try
+                {
+                    using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", true))
+                    {
+                        key.SetValue("SystemPaneSuggestionsEnabled", 0);
+                    }
+
+                    Log("Start menu ads disabled!");
+                    MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    Log(ex.ToString());
+                    MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
         private void Revert7Btn_Click(object sender, EventArgs e)
@@ -628,24 +375,235 @@ namespace Win10Clean
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnExport_Click(object sender, EventArgs e)
         {
-            ExportLog();
+            if (!string.IsNullOrEmpty(consoleBox.Text))
+            {
+                SaveFileDialog dialog = new SaveFileDialog();
+                dialog.FileName = "Win10Clean - v" + _currentVersion + " - " + DateTime.Now.ToString("yyyy/MM/dd HH-mm-ss");
+                dialog.Filter = "Text files | *.txt";
+                dialog.DefaultExt = "txt";
+                dialog.Title = "Exporting log...";
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    File.WriteAllText(dialog.FileName, consoleBox.Text);
+                }
+            }
+            else
+            {
+                MessageBox.Show("There is nothing to export!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void btnContext_Click(object sender, EventArgs e)
         {
-            CleanupContextMenu();   
+            // Extended = only when SHIFT is pressed
+            // LegacyDisable = item disabled
+
+            if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                string[] extensions = {
+                    "batfile",
+                    "cmdfile",
+                    "docfile",
+                    "fonfile",
+                    "htmlfile",
+                    "inffile",
+                    "inifile",
+                    "JSEFile",
+                    "JSFile",
+                    "MSInfo.Document",
+                    "otffile",
+                    "pfmfile",
+                    "regfile",
+                    "rtffile",
+                    "ttcfile",
+                    "ttffile",
+                    "txtfile",
+                    "VBEFile",
+                    "VBSFile",
+                    "Wordpad.Document.1",
+                    "WSFFile"
+                };
+
+                foreach (string ext in extensions)
+                {
+                    try
+                    {
+                        string finalKey = ext + @"\shell\print";
+
+                        using (var key = Registry.ClassesRoot.OpenSubKey(finalKey, true))
+                        {
+                            key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
+                            Log("Print disabled for: " + ext);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Log(ex.GetType().ToString() + " - couldn't disable print for: " + ext);
+                    }
+                }
+
+                foreach (string ext in extensions)
+                {
+                    try
+                    {
+                        string finalKey = ext + @"\shell\edit";
+
+                        using (var key = Registry.ClassesRoot.OpenSubKey(finalKey, true))
+                        {
+                            key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
+                            Log("Edit disabled for: " + ext);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Log(ex.GetType().ToString() + " - couldn't disable edit for: " + ext);
+                    }
+                }
+
+                try
+                {
+                    using (var key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\text\shell\edit", true))
+                    {
+                        key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
+                        Log("Edit disabled for: TXT files");
+                    }
+
+                    using (var key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\audio\shell\Enqueue", true))
+                    {
+                        key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
+                        Log("Disabled add to play list for: audio files!");
+                    }
+
+                    using (var key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\audio\shell\Play", true))
+                    {
+                        key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
+                        Log("Disabled play song for: audio files!");
+                    }
+
+                    using (var key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\Directory.Audio\shell\Enqueue", true))
+                    {
+                        key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
+                        Log("Disabled add to play list for: audio directories!");
+                    }
+
+                    using (var key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\Directory.Audio\shell\Play", true))
+                    {
+                        key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
+                        Log("Disabled play song for: audio directories!");
+                    }
+
+                    using (var key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\Directory.Image\shell\Enqueue", true))
+                    {
+                        key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
+                        Log("Disabled add to play list for: image directories!");
+                    }
+
+                    using (var key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\Directory.Image\shell\Play", true))
+                    {
+                        key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
+                        Log("Disabled play song for: image directories!");
+                    }
+
+                    using (var key = Registry.ClassesRoot.OpenSubKey(@"Folder\shellex\ContextMenuHandlers\Library Location", true))
+                    {
+                        key.SetValue(string.Empty, "-{3dad6c5d-2167-4cae-9914-f99e41c12cfa}");
+                        Log("Disabled include in library menu!");
+                    }
+
+                    using (var key = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations\Directory.Audio\shellex\ContextMenuHandlers\WMPShopMusic", true))
+                    {
+                        key.SetValue(string.Empty, "-{8A734961-C4AA-4741-AC1E-791ACEBF5B39}");
+                        Log("Disabled buying music online context menu!");
+                    }
+
+                    using (var key = Registry.ClassesRoot.OpenSubKey(@"exefile\shellex\ContextMenuHandlers\Compatibility", true))
+                    {
+                        key.SetValue(string.Empty, "-{1d27f844-3a1f-4410-85ac-14651078412d}");
+                        Log("Disabled troubleshooting compability (EXE)!");
+                    }
+
+                    using (var key = Registry.ClassesRoot.OpenSubKey(@"Msi.Package\shellex\ContextMenuHandlers\Compatibility", true))
+                    {
+                        key.SetValue(string.Empty, "-{1d27f844-3a1f-4410-85ac-14651078412d}");
+                        Log("Disabled troubleshooting compability (MSI)!");
+                    }
+
+                    Registry.ClassesRoot.DeleteSubKey(@"AllFilesystemObjects\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}", false);
+                    Log("Removed restoring previous version menu! (files)");
+
+                    Registry.ClassesRoot.DeleteSubKey(@"Directory\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}", false);
+                    Log("Removed restoring previous version menu! (directories)");
+                }
+                catch (Exception ex)
+                {
+                    Log(ex.GetType().ToString() + " - something went wrong!");
+                }
+
+                MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
-        private void btnRefresh_Click(object sender, EventArgs e)
+        /* Other stuff */
+        private void RestartExplorer()
         {
-            RefreshAppList(false);
+            Process[] explorerProcess = Process.GetProcessesByName("explorer");
+            foreach (var process in explorerProcess)
+            {
+                process.Kill();
+            }
         }
 
-        private void chkAll_CheckedChanged(object sender, EventArgs e)
+        private void Log(string msg)
         {
-            RefreshAppList(false);
+            if (!string.IsNullOrEmpty(msg)) {
+                consoleBox.Text += msg + Environment.NewLine;
+            }
+        }
+
+        private void CheckTweaks()
+        {
+            try
+            {
+                //  check defender state
+                using (RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", false))
+                {
+                    if ((int)key.GetValue("DisableAntiSpyware", 0) == 1)
+                    {
+                        _defenderSwitch = true;
+                        btnDefender.Text = "Enable Windows Defender";
+                    }
+                }
+            }
+            catch { }
+        }
+
+        private void RunCommand(string command)
+        {
+            using (var p = new Process())
+            {
+                p.StartInfo.FileName = "cmd.exe";
+                // p.StartInfo.CreateNoWindow = true;
+                p.StartInfo.UseShellExecute = false;
+                p.StartInfo.RedirectStandardInput = true;
+                p.StartInfo.RedirectStandardOutput = true;
+
+                try
+                {
+                    p.Start(); // start a command prompt
+
+                    p.StandardInput.WriteLine(command); // run the command
+                    p.StandardInput.Close();
+                    p.WaitForExit();
+                }
+                catch (Exception ex)
+                {
+                    Log(ex.Message);
+                }
+
+            }
         }
 
         /* Metro related */
@@ -738,12 +696,14 @@ namespace Win10Clean
             return;
         }
 
-        private void RestartExplorer()
+        private void chkAll_CheckedChanged(object sender, EventArgs e)
         {
-            Process[] explorerProcess = Process.GetProcessesByName("explorer");
-            foreach (var process in explorerProcess) {
-                process.Kill();
-            }
+            RefreshAppList(false);
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            RefreshAppList(false);
         }
     }
 }

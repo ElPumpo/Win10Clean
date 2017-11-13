@@ -104,7 +104,7 @@
             this.btnExit.TabIndex = 9;
             this.btnExit.Text = "Exit";
             this.btnExit.UseVisualStyleBackColor = true;
-            this.btnExit.Click += new System.EventHandler(this.button9_Click);
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // btnUpdate
             // 
@@ -300,7 +300,7 @@
             this.btnExport.TabIndex = 9;
             this.btnExport.Text = "Export";
             this.btnExport.UseVisualStyleBackColor = true;
-            this.btnExport.Click += new System.EventHandler(this.button1_Click);
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // consoleBox
             // 
