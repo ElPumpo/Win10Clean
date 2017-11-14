@@ -6,6 +6,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Management.Automation;
 using Microsoft.Win32;
+using System.Net.NetworkInformation;
 
 /*
  * Win10Clean - Cleanup your Windows 10 environment
@@ -29,11 +30,10 @@ namespace Win10Clean
 {
     public partial class MainForm : Form
     {
-        string _currentVersion = Application.ProductVersion;
-        string _onlineVersion = "Unknown";
-        int _offline = 9;
-        string _serverUrl = "https://ElPumpo.github.io/Win10Clean/version.txt";
-        string _releasesUrl = "https://github.com/ElPumpo/Win10Clean/releases";
+        public Version offlineVer = new Version(Application.ProductVersion);
+        public Version onlineVer;
+        string serverUrl = "https://ElPumpo.github.io/Win10Clean/version2.txt";
+        string releasesUrl = "https://github.com/ElPumpo/Win10Clean/releases";
 
         bool amd64 = Environment.Is64BitOperatingSystem;
         int _goBack;
@@ -48,7 +48,7 @@ namespace Win10Clean
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            lblVersion.Text += _currentVersion;
+            lblVersion.Text += offlineVer;
             CheckTweaks();
         }
 
@@ -157,49 +157,41 @@ namespace Win10Clean
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            // check internet connection
-            try
-            {
+            btnUpdate.Enabled = false;
+            try {
                 Log("Checking for updates...");
 
-                WebRequest req = WebRequest.Create(_serverUrl);
+                WebRequest req = WebRequest.Create(serverUrl);
                 req.Timeout = 10000;
                 req.Headers.Set("Cache-Control", "no-cache, no-store, must-revalidate");
 
                 WebResponse res = req.GetResponse();
                 StreamReader reader = new StreamReader(res.GetResponseStream());
 
-                _onlineVersion = reader.ReadToEnd().Trim();
-                reader.Close();
-                res.Close();
-            }
-            catch (Exception)
-            {
-                _onlineVersion = "0";
-                Log("Could not check for updates");
-                MessageBox.Show("Could not check for updates!");
+                onlineVer = new Version(reader.ReadToEnd().Trim());
+
+                // Dispone when done
+                reader.Dispose();
+                res.Dispose();
+            } catch (Exception ex) {
+                Log(ex.ToString());
+                MessageBox.Show("Could not check for updates!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            int tmp = Convert.ToInt32(_onlineVersion);
-
-            if (tmp == _offline)
-            {
-                Log("You have the latest version");
-                MessageBox.Show("You have the latest version!");
-            }
-            else
-            {
-                if (MessageBox.Show("A new update is available, download it now?", "Update available", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    Process.Start(_releasesUrl);
+            var compare = onlineVer.CompareTo(offlineVer);
+            if (compare == 0) {
+                Log("Client up-to-date");
+                MessageBox.Show("No new updates were found", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            } else if (compare < 0) {
+                Log("Client > Remote!");
+                MessageBox.Show("If we're correct you are running a newer version than remote! This may very well be a sign that there is a new version out there, so please do your homework.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            } else {
+                Log("Update available!");
+                if (MessageBox.Show("There is a new update available for download, do you want to visit the GitHub releases website?", "Information", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
+                    Process.Start(releasesUrl);
                 }
             }
-
-            if (_offline > tmp)
-            {
-                Log("You have a beta version");
-                MessageBox.Show("You have a beta version!");
-            }
+            btnUpdate.Enabled = true;
         }
 
         private void btnDefender_Click(object sender, EventArgs e)
@@ -288,7 +280,7 @@ namespace Win10Clean
                 {
                     using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", true))
                     {
-                        key.SetValue("SystemPaneSuggestionsEnabled", 0);
+                        key.SetValue("SubscribedContent-338388Enabled", 0, RegistryValueKind.DWord);
                     }
 
                     Log("Start menu ads disabled!");
@@ -362,11 +354,17 @@ namespace Win10Clean
                         key.SetValue("Data", bytes, RegistryValueKind.Binary);
                         Log("File Explorer from Start Menu enabled!");
                     }
-
+                    
                     // Hide OneDrive popup in Explorer
                     using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", true)) {
                         key.SetValue("ShowSyncProviderNotifications", 0, RegistryValueKind.DWord);
-                        Log("Hidden OneDrive popup in Explorer!");
+                        Log("Hide OneDrive popup in Explorer!");
+                    }
+
+                    // Hide My People in taskbar
+                    using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People", true)) {
+                        key.SetValue("PeopleBand", 0, RegistryValueKind.DWord);
+                        Log("Hide My People from taskbar");
                     }
                 } catch (Exception ex) {
                     Log(ex.Message);
@@ -383,7 +381,7 @@ namespace Win10Clean
             if (!string.IsNullOrEmpty(consoleBox.Text))
             {
                 SaveFileDialog dialog = new SaveFileDialog();
-                dialog.FileName = "Win10Clean - v" + _currentVersion + " - " + DateTime.Now.ToString("yyyy/MM/dd HH-mm-ss");
+                dialog.FileName = "Win10Clean - v" + offlineVer + " - " + DateTime.Now.ToString("yyyy/MM/dd HH-mm-ss");
                 dialog.Filter = "Text files | *.txt";
                 dialog.DefaultExt = "txt";
                 dialog.Title = "Exporting log...";
@@ -549,12 +547,11 @@ namespace Win10Clean
                         Log("Disabled troubleshooting compability (MSI)!");
                     }
 
+                    // Disable printing .url files
                     RegistryUtilities.TakeOwnership(@"InternetShortcut\shell\print", RegistryHive.ClassesRoot);
-                    
-                    // Disable printing .url files - WIP
                     using (var key = baseReg.OpenSubKey(@"InternetShortcut\shell\print", true))
                     {
-                        key.SetValue("LegacyDisable", string.Empty); // take ownership!!
+                        key.SetValue("LegacyDisable", string.Empty);
                         Log("Disabled print for: InternetShortcut!");
                     }
 
@@ -574,10 +571,14 @@ namespace Win10Clean
                     RegistryUtilities.TakeOwnership(@"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\empty\command", RegistryHive.ClassesRoot);
                     var regHelper = new RegistryUtilities();
                     regHelper.RenameSubKey(baseReg, @"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\empty", @"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\pintostartscreen");
-
-
                     Log("Disabled Pin to Start for: Recycle Bin!");
-                    
+
+                    // Disable modern share
+                    using (var key = baseReg.OpenSubKey(@"*\shellex\ContextMenuHandlers\ModernSharing", true)) {
+                        key.SetValue(string.Empty, "-{1d27f844-3a1f-4410-85ac-14651078412d}");
+                        Log("Disabled modern share!");
+                    }
+
                 }
                 catch (Exception ex)
                 {
@@ -624,6 +625,12 @@ namespace Win10Clean
                 }
             }
             catch { }
+
+            // check internet connection
+            if (!NetworkInterface.GetIsNetworkAvailable()) {
+                btnUpdate.Enabled = false;
+                Log("Checking for updates is disabled because no internet connection were found!");
+            }
         }
 
         private void RunCommand(string command)

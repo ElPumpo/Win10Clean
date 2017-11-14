@@ -10,10 +10,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Pin Explorer on the start menu
 - Restart explorer once `Revert7` finishes
 - Remove 'Pin on Start' for recycle bin
-- Disable print for .url files
+- Support for disabling print context for .url extention files
+- Support for disabling modern share context menu
+- Support for hiding My People in the taskbar
 
 ### Changed
 - Rewritten application in C#
+- Improved the update checking code, yet again
+- Some changes to support v1709
+- Targeting .NET 4.6.1
 
 ### Removed
 - The `Disable GameDVR` button has been removed due to it being integrated in the Creators Update
