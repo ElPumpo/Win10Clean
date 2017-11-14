@@ -9,11 +9,10 @@ Check out the [wiki](https://github.com/ElPumpo/Win10Clean/wiki) for more inform
 Runnable executables [are available for download](https://github.com/ElPumpo/Win10Clean/releases)
 
 # Requirements
-+ Windows 10 and 8.x are supported (but you should only apply these fixes to Windows 10)
-+ .NET framework 4.6
++ Windows 10 v1709 supported only
++ .NET framework 4.6.1
 
 # Legal
-
 ### License
 Win10Clean - Cleanup your Windows 10 environment
 
