@@ -117,12 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="ToolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <data name="RichTextBox1.Text" xml:space="preserve">
+  <data name="aboutBox.Text" xml:space="preserve">
     <value>Win10Clean - Cleanup your Windows 10 environment
-Copyright (C) 2016-2017 Hawaii_Beach
+Copyright (C) 2017 Hawaii_Beach &amp; deadmoon
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
@@ -132,7 +129,8 @@ You should have received a copy of the GNU General Public License along with thi
 
 Icons by famfamfam &lt;http://famfamfam.com&gt; are licensed under CC BY 3.0 &lt;https://creativecommons.org/licenses/by/3.0/&gt;
 
-Project icon by Maddoc42 &lt;https://github.com/Maddoc42/Android-Material-Icon-Generator&gt; is licensed under CC BY-NC 3.0 &lt;https://creativecommons.org/licenses/by-nc/3.0/&gt;</value>
+Project icon by Maddoc42 &lt;https://github.com/Maddoc42/Android-Material-Icon-Generator&gt; is licensed under CC BY-NC 3.0 &lt;https://creativecommons.org/licenses/by-nc/3.0/&gt;
+</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

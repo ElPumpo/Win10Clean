@@ -13,6 +13,7 @@ Runnable executables [are available for download](https://github.com/ElPumpo/Win
 + .NET framework 4.6.1
 
 # Legal
+
 ### License
 Win10Clean - Cleanup your Windows 10 environment
 
