@@ -319,6 +319,14 @@ namespace Win10Clean
                             key.SetValue("ThisPCPolicy", "Hide");
                             Log(string.Format("Value of {0} modified", guid));
                         }
+
+                        // amd64 fix
+                        if (amd64) {
+                            using (var key = Registry.LocalMachine.CreateSubKey(finalKey)) {
+                                key.SetValue("ThisPCPolicy", "Hide");
+                                Log(string.Format("Value of {0} modified", guid));
+                            }
+                        }
                     } catch (Exception ex) {
                         Log(ex.GetType().Name + " - Couldn't modify the value of: " + guid);
                         MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
