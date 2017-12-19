@@ -59,9 +59,7 @@ namespace Win10Clean
             if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
 
                 string processName = "OneDrive";
-
-                byte[] byteArray = BitConverter.GetBytes(0xb090010d);
-                int oneDriveSwitch = BitConverter.ToInt32(byteArray, 0);
+                int byteArray = BitConverter.ToInt32(BitConverter.GetBytes(0xb090010d), 0);
                 string onePath;
 
                 try {
@@ -105,7 +103,6 @@ namespace Win10Clean
                 Registry.ClassesRoot.CreateSubKey(oneKey);
 
                 var baseReg = RegistryKey.OpenBaseKey(RegistryHive.ClassesRoot, RegistryView.Registry64);
-
                 try {
                     // Remove from the Explorer file dialog
                     using (var key = Registry.ClassesRoot.OpenSubKey(oneKey, true)) {
@@ -123,16 +120,23 @@ namespace Win10Clean
 
                     // Remove from the alternative file dialog (legacy)
                     using (var key = Registry.ClassesRoot.OpenSubKey(oneKey + "\\ShellFolder", true)) {
-                        key.SetValue("Attributes", oneDriveSwitch, RegistryValueKind.DWord);
+                        key.SetValue("Attributes", byteArray, RegistryValueKind.DWord);
                         Log("OneDrive removed from Explorer (Legacy FileDialog)!");
                     }
 
                     // amd64 system fix
                     if (amd64) {
                         using (var key = baseReg.OpenSubKey(oneKey + "\\ShellFolder", true)) {
-                            key.SetValue("Attributes", oneDriveSwitch, RegistryValueKind.DWord);
+                            key.SetValue("Attributes", byteArray, RegistryValueKind.DWord);
                             Log("OneDrive removed from Explorer (Legacy FileDialog, amd64)!");
                         }
+                    }
+
+                    baseReg = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
+                    // Remove the startup
+                    using (var key = baseReg.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true)) {
+                        key.DeleteValue("OneDriveSetup", false);
+                        Log("Removed startup object!");
                     }
                 } catch (Exception ex) {
                     Log(ex.ToString());
