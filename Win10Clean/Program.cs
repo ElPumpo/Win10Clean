@@ -17,7 +17,10 @@ namespace Win10Clean
             }
             else
             {
-                MessageBox.Show("This app is compatible only with Windows 10 Fall Creators Update (1709)!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (MessageBox.Show("This app is compatible only with Windows 10 Fall Creators Update (1709)!" + Environment.NewLine + "Are you sure you want to continue?", "Continue at your own risk", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    Application.Run(new MainForm());
+                }
             }
         }
     }
