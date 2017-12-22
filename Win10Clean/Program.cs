@@ -10,7 +10,15 @@ namespace Win10Clean
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            
+            if (Utilities.IsCompatible())
+            {
+                Application.Run(new MainForm());
+            }
+            else
+            {
+                MessageBox.Show("This app is compatible only with Windows 10 Fall Creators Update (1709)!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }
