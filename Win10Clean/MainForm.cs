@@ -579,13 +579,20 @@ namespace Win10Clean
 
                     // https://superuser.com/a/808730
                     // Pin to Start on recycle bin
-                    RegistryUtilities.TakeOwnership(@"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}", RegistryHive.ClassesRoot);
-                    RegistryUtilities.TakeOwnership(@"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell", RegistryHive.ClassesRoot);
-                    RegistryUtilities.TakeOwnership(@"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\empty", RegistryHive.ClassesRoot);
-                    RegistryUtilities.TakeOwnership(@"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\empty\command", RegistryHive.ClassesRoot);
-                    var regHelper = new RegistryUtilities();
-                    regHelper.RenameSubKey(baseReg, @"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\empty", @"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\pintostartscreen");
-                    Log("Disabled Pin to Start for: Recycle Bin!");
+                    bool skip = false;
+                    using (var key = baseReg.OpenSubKey(@"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\empty")) {
+                        if (key == null) skip = true;
+                    }
+
+                    if (!skip) {
+                        RegistryUtilities.TakeOwnership(@"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}", RegistryHive.ClassesRoot);
+                        RegistryUtilities.TakeOwnership(@"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell", RegistryHive.ClassesRoot);
+                        RegistryUtilities.TakeOwnership(@"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\empty", RegistryHive.ClassesRoot);
+                        RegistryUtilities.TakeOwnership(@"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\empty\command", RegistryHive.ClassesRoot);
+                        var regHelper = new RegistryUtilities();
+                        regHelper.RenameSubKey(baseReg, @"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\empty", @"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\pintostartscreen");
+                        Log("Disabled Pin to Start for: Recycle Bin!");
+                    }
 
                     // Disable modern share
                     using (var key = baseReg.OpenSubKey(@"*\shellex\ContextMenuHandlers\ModernSharing", true)) {
@@ -593,6 +600,14 @@ namespace Win10Clean
                         Log("Disabled modern share!");
                     }
 
+                    // Disable share menu
+                    baseReg = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
+                    string regKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked";
+                    baseReg.CreateSubKey(regKey); // doesn't exist as default, normal behaviour
+                    using (var key = baseReg.OpenSubKey(regKey, true)) {
+                        key.SetValue("{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}", string.Empty);
+                        Log("Disabled (old) share!");
+                    }
                 }
                 catch (Exception ex)
                 {

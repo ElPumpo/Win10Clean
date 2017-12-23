@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- Now disables the `share with` context menu
+
 ### Fixed
 - Libary folders not hidden in certian open file dialogs for amd64 users
 - Missing OneDrive leftover registry key
