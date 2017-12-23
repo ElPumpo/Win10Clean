@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Libary folders not hidden in certian open file dialogs for amd64 users
 - Missing OneDrive leftover registry key
+- Broken registry paths throwing errors
 
 ## [0.13.0] - 2017-11-18
 ### Added

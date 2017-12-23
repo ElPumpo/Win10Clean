@@ -336,14 +336,14 @@ namespace Win10Clean
                         MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
-                
-                string pinLib = @"Software\Classes\CLSID\{031E4825-7B94-4dc3-B131-E946B44C8DD5}";
+                baseReg = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
                 byte[] bytes = { 2, 0, 0, 0, 64, 31, 210, 5, 170, 22, 211, 1, 0, 0, 0, 0, 67, 66, 1, 0, 194, 10, 1, 203, 50, 10, 2, 5, 134, 145, 204, 147, 5, 36, 170, 163, 1, 68, 195, 132, 1, 102, 159, 247, 157, 177, 135, 203, 209, 172, 212, 1, 0, 5, 188, 201, 168, 164, 1, 36, 140, 172, 3, 68, 137, 133, 1, 102, 160, 129, 186, 203, 189, 215, 168, 164, 130, 1, 0, 194, 60, 1, 0 };
-                Registry.CurrentUser.CreateSubKey(pinLib); // doesn't exist as default, normal behaviour
 
                 try {
                     // Pin libary folders
-                    using (var key = Registry.CurrentUser.OpenSubKey(pinLib, true)) {
+                    string pinLib = @"Software\Classes\CLSID\{031E4825-7B94-4dc3-B131-E946B44C8DD5}";
+                    baseReg.CreateSubKey(pinLib); // doesn't exist as default, normal behaviour
+                    using (var key = baseReg.OpenSubKey(pinLib, true)) {
                         key.SetValue("System.IsPinnedToNameSpaceTree", 1, RegistryValueKind.DWord);
                         Log("Pinned the libary folders in Explorer!");
                     }
@@ -374,12 +374,14 @@ namespace Win10Clean
                     }
 
                     // Hide My People in taskbar
-                    using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People", true)) {
+                    pinLib = @"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People";
+                    Registry.CurrentUser.CreateSubKey(pinLib); // doesn't exist as default, normal behaviour
+                    using (var key = Registry.CurrentUser.OpenSubKey(pinLib, true)) {
                         key.SetValue("PeopleBand", 0, RegistryValueKind.DWord);
                         Log("Hide My People from taskbar");
                     }
                 } catch (Exception ex) {
-                    Log(ex.Message);
+                    Log(ex.ToString());
                     MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
