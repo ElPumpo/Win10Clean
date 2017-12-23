@@ -584,6 +584,7 @@ namespace Win10Clean
                         if (key == null) skip = true;
                     }
 
+                    // Do we really need to do this?
                     if (!skip) {
                         RegistryUtilities.TakeOwnership(@"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}", RegistryHive.ClassesRoot);
                         RegistryUtilities.TakeOwnership(@"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell", RegistryHive.ClassesRoot);
