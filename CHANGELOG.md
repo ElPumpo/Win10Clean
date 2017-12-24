@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
-- Now disables the `share with` context menu
+- Now disables the `share with` context menu, and removes the edit context menu for `.java` files
 
 ### Changed
 - Improved the status message box when uninstalling metro apps

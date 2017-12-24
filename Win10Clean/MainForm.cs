@@ -67,7 +67,7 @@ namespace Win10Clean
 
                 try {
                     Process.GetProcessesByName(processName)[0].Kill();
-                } catch (Exception) {
+                } catch (Exception) { // Throws IndexOutOfRangeException
                     Log("Could not kill process: " + processName);
                     // ignore errors
                 }
@@ -78,8 +78,12 @@ namespace Win10Clean
                     onePath = Environment.GetFolderPath(Environment.SpecialFolder.System) + "\\OneDriveSetup.exe";
                 }
 
-                Process.Start(onePath, "/uninstall");
-                Log("Uninstalled OneDrive using the setup!");
+                try {
+                    Process.Start(onePath, "/uninstall");
+                    Log("Uninstalled OneDrive using the setup!");
+                } catch (Exception ex) {
+                    Log(ex.ToString());
+                }
 
                 // All the folders to be deleted
                 string[] onePaths = {
@@ -149,8 +153,8 @@ namespace Win10Clean
                 baseReg.Dispose();
 
                 // Delete scheduled leftovers
-                RunCommand("SCHTASKS /Delete /TN \"OneDrive Standalone Update Task\" /F");
-                RunCommand("SCHTASKS /Delete /TN \"OneDrive Standalone Update Task v2\" /F");
+                RunCommand(@"SCHTASKS /Delete /TN ""OneDrive Standalone Update Task"" /F");
+                RunCommand(@"SCHTASKS /Delete /TN ""OneDrive Standalone Update Task v2"" /F");
                 Log("OneDrive scheduled tasks deleted!");
 
                 MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -581,6 +585,10 @@ namespace Win10Clean
                     // Restore previous version (directory)
                     baseReg.DeleteSubKey(@"Directory\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}", false);
                     Log("Removed restoring previous version menu! (directories)");
+
+                    // Manual fix for .java
+                    baseReg.DeleteSubKey(".java", false);
+                    Log("Edit disabled for: JAVA files");
 
                     // https://superuser.com/a/808730
                     // Pin to Start on recycle bin
