@@ -7,6 +7,8 @@ using System.Diagnostics;
 using System.Management.Automation;
 using Microsoft.Win32;
 using System.Net.NetworkInformation;
+using System.Collections.Generic;
+using System.Threading;
 
 /*
  * Win10Clean - Cleanup your Windows 10 environment
@@ -34,12 +36,13 @@ namespace Win10Clean
         public Version onlineVer;
         string serverUrl = "https://ElPumpo.github.io/Win10Clean/version2.txt";
         string releasesUrl = "https://github.com/ElPumpo/Win10Clean/releases";
-
         bool amd64 = Environment.Is64BitOperatingSystem;
-        int _goBack;
-        string selectedApps;
+        bool defenderSwitch = false;
 
-        bool _defenderSwitch = false;
+        /* Metro related */
+        string selectedApps;
+        List<string> uninstallSuccessList = new List<string>();
+        List<string> uninstallFailedList = new List<string>();
 
         public MainForm()
         {
@@ -182,13 +185,13 @@ namespace Win10Clean
                 MessageBox.Show("Could not check for updates!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            var compare = onlineVer.CompareTo(offlineVer);
-            if (compare == 0) {
+            var diff = onlineVer.CompareTo(offlineVer);
+            if (diff == 0) {
                 Log("Client up-to-date");
-                MessageBox.Show("No new updates were found", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            } else if (compare < 0) {
+                MessageBox.Show("No new updates were found, you are running the latest version!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            } else if (diff < 0) {
                 Log("Client > Remote!");
-                MessageBox.Show("If we're correct you are running a newer version than remote! This may very well be a sign that there is a new version out there, so please do your homework.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("You are running a newer version than remote! This is not normal and there might be a new update available.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             } else {
                 Log("Update available!");
                 if (MessageBox.Show("There is a new update available for download, do you want to visit the GitHub releases website?", "Information", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
@@ -202,7 +205,7 @@ namespace Win10Clean
         {
             if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
                 var baseReg = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
-                if (!_defenderSwitch) {
+                if (!defenderSwitch) {
                     try {
                         // Disable engine
                         using (var key = baseReg.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", true)) {
@@ -223,7 +226,7 @@ namespace Win10Clean
 
                         MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     } catch (Exception ex) {
-                        Log(ex.Message);
+                        Log(ex.ToString());
                         MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 } else { // re-enable Defender
@@ -235,7 +238,7 @@ namespace Win10Clean
                         Log("Main Windows Defender functions enabled!");
                         MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     } catch (Exception ex) {
-                        Log(ex.Message);
+                        Log(ex.ToString());
                         MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
@@ -328,11 +331,11 @@ namespace Win10Clean
                         if (amd64) {
                             using (var key = Registry.LocalMachine.CreateSubKey(finalKey)) {
                                 key.SetValue("ThisPCPolicy", "Hide");
-                                Log(string.Format("Value of {0} modified", guid));
+                                Log(string.Format("Value of {0} modified (amd64)", guid));
                             }
                         }
                     } catch (Exception ex) {
-                        Log(ex.GetType().Name + " - Couldn't modify the value of: " + guid);
+                        Log(ex.ToString());
                         MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
@@ -385,6 +388,7 @@ namespace Win10Clean
                     MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
+                baseReg.Dispose();
                 RestartExplorer();
                 MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -562,7 +566,8 @@ namespace Win10Clean
                     }
 
                     // Disable printing .url files
-                    RegistryUtilities.TakeOwnership(@"InternetShortcut\shell\print", RegistryHive.ClassesRoot);
+                    var registryUtil = new RegistryUtilities();
+                    registryUtil.TakeOwnership(@"InternetShortcut\shell\print", RegistryHive.ClassesRoot);
                     using (var key = baseReg.OpenSubKey(@"InternetShortcut\shell\print", true))
                     {
                         key.SetValue("LegacyDisable", string.Empty);
@@ -586,12 +591,13 @@ namespace Win10Clean
 
                     // Do we really need to do this?
                     if (!skip) {
-                        RegistryUtilities.TakeOwnership(@"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}", RegistryHive.ClassesRoot);
-                        RegistryUtilities.TakeOwnership(@"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell", RegistryHive.ClassesRoot);
-                        RegistryUtilities.TakeOwnership(@"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\empty", RegistryHive.ClassesRoot);
-                        RegistryUtilities.TakeOwnership(@"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\empty\command", RegistryHive.ClassesRoot);
-                        var regHelper = new RegistryUtilities();
-                        regHelper.RenameSubKey(baseReg, @"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\empty", @"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\pintostartscreen");
+                        // Take ownership of the keys
+                        registryUtil.TakeOwnership(@"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}", RegistryHive.ClassesRoot);
+                        registryUtil.TakeOwnership(@"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell", RegistryHive.ClassesRoot);
+                        registryUtil.TakeOwnership(@"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\empty", RegistryHive.ClassesRoot);
+                        registryUtil.TakeOwnership(@"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\empty\command", RegistryHive.ClassesRoot);
+
+                        registryUtil.RenameSubKey(baseReg, @"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\empty", @"CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\pintostartscreen");
                         Log("Disabled Pin to Start for: Recycle Bin!");
                     }
 
@@ -612,10 +618,9 @@ namespace Win10Clean
                 }
                 catch (Exception ex)
                 {
-                    Log(ex.GetType().ToString() + " - something went wrong!");
+                    Log(ex.ToString());
                     // Ignore errors
                 }
-         
 
                 baseReg.Dispose();
 
@@ -633,23 +638,27 @@ namespace Win10Clean
             }
         }
 
-        private void Log(string msg)
+        public void Log(string msg)
         {
             if (!string.IsNullOrEmpty(msg)) {
-                consoleBox.Text += msg + Environment.NewLine;
+                try {
+                    consoleBox.Text += msg + Environment.NewLine;
+                } catch (Exception) {
+                    try {
+                        consoleBox.Text += msg + Environment.NewLine;
+                    } catch { }
+                }
+                
             }
         }
 
         private void CheckTweaks()
         {
-            try
-            {
+            try {
                 //  check defender state
-                using (RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", false))
-                {
-                    if ((int)key.GetValue("DisableAntiSpyware", 0) == 1)
-                    {
-                        _defenderSwitch = true;
+                using (RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", false)) {
+                    if ((int)key.GetValue("DisableAntiSpyware", 0) == 1) {
+                        defenderSwitch = true;
                         btnDefender.Text = "Enable Windows Defender";
                     }
                 }
@@ -665,27 +674,22 @@ namespace Win10Clean
 
         private void RunCommand(string command)
         {
-            using (var p = new Process())
-            {
-                p.StartInfo.FileName = "cmd.exe";
-                p.StartInfo.CreateNoWindow = true;
-                p.StartInfo.UseShellExecute = false;
-                p.StartInfo.RedirectStandardInput = true;
-                p.StartInfo.RedirectStandardOutput = true;
+            using (var process = new Process()) {
+                process.StartInfo.FileName = "cmd.exe";
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardInput = true;
+                process.StartInfo.RedirectStandardOutput = true;
 
-                try
-                {
-                    p.Start(); // start a command prompt
+                try {
+                    process.Start(); // start a command prompt
 
-                    p.StandardInput.WriteLine(command); // run the command
-                    p.StandardInput.Close();
-                    p.WaitForExit();
+                    process.StandardInput.WriteLine(command); // run the command
+                    process.StandardInput.Close();
+                    process.WaitForExit();
+                } catch (Exception ex) {
+                    Log(ex.ToString());
                 }
-                catch (Exception ex)
-                {
-                    Log(ex.Message);
-                }
-
             }
         }
 
@@ -693,6 +697,12 @@ namespace Win10Clean
         private void UninstallBtn_Click(object sender, EventArgs e)
         {
             selectedApps = null;
+
+            string successList = string.Empty;
+            string failedList = string.Empty;
+
+            uninstallSuccessList.Clear();
+            uninstallFailedList.Clear();
 
             // Displays all the apps to be uninstalled
             if (appBox.CheckedItems.Count > 0) {
@@ -709,8 +719,29 @@ namespace Win10Clean
                         Task.Run(() => UninstallApp(app));
                     }
 
+                    Thread.Sleep(700); // workaround (kinda dirty) for MessageBox not appearing?!
                     RefreshAppList(true); // refresh list when we're done
-                    MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    foreach (var str in uninstallSuccessList) {
+                        successList += str + Environment.NewLine;
+                    }
+                    foreach (var str in uninstallFailedList) {
+                        failedList += str + Environment.NewLine;
+                    }
+                    
+                    // Construct message
+                    string message = string.Format("App uninstall finished! Of the {0} total app(s), {1} has been uninstalled.",
+                        uninstallSuccessList.Count + uninstallFailedList.Count, uninstallSuccessList.Count) + Environment.NewLine + Environment.NewLine;
+
+                    if (uninstallSuccessList.Count != 0) {
+                        message += "Successfully uninstalled:" + Environment.NewLine + successList;
+                    }
+
+                    if (uninstallFailedList.Count != 0) {
+                        message += "Failed uninstall:" + Environment.NewLine + failedList;
+                    }
+
+                    MessageBox.Show(message, "Win10Clean", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             } else {
                 MessageBox.Show("You haven't selected anything!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -738,15 +769,12 @@ namespace Win10Clean
 
         private void RefreshAppList(bool minusOne)
         {
-            _goBack = appBox.SelectedIndex;
             appBox.Items.Clear();
             RetrieveApps();
 
             try {
                 if (minusOne) {
-                    appBox.SelectedIndex = _goBack - 1;
-                } else {
-                    appBox.SelectedIndex = _goBack;
+                    appBox.SelectedIndex =- 1;
                 }
             } catch { }
         }
@@ -774,10 +802,12 @@ namespace Win10Clean
 
             if (error)
             {
+                uninstallFailedList.Add(app);
                 Log("Could not uninstall app: " + app);
             }
             else
             {
+                uninstallSuccessList.Add(app);
                 Log("App uninstalled: " + app);
             }
 

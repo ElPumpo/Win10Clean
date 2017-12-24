@@ -7,7 +7,7 @@ namespace Win10Clean
 {
     class RegistryUtilities
     {
-        public static void TakeOwnership(string regPath, RegistryHive registryHive)
+        public void TakeOwnership(string regPath, RegistryHive registryHive)
         {
             var baseReg = RegistryKey.OpenBaseKey(registryHive, RegistryView.Registry64);
             try {

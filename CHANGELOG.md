@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Now disables the `share with` context menu
 
+### Changed
+- Improved the status message box when uninstalling metro apps
+- Minor changes (extended error messages, code changes & improvements)
+
 ### Fixed
 - Libary folders not hidden in certian open file dialogs for amd64 users
 - Missing OneDrive leftover registry key
