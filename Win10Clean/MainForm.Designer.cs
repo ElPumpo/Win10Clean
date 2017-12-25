@@ -33,7 +33,6 @@
             this.tabHome = new System.Windows.Forms.TabPage();
             this.btnExit = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
-            this.lblVersion = new System.Windows.Forms.Label();
             this.btnContext = new System.Windows.Forms.Button();
             this.OneDriveBtn = new System.Windows.Forms.Button();
             this.btnStartAds = new System.Windows.Forms.Button();
@@ -78,7 +77,6 @@
             // 
             this.tabHome.Controls.Add(this.btnExit);
             this.tabHome.Controls.Add(this.btnUpdate);
-            this.tabHome.Controls.Add(this.lblVersion);
             this.tabHome.Controls.Add(this.btnContext);
             this.tabHome.Controls.Add(this.OneDriveBtn);
             this.tabHome.Controls.Add(this.btnStartAds);
@@ -117,16 +115,6 @@
             this.btnUpdate.Text = "Update";
             this.btnUpdate.UseVisualStyleBackColor = true;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
-            // 
-            // lblVersion
-            // 
-            this.lblVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblVersion.AutoSize = true;
-            this.lblVersion.Location = new System.Drawing.Point(6, 412);
-            this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(64, 17);
-            this.lblVersion.TabIndex = 7;
-            this.lblVersion.Text = "Version: ";
             // 
             // btnContext
             // 
@@ -352,7 +340,6 @@
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabHome.ResumeLayout(false);
-            this.tabHome.PerformLayout();
             this.tabMetro.ResumeLayout(false);
             this.tabMetro.PerformLayout();
             this.appPanel.ResumeLayout(false);
@@ -371,7 +358,6 @@
         private System.Windows.Forms.TabPage tabAbout;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.Button btnUpdate;
-        private System.Windows.Forms.Label lblVersion;
         private System.Windows.Forms.Button btnContext;
         private System.Windows.Forms.Button OneDriveBtn;
         private System.Windows.Forms.Button btnStartAds;

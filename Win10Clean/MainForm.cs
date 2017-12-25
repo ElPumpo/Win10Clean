@@ -50,7 +50,7 @@ namespace Win10Clean
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            lblVersion.Text += offlineVer;
+            Text += " v" + offlineVer.ToString();
             CheckTweaks();
         }
 
@@ -58,6 +58,7 @@ namespace Win10Clean
 
         private void OneDriveBtn_Click(object sender, EventArgs e)
         {
+            Enabled = false;
             if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
 
                 string processName = "OneDrive";
@@ -158,11 +159,12 @@ namespace Win10Clean
 
                 MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            Enabled = true;
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            btnUpdate.Enabled = false;
+            Enabled = false;
             try {
                 Log("Checking for updates...");
 
@@ -197,11 +199,12 @@ namespace Win10Clean
                 }
             }
             Log(string.Format("Offline: v{0} | Online: v{1} | Diff: {2}", offlineVer, onlineVer, diff));
-            btnUpdate.Enabled = true;
+            Enabled = true;
         }
 
         private void btnDefender_Click(object sender, EventArgs e)
         {
+            Enabled = false;
             if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
                 var baseReg = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
                 if (!defenderSwitch) {
@@ -243,10 +246,12 @@ namespace Win10Clean
                 }
                 baseReg.Dispose();
             }
+            Enabled = true;
         }
 
         private void HomeGroupBtn_Click(object sender, EventArgs e)
         {
+            Enabled = false;
             if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
                 RunCommand("sc config \"HomeGroupProvider\" start=disabled"); // stop autorun
                 RunCommand("sc stop \"HomeGroupProvider\""); // stop process now
@@ -254,10 +259,12 @@ namespace Win10Clean
 
                 MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            Enabled = true;
         }
 
         private void Revert7Btn_Click(object sender, EventArgs e)
         {
+            Enabled = false;
             if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
                 
                 // Get ride of libary folders in My PC
@@ -347,10 +354,12 @@ namespace Win10Clean
                 RestartExplorer();
                 MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            Enabled = true;
         }
 
         private void btnContext_Click(object sender, EventArgs e)
         {
+            Enabled = false;
             // Extended = only when SHIFT is pressed
             // LegacyDisable = item disabled
 
@@ -540,10 +549,12 @@ namespace Win10Clean
 
                 MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            Enabled = true;
         }
 
         private void btnExport_Click(object sender, EventArgs e)
         {
+            Enabled = false;
             if (!string.IsNullOrEmpty(consoleBox.Text))
             {
                 SaveFileDialog dialog = new SaveFileDialog();
@@ -561,50 +572,45 @@ namespace Win10Clean
             {
                 MessageBox.Show("There is nothing to export!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            Enabled = true;
         }
 
         private void btnApps_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                try
-                {
-                    using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", true))
-                    {
+            Enabled = false;
+            if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
+                try {
+                    using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", true)) {
                         key.SetValue("SilentInstalledAppsEnabled", 0, RegistryValueKind.DWord);
                     }
 
                     Log("Silent Modern App install disabled");
                     MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
+                } catch (Exception ex) {
                     Log(ex.ToString());
                     MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            Enabled = true;
         }
 
         private void btnStartAds_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                try
-                {
-                    using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", true))
-                    {
+            Enabled = false;
+            if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
+                try {
+                    using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", true)) {
                         key.SetValue("SubscribedContent-338388Enabled", 0, RegistryValueKind.DWord);
                     }
 
                     Log("Start menu ads disabled!");
                     MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
+                } catch (Exception ex) {
                     Log(ex.ToString());
                     MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            Enabled = true;
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -680,6 +686,7 @@ namespace Win10Clean
         /* Metro related */
         private void UninstallBtn_Click(object sender, EventArgs e)
         {
+            Enabled = false;
             string selectedApps = string.Empty;
             string successList = string.Empty;
             string failedList = string.Empty;
@@ -726,6 +733,7 @@ namespace Win10Clean
             } else {
                 MessageBox.Show("You haven't selected anything!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
+            Enabled = true;
         }
 
         private void RetrieveApps()
@@ -801,7 +809,9 @@ namespace Win10Clean
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
+            Enabled = false;
             RefreshAppList(false);
+            Enabled = true;
         }
 
         private void tabMetro_Enter(object sender, EventArgs e)
