@@ -225,7 +225,7 @@ namespace Win10Clean
                         }
 
                         // Unregister Defender shell extension
-                        RunCommand("regsvr32 /u /s \"C:\\Program Files\\Windows Defender\\shellext.dll\"");
+                        RunCommand(@"regsvr32 /u /s """ + Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) + @"\Windows Defender\shellext.dll""");
                         Log("Windows Defender shell addons unregistered!");
 
                         MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -237,9 +237,9 @@ namespace Win10Clean
                     try {
                         using (var key = baseReg.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", true)) {
                             key.SetValue("DisableAntiSpyware", 0, RegistryValueKind.DWord);
+                            Log("Main Windows Defender functions enabled!");
                         }
 
-                        Log("Main Windows Defender functions enabled!");
                         MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     } catch (Exception ex) {
                         Log(ex.ToString());
@@ -587,7 +587,7 @@ namespace Win10Clean
                     Log("Removed restoring previous version menu! (directories)");
 
                     // Manual fix for .java
-                    baseReg.DeleteSubKey(".java", false);
+                    baseReg.DeleteSubKeyTree(".java", false);
                     Log("Edit disabled for: JAVA files");
 
                     // https://superuser.com/a/808730
