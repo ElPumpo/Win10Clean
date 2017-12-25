@@ -40,7 +40,6 @@ namespace Win10Clean
         bool defenderSwitch = false;
 
         /* Metro related */
-        string selectedApps;
         List<string> uninstallSuccessList = new List<string>();
         List<string> uninstallFailedList = new List<string>();
 
@@ -161,11 +160,6 @@ namespace Win10Clean
             }
         }
 
-        private void btnExit_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             btnUpdate.Enabled = false;
@@ -202,6 +196,7 @@ namespace Win10Clean
                     Process.Start(releasesUrl);
                 }
             }
+            Log(string.Format("Offline: v{0} | Online: v{1} | Diff: {2}", offlineVer, onlineVer, diff));
             btnUpdate.Enabled = true;
         }
 
@@ -258,50 +253,6 @@ namespace Win10Clean
                 Log("HomeGroup disabled!");
 
                 MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-
-        private void btnApps_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                try
-                {
-                    using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", true))
-                    {
-                        key.SetValue("SilentInstalledAppsEnabled", 0, RegistryValueKind.DWord);
-                    }
-
-                    Log("Silent Modern App install disabled");
-                    MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    Log(ex.ToString());
-                    MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-
-        private void btnStartAds_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                try
-                {
-                    using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", true))
-                    {
-                        key.SetValue("SubscribedContent-338388Enabled", 0, RegistryValueKind.DWord);
-                    }
-
-                    Log("Start menu ads disabled!");
-                    MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    Log(ex.ToString());
-                    MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
             }
         }
 
@@ -398,27 +349,6 @@ namespace Win10Clean
             }
         }
 
-        private void btnExport_Click(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrEmpty(consoleBox.Text))
-            {
-                SaveFileDialog dialog = new SaveFileDialog();
-                dialog.FileName = "Win10Clean - v" + offlineVer + " - " + DateTime.Now.ToString("yyyy/MM/dd HH-mm-ss");
-                dialog.Filter = "Text files | *.txt";
-                dialog.DefaultExt = "txt";
-                dialog.Title = "Exporting log...";
-
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    File.WriteAllText(dialog.FileName, consoleBox.Text);
-                }
-            }
-            else
-            {
-                MessageBox.Show("There is nothing to export!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-
         private void btnContext_Click(object sender, EventArgs e)
         {
             // Extended = only when SHIFT is pressed
@@ -453,38 +383,28 @@ namespace Win10Clean
                 };
 
                 // Disable print
-                foreach (string ext in extensions)
-                {
-                    try
-                    {
+                foreach (string ext in extensions) {
+                    try {
                         string finalKey = ext + @"\shell\print";
-                        using (var key = baseReg.OpenSubKey(finalKey, true))
-                        {
+                        using (var key = baseReg.OpenSubKey(finalKey, true)) {
                             key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
                             Log("Print disabled for: " + ext);
                         }
-                    }
-                    catch (Exception ex)
-                    {
+                    } catch (Exception ex) {
                         Log(ex.GetType().ToString() + " - couldn't disable print for: " + ext);
                         // Ignore errors
                     }
                 }
 
                 // Disable edit
-                foreach (string ext in extensions)
-                {
-                    try
-                    {
+                foreach (string ext in extensions) {
+                    try {
                         string finalKey = ext + @"\shell\edit";
-                        using (var key = baseReg.OpenSubKey(finalKey, true))
-                        {
+                        using (var key = baseReg.OpenSubKey(finalKey, true)) {
                             key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
                             Log("Edit disabled for: " + ext);
                         }
-                    }
-                    catch (Exception ex)
-                    {
+                    } catch (Exception ex) {
                         Log(ex.GetType().ToString() + " - couldn't disable edit for: " + ext);
                         // Ignore errors
                     }
@@ -493,78 +413,67 @@ namespace Win10Clean
                 // Extra things
                 try {
                     // Manual fix for txt
-                    using (var key = baseReg.OpenSubKey(@"SystemFileAssociations\text\shell\edit", true))
-                    {
+                    using (var key = baseReg.OpenSubKey(@"SystemFileAssociations\text\shell\edit", true)) {
                         key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
                         Log("Edit disabled for: TXT files");
                     }
 
                     // WMP #1 - add to list
-                    using (var key = baseReg.OpenSubKey(@"SystemFileAssociations\audio\shell\Enqueue", true))
-                    {
+                    using (var key = baseReg.OpenSubKey(@"SystemFileAssociations\audio\shell\Enqueue", true)) {
                         key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
                         Log("Disabled add to play list for: audio files!");
                     }
 
                     // WMP #2 - play
-                    using (var key = baseReg.OpenSubKey(@"SystemFileAssociations\audio\shell\Play", true))
-                    {
+                    using (var key = baseReg.OpenSubKey(@"SystemFileAssociations\audio\shell\Play", true)) {
                         key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
                         Log("Disabled play song for: audio files!");
                     }
 
                     // WMP #3 - add to list (audio folder)
-                    using (var key = baseReg.OpenSubKey(@"SystemFileAssociations\Directory.Audio\shell\Enqueue", true))
-                    {
+                    using (var key = baseReg.OpenSubKey(@"SystemFileAssociations\Directory.Audio\shell\Enqueue", true)) {
                         key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
                         Log("Disabled add to play list for: audio directories!");
                     }
 
                     // WMP #4 - play (audio folder)
-                    using (var key = baseReg.OpenSubKey(@"SystemFileAssociations\Directory.Audio\shell\Play", true))
-                    {
+                    using (var key = baseReg.OpenSubKey(@"SystemFileAssociations\Directory.Audio\shell\Play", true)) {
                         key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
                         Log("Disabled play song for: audio directories!");
                     }
 
                     // WMP #5 - add to list (image folder?!)
-                    using (var key = baseReg.OpenSubKey(@"SystemFileAssociations\Directory.Image\shell\Enqueue", true))
-                    {
+                    using (var key = baseReg.OpenSubKey(@"SystemFileAssociations\Directory.Image\shell\Enqueue", true)) {
                         key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
                         Log("Disabled add to play list for: image directories!");
                     }
 
                     // WMP #6 - play (image folder?!)
-                    using (var key = baseReg.OpenSubKey(@"SystemFileAssociations\Directory.Image\shell\Play", true))
-                    {
+                    using (var key = baseReg.OpenSubKey(@"SystemFileAssociations\Directory.Image\shell\Play", true)) {
                         key.SetValue("LegacyDisable", string.Empty, RegistryValueKind.String);
                         Log("Disabled play song for: image directories!");
                     }
 
                     // Include in library context
-                    using (var key = baseReg.OpenSubKey(@"Folder\shellex\ContextMenuHandlers\Library Location", true))
-                    {
+                    using (var key = baseReg.OpenSubKey(@"Folder\shellex\ContextMenuHandlers\Library Location", true)) {
                         key.SetValue(string.Empty, "-{3dad6c5d-2167-4cae-9914-f99e41c12cfa}");
                         Log("Disabled include in library menu!");
                     }
 
                     // Buy music?
-                    using (var key = baseReg.OpenSubKey(@"SystemFileAssociations\Directory.Audio\shellex\ContextMenuHandlers\WMPShopMusic", true))
-                    {
+                    using (var key = baseReg.OpenSubKey(@"SystemFileAssociations\Directory.Audio\shellex\ContextMenuHandlers\WMPShopMusic", true)) {
                         key.SetValue(string.Empty, "-{8A734961-C4AA-4741-AC1E-791ACEBF5B39}");
                         Log("Disabled buying music online context menu!");
                     }
 
                     // Troubleshoot compability EXE
-                    using (var key = baseReg.OpenSubKey(@"exefile\shellex\ContextMenuHandlers\Compatibility", true))
-                    {
+                    using (var key = baseReg.OpenSubKey(@"exefile\shellex\ContextMenuHandlers\Compatibility", true)) {
                         key.SetValue(string.Empty, "-{1d27f844-3a1f-4410-85ac-14651078412d}");
                         Log("Disabled troubleshooting compability (EXE)!");
                     }
 
                     // Troubleshoot compability MSI
-                    using (var key = baseReg.OpenSubKey(@"Msi.Package\shellex\ContextMenuHandlers\Compatibility", true))
-                    {
+                    using (var key = baseReg.OpenSubKey(@"Msi.Package\shellex\ContextMenuHandlers\Compatibility", true)) {
                         key.SetValue(string.Empty, "-{1d27f844-3a1f-4410-85ac-14651078412d}");
                         Log("Disabled troubleshooting compability (MSI)!");
                     }
@@ -572,8 +481,7 @@ namespace Win10Clean
                     // Disable printing .url files
                     var registryUtil = new RegistryUtilities();
                     registryUtil.TakeOwnership(@"InternetShortcut\shell\print", RegistryHive.ClassesRoot);
-                    using (var key = baseReg.OpenSubKey(@"InternetShortcut\shell\print", true))
-                    {
+                    using (var key = baseReg.OpenSubKey(@"InternetShortcut\shell\print", true)) {
                         key.SetValue("LegacyDisable", string.Empty);
                         Log("Disabled print for: InternetShortcut!");
                     }
@@ -623,9 +531,7 @@ namespace Win10Clean
                         key.SetValue("{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}", string.Empty);
                         Log("Disabled (old) share!");
                     }
-                }
-                catch (Exception ex)
-                {
+                } catch (Exception ex) {
                     Log(ex.ToString());
                     // Ignore errors
                 }
@@ -634,6 +540,76 @@ namespace Win10Clean
 
                 MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(consoleBox.Text))
+            {
+                SaveFileDialog dialog = new SaveFileDialog();
+                dialog.FileName = "Win10Clean - v" + offlineVer + " - " + DateTime.Now.ToString("yyyy/MM/dd HH-mm-ss");
+                dialog.Filter = "Text files | *.txt";
+                dialog.DefaultExt = "txt";
+                dialog.Title = "Exporting log...";
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    File.WriteAllText(dialog.FileName, consoleBox.Text);
+                }
+            }
+            else
+            {
+                MessageBox.Show("There is nothing to export!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void btnApps_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                try
+                {
+                    using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", true))
+                    {
+                        key.SetValue("SilentInstalledAppsEnabled", 0, RegistryValueKind.DWord);
+                    }
+
+                    Log("Silent Modern App install disabled");
+                    MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    Log(ex.ToString());
+                    MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void btnStartAds_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                try
+                {
+                    using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", true))
+                    {
+                        key.SetValue("SubscribedContent-338388Enabled", 0, RegistryValueKind.DWord);
+                    }
+
+                    Log("Start menu ads disabled!");
+                    MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    Log(ex.ToString());
+                    MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
 
         /* Other stuff */
@@ -704,8 +680,7 @@ namespace Win10Clean
         /* Metro related */
         private void UninstallBtn_Click(object sender, EventArgs e)
         {
-            selectedApps = null;
-
+            string selectedApps = string.Empty;
             string successList = string.Empty;
             string failedList = string.Empty;
 
@@ -715,14 +690,11 @@ namespace Win10Clean
             // Displays all the apps to be uninstalled
             if (appBox.CheckedItems.Count > 0) {
                 foreach (string app in appBox.CheckedItems) {
-                    if (string.IsNullOrEmpty(selectedApps)) {
-                        selectedApps = app;
-                    } else {
-                        selectedApps += Environment.NewLine + app;
-                    }
+                    selectedApps += app + Environment.NewLine;
                 }
 
                 if (MessageBox.Show("Are you sure you want to uninstall the following app(s)?" + Environment.NewLine + selectedApps, "Confirm uninstall", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
+
                     foreach (string app in appBox.CheckedItems) {
                         Task.Run(() => UninstallApp(app));
                     }
