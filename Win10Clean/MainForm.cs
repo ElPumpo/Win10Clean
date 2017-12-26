@@ -9,6 +9,7 @@ using Microsoft.Win32;
 using System.Net.NetworkInformation;
 using System.Collections.Generic;
 using System.Threading;
+using Win10Clean.Common;
 
 /*
  * Win10Clean - Cleanup your Windows 10 environment
@@ -153,8 +154,8 @@ namespace Win10Clean
                 baseReg.Dispose();
 
                 // Delete scheduled leftovers
-                RunCommand(@"SCHTASKS /Delete /TN ""OneDrive Standalone Update Task"" /F");
-                RunCommand(@"SCHTASKS /Delete /TN ""OneDrive Standalone Update Task v2"" /F");
+                CMDHelper.RunCommand(@"SCHTASKS /Delete /TN ""OneDrive Standalone Update Task"" /F");
+                CMDHelper.RunCommand(@"SCHTASKS /Delete /TN ""OneDrive Standalone Update Task v2"" /F");
                 Log("OneDrive scheduled tasks deleted!");
 
                 MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -223,7 +224,7 @@ namespace Win10Clean
                         }
 
                         // Unregister Defender shell extension
-                        RunCommand(@"regsvr32 /u /s """ + Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) + @"\Windows Defender\shellext.dll""");
+                        CMDHelper.RunCommand(@"regsvr32 /u /s """ + Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) + @"\Windows Defender\shellext.dll""");
                         Log("Windows Defender shell addons unregistered!");
 
                         MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -253,8 +254,8 @@ namespace Win10Clean
         {
             Enabled = false;
             if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
-                RunCommand("sc config \"HomeGroupProvider\" start=disabled"); // stop autorun
-                RunCommand("sc stop \"HomeGroupProvider\""); // stop process now
+                CMDHelper.RunCommand(@"sc config ""HomeGroupProvider"" start= disabled"); // stop autorun
+                CMDHelper.RunCommand(@"sc stop ""HomeGroupProvider"""); // stop process now
                 Log("HomeGroup disabled!");
 
                 MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -644,43 +645,29 @@ namespace Win10Clean
 
         private void CheckTweaks()
         {
-            try {
-                //  check defender state
+            // check defender state
+            try {  
                 using (RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", false)) {
                     if ((int)key.GetValue("DisableAntiSpyware", 0) == 1) {
                         defenderSwitch = true;
                         btnDefender.Text = "Enable Windows Defender";
                     }
                 }
+            } catch { }
+
+            // is homegroup already disabled?
+            var output = CMDHelper.RunCommandReturn("sc query HomeGroupProvider");
+            if (output.Contains("1  STOPPED")) {
+                HomeGroupBtn.Enabled = false; // TODO: enable reverse
             }
-            catch { }
 
             // check internet connection
             if (!NetworkInterface.GetIsNetworkAvailable()) {
                 btnUpdate.Enabled = false;
                 Log("Checking for updates is disabled because no internet connection were found!");
             }
-        }
 
-        private void RunCommand(string command)
-        {
-            using (var process = new Process()) {
-                process.StartInfo.FileName = "cmd.exe";
-                process.StartInfo.CreateNoWindow = true;
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.RedirectStandardInput = true;
-                process.StartInfo.RedirectStandardOutput = true;
 
-                try {
-                    process.Start(); // start a command prompt
-
-                    process.StandardInput.WriteLine(command); // run the command
-                    process.StandardInput.Close();
-                    process.WaitForExit();
-                } catch (Exception ex) {
-                    Log(ex.ToString());
-                }
-            }
         }
 
         /* Metro related */
