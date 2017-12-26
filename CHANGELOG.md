@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- Missing license in class files
+
 ## [0.14.0] - 2017-12-26
 Ho ho ho, Merry Christmas to you all! Much work have been put to Win10Clean since it was re-written in c-sharp. This has also caused a lot of weird bugs that (IMO) I've now ironed out. Expect a GUI overhaul, reverse function and much more in 2018, again enjoy your holidays!
 ### Added
