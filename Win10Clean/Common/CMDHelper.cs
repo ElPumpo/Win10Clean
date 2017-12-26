@@ -41,7 +41,7 @@ namespace Win10Clean.Common
                     process.WaitForExit();
 
                     return process.StandardOutput.ReadToEnd();
-                } catch (Exception ex) { }
+                } catch (Exception ex) { Console.WriteLine(ex.ToString()); }
             }
 
             return null;

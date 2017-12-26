@@ -645,14 +645,25 @@ namespace Win10Clean
 
         private void CheckTweaks()
         {
-            // check defender state
-            try {  
-                using (RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", false)) {
+            // various checks
+            try {
+
+                // check defender state
+                using (var key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", false)) {
                     if ((int)key.GetValue("DisableAntiSpyware", 0) == 1) {
                         defenderSwitch = true;
                         btnDefender.Text = "Enable Windows Defender";
                     }
                 }
+
+                using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", false)) {
+                    if ((int)key.GetValue("SilentInstalledAppsEnabled", 1) == 0) {
+                        btnApps.Enabled = false; // "don't reinstall modern apps"
+                    } if ((int)key.GetValue("SubscribedContent-338388Enabled", 1) == 0) {
+                        btnStartAds.Enabled = false; // ads on start menu
+                    }
+                }
+
             } catch { }
 
             // is homegroup already disabled?
@@ -666,8 +677,6 @@ namespace Win10Clean
                 btnUpdate.Enabled = false;
                 Log("Checking for updates is disabled because no internet connection were found!");
             }
-
-
         }
 
         /* Metro related */

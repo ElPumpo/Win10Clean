@@ -142,7 +142,7 @@
             this.btnStartAds.Name = "btnStartAds";
             this.btnStartAds.Size = new System.Drawing.Size(261, 40);
             this.btnStartAds.TabIndex = 4;
-            this.btnStartAds.Text = "Disable Start Menu ads";
+            this.btnStartAds.Text = "Disable start menu ads";
             this.btnStartAds.UseVisualStyleBackColor = true;
             this.btnStartAds.Click += new System.EventHandler(this.btnStartAds_Click);
             // 
@@ -152,7 +152,7 @@
             this.btnApps.Name = "btnApps";
             this.btnApps.Size = new System.Drawing.Size(261, 40);
             this.btnApps.TabIndex = 3;
-            this.btnApps.Text = "Don\'t reinstall Modern Apps";
+            this.btnApps.Text = "Don\'t reinstall modern apps";
             this.btnApps.UseVisualStyleBackColor = true;
             this.btnApps.Click += new System.EventHandler(this.btnApps_Click);
             // 
