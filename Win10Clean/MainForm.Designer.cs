@@ -122,7 +122,7 @@
             this.btnContext.Name = "btnContext";
             this.btnContext.Size = new System.Drawing.Size(261, 40);
             this.btnContext.TabIndex = 6;
-            this.btnContext.Text = "Cleanup Context Menu";
+            this.btnContext.Text = "Cleanup Context Menus";
             this.btnContext.UseVisualStyleBackColor = true;
             this.btnContext.Click += new System.EventHandler(this.btnContext_Click);
             // 

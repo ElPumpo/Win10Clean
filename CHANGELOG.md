@@ -1,10 +1,11 @@
-# Change Log
+# Changelog
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/) 
-and this project adheres to [Semantic Versioning](http://semver.org/).
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
+and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.14.0] - 2017-12-26
+Ho ho ho, Merry Christmas to you all! Much work have been put to Win10Clean since it was re-written in c-sharp. This has also caused a lot of weird bugs that (IMO) I've now ironed out. Expect a GUI overhaul, reverse function and much more in 2018, again enjoy your holidays!
 ### Added
 - Now disables the `share with` context menu, and removes the edit context menu for `.java` files
 - Checks that disables the `Disable HomeGroup`, `Don't reinstall modern apps` and `Disable start menu ads` buttons if they're already applied
@@ -12,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Improved the status message box when uninstalling metro apps
 - Minor changes (extended error messages, code changes & improvements)
+- Updated changelog information
 
 ### Fixed
 - Libary folders not hidden in certian open file dialogs for amd64 users
