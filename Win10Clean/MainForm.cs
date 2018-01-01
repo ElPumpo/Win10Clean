@@ -52,7 +52,7 @@ namespace Win10Clean
         private void MainForm_Load(object sender, EventArgs e)
         {
             Text += " v" + offlineVer.ToString();
-       //     CheckTweaks();
+            CheckTweaks();
         }
 
         /* Buttons / Main stuff */
