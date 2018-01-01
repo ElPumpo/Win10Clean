@@ -52,7 +52,7 @@ namespace Win10Clean
         private void MainForm_Load(object sender, EventArgs e)
         {
             Text += " v" + offlineVer.ToString();
-            CheckTweaks();
+       //     CheckTweaks();
         }
 
         /* Buttons / Main stuff */
@@ -224,8 +224,22 @@ namespace Win10Clean
                         }
 
                         // Unregister Defender shell extension
-                        CMDHelper.RunCommand(@"regsvr32 /u /s """ + Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) + @"\Windows Defender\shellext.dll""");
-                        Log("Windows Defender shell addons unregistered!");
+                        // not really needed anymore as it seems like Defender disables the shell extention by its own now (not sure how) when disabled
+                        string defenderPath;
+
+                        if (amd64) {
+                            defenderPath = Environment.ExpandEnvironmentVariables("%ProgramW6432%");
+                        } else {
+                            defenderPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+                        }
+                        defenderPath += @"\Windows Defender\shellext.dll";
+
+                        if (File.Exists(defenderPath)) {
+                            CMDHelper.RunCommand(@"regsvr32 /u /s """ + defenderPath + "\"");
+                            Log("Windows Defender shell addons unregistered!");
+                        } else {
+                            Log("Could not unregister the Defender shell extention!");
+                        }
 
                         MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     } catch (Exception ex) {
