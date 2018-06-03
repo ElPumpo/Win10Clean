@@ -13,7 +13,7 @@ using Win10Clean.Common;
 
 /*
  * Win10Clean - Cleanup your Windows 10 environment
- * Copyright (C) 2017 Hawaii_Beach & deadmoon
+ * Copyright (C) 2017-2018 Hawaii_Beach
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -317,7 +317,7 @@ namespace Win10Clean
                     }
                 }
                 baseReg = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
-                byte[] bytes = { 2, 0, 0, 0, 64, 31, 210, 5, 170, 22, 211, 1, 0, 0, 0, 0, 67, 66, 1, 0, 194, 10, 1, 203, 50, 10, 2, 5, 134, 145, 204, 147, 5, 36, 170, 163, 1, 68, 195, 132, 1, 102, 159, 247, 157, 177, 135, 203, 209, 172, 212, 1, 0, 5, 188, 201, 168, 164, 1, 36, 140, 172, 3, 68, 137, 133, 1, 102, 160, 129, 186, 203, 189, 215, 168, 164, 130, 1, 0, 194, 60, 1, 0 };
+                byte[] bytes = { 002, 000, 000, 000, 013, 214, 247, 023, 109, 251, 211, 001, 000, 000, 000, 000, 067, 066, 001, 000, 203, 050, 010, 002, 005, 134, 145, 204, 147, 005, 036, 170, 163, 001, 068, 195, 132, 001, 102, 159, 247, 157, 177, 135, 203, 209, 172, 212, 001, 000, 005, 188, 201, 168, 164, 001, 036, 140, 172, 003, 068, 137, 133, 001, 102, 160, 129, 186, 203, 189, 215, 168, 164, 130, 001, 000, 194, 060, 001, 194, 070, 001, 197, 090, 001, 000 };
 
                 try {
                     // Pin libary folders
@@ -341,8 +341,8 @@ namespace Win10Clean
                         Log("Open explorer to: This PC!");
                     }
 
-                    // Add explorer on start menu
-                    using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\CloudStore\Store\Cache\DefaultAccount\$$windows.data.unifiedtile.startglobalproperties\Current", true)) {
+                    // Add explorer to start menu
+                    using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\CloudStore\Store\Cache\DefaultAccount\$de${9b6fe347-cb90-4fab-9629-3423e95b842d}$$windows.data.unifiedtile.startglobalproperties\Current", true)) {
                         key.SetValue("Data", bytes, RegistryValueKind.Binary);
                         Log("File Explorer from Start Menu enabled!");
                     }

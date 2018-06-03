@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 /*
  * Win10Clean - Cleanup your Windows 10 environment
- * Copyright (C) 2017 Hawaii_Beach & deadmoon
+ * Copyright (C) 2017-2018 Hawaii_Beach
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

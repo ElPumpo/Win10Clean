@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 /*
  * Win10Clean - Cleanup your Windows 10 environment
- * Copyright (C) 2017 Hawaii_Beach & deadmoon
+ * Copyright (C) 2017-2018 Hawaii_Beach
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,18 +28,8 @@ namespace Win10Clean
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            
-            if (Utilities.IsCompatible())
-            {
-                Application.Run(new MainForm());
-            }
-            else
-            {
-                if (MessageBox.Show("This app is compatible only with Windows 10 Fall Creators Update (1709)!" + Environment.NewLine + "Are you sure you want to continue?", "Continue at your own risk", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    Application.Run(new MainForm());
-                }
-            }
+
+            Application.Run(new MainForm());
         }
     }
 }
