@@ -317,7 +317,7 @@ namespace Win10Clean
                     }
                 }
                 baseReg = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
-                byte[] bytes = { 002, 000, 000, 000, 013, 214, 247, 023, 109, 251, 211, 001, 000, 000, 000, 000, 067, 066, 001, 000, 203, 050, 010, 002, 005, 134, 145, 204, 147, 005, 036, 170, 163, 001, 068, 195, 132, 001, 102, 159, 247, 157, 177, 135, 203, 209, 172, 212, 001, 000, 005, 188, 201, 168, 164, 001, 036, 140, 172, 003, 068, 137, 133, 001, 102, 160, 129, 186, 203, 189, 215, 168, 164, 130, 001, 000, 194, 060, 001, 194, 070, 001, 197, 090, 001, 000 };
+                //byte[] bytes = { 002, 000, 000, 000, 013, 214, 247, 023, 109, 251, 211, 001, 000, 000, 000, 000, 067, 066, 001, 000, 203, 050, 010, 002, 005, 134, 145, 204, 147, 005, 036, 170, 163, 001, 068, 195, 132, 001, 102, 159, 247, 157, 177, 135, 203, 209, 172, 212, 001, 000, 005, 188, 201, 168, 164, 001, 036, 140, 172, 003, 068, 137, 133, 001, 102, 160, 129, 186, 203, 189, 215, 168, 164, 130, 001, 000, 194, 060, 001, 194, 070, 001, 197, 090, 001, 000 };
 
                 try {
                     // Pin libary folders
@@ -342,10 +342,14 @@ namespace Win10Clean
                     }
 
                     // Add explorer to start menu
-                    using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\CloudStore\Store\Cache\DefaultAccount\$de${9b6fe347-cb90-4fab-9629-3423e95b842d}$$windows.data.unifiedtile.startglobalproperties\Current", true)) {
+                    /**
+                    pinLib = @"Software\Microsoft\Windows\CurrentVersion\CloudStore\Store\Cache\DefaultAccount\$de${9b6fe347-cb90-4fab-9629-3423e95b842d}$$windows.data.unifiedtile.startglobalproperties\Current";
+                    baseReg.CreateSubKey(pinLib); // doesn't exist as default, normal behaviour
+                    using (var key = Registry.CurrentUser.OpenSubKey(pinLib, true)) {
                         key.SetValue("Data", bytes, RegistryValueKind.Binary);
                         Log("File Explorer from Start Menu enabled!");
                     }
+                    **/
                     
                     // Hide OneDrive popup in Explorer
                     using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", true)) {
