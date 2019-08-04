@@ -488,12 +488,6 @@ namespace Win10Clean
                         Log("Disabled include in library menu!");
                     }
 
-                    // Buy music?
-                    using (var key = baseReg.OpenSubKey(@"SystemFileAssociations\Directory.Audio\shellex\ContextMenuHandlers\WMPShopMusic", true)) {
-                        key.SetValue(string.Empty, "-{8A734961-C4AA-4741-AC1E-791ACEBF5B39}");
-                        Log("Disabled buying music online context menu!");
-                    }
-
                     // Troubleshoot compability EXE
                     using (var key = baseReg.OpenSubKey(@"exefile\shellex\ContextMenuHandlers\Compatibility", true)) {
                         key.SetValue(string.Empty, "-{1d27f844-3a1f-4410-85ac-14651078412d}");
