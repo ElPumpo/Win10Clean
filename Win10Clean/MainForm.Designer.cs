@@ -37,7 +37,6 @@
             this.OneDriveBtn = new System.Windows.Forms.Button();
             this.btnStartAds = new System.Windows.Forms.Button();
             this.btnApps = new System.Windows.Forms.Button();
-            this.HomeGroupBtn = new System.Windows.Forms.Button();
             this.Revert7Btn = new System.Windows.Forms.Button();
             this.btnDefender = new System.Windows.Forms.Button();
             this.tabMetro = new System.Windows.Forms.TabPage();
@@ -71,7 +70,7 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(652, 473);
-            this.tabControl1.TabIndex = 0;
+            this.tabControl1.TabIndex = 8;
             // 
             // tabHome
             // 
@@ -81,7 +80,6 @@
             this.tabHome.Controls.Add(this.OneDriveBtn);
             this.tabHome.Controls.Add(this.btnStartAds);
             this.tabHome.Controls.Add(this.btnApps);
-            this.tabHome.Controls.Add(this.HomeGroupBtn);
             this.tabHome.Controls.Add(this.Revert7Btn);
             this.tabHome.Controls.Add(this.btnDefender);
             this.tabHome.Location = new System.Drawing.Point(4, 25);
@@ -99,7 +97,7 @@
             this.btnExit.Location = new System.Drawing.Point(557, 392);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(79, 40);
-            this.btnExit.TabIndex = 9;
+            this.btnExit.TabIndex = 7;
             this.btnExit.Text = "Exit";
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
@@ -111,7 +109,7 @@
             this.btnUpdate.Location = new System.Drawing.Point(472, 392);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(79, 40);
-            this.btnUpdate.TabIndex = 8;
+            this.btnUpdate.TabIndex = 6;
             this.btnUpdate.Text = "Update";
             this.btnUpdate.UseVisualStyleBackColor = true;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
@@ -121,7 +119,7 @@
             this.btnContext.Location = new System.Drawing.Point(325, 225);
             this.btnContext.Name = "btnContext";
             this.btnContext.Size = new System.Drawing.Size(261, 40);
-            this.btnContext.TabIndex = 6;
+            this.btnContext.TabIndex = 5;
             this.btnContext.Text = "Cleanup Context Menus";
             this.btnContext.UseVisualStyleBackColor = true;
             this.btnContext.Click += new System.EventHandler(this.btnContext_Click);
@@ -131,7 +129,7 @@
             this.OneDriveBtn.Location = new System.Drawing.Point(325, 179);
             this.OneDriveBtn.Name = "OneDriveBtn";
             this.OneDriveBtn.Size = new System.Drawing.Size(261, 40);
-            this.OneDriveBtn.TabIndex = 5;
+            this.OneDriveBtn.TabIndex = 3;
             this.OneDriveBtn.Text = "Uninstall OneDrive";
             this.OneDriveBtn.UseVisualStyleBackColor = true;
             this.OneDriveBtn.Click += new System.EventHandler(this.OneDriveBtn_Click);
@@ -141,37 +139,27 @@
             this.btnStartAds.Location = new System.Drawing.Point(325, 133);
             this.btnStartAds.Name = "btnStartAds";
             this.btnStartAds.Size = new System.Drawing.Size(261, 40);
-            this.btnStartAds.TabIndex = 4;
+            this.btnStartAds.TabIndex = 1;
             this.btnStartAds.Text = "Disable start menu ads";
             this.btnStartAds.UseVisualStyleBackColor = true;
             this.btnStartAds.Click += new System.EventHandler(this.btnStartAds_Click);
             // 
             // btnApps
             // 
-            this.btnApps.Location = new System.Drawing.Point(58, 271);
+            this.btnApps.Location = new System.Drawing.Point(58, 225);
             this.btnApps.Name = "btnApps";
             this.btnApps.Size = new System.Drawing.Size(261, 40);
-            this.btnApps.TabIndex = 3;
+            this.btnApps.TabIndex = 4;
             this.btnApps.Text = "Don\'t reinstall modern apps";
             this.btnApps.UseVisualStyleBackColor = true;
             this.btnApps.Click += new System.EventHandler(this.btnApps_Click);
-            // 
-            // HomeGroupBtn
-            // 
-            this.HomeGroupBtn.Location = new System.Drawing.Point(58, 225);
-            this.HomeGroupBtn.Name = "HomeGroupBtn";
-            this.HomeGroupBtn.Size = new System.Drawing.Size(261, 40);
-            this.HomeGroupBtn.TabIndex = 2;
-            this.HomeGroupBtn.Text = "Disable HomeGroup";
-            this.HomeGroupBtn.UseVisualStyleBackColor = true;
-            this.HomeGroupBtn.Click += new System.EventHandler(this.HomeGroupBtn_Click);
             // 
             // Revert7Btn
             // 
             this.Revert7Btn.Location = new System.Drawing.Point(58, 179);
             this.Revert7Btn.Name = "Revert7Btn";
             this.Revert7Btn.Size = new System.Drawing.Size(261, 40);
-            this.Revert7Btn.TabIndex = 1;
+            this.Revert7Btn.TabIndex = 2;
             this.Revert7Btn.Text = "Revert Explorer to Windows 7 Style";
             this.Revert7Btn.UseVisualStyleBackColor = true;
             this.Revert7Btn.Click += new System.EventHandler(this.Revert7Btn_Click);
@@ -198,7 +186,7 @@
             this.tabMetro.Padding = new System.Windows.Forms.Padding(3);
             this.tabMetro.Size = new System.Drawing.Size(644, 444);
             this.tabMetro.TabIndex = 1;
-            this.tabMetro.Text = "Win10 / metro apps";
+            this.tabMetro.Text = "Windows 10 Native Apps";
             this.tabMetro.UseVisualStyleBackColor = true;
             this.tabMetro.Enter += new System.EventHandler(this.tabMetro_Enter);
             // 
@@ -362,7 +350,6 @@
         private System.Windows.Forms.Button OneDriveBtn;
         private System.Windows.Forms.Button btnStartAds;
         private System.Windows.Forms.Button btnApps;
-        private System.Windows.Forms.Button HomeGroupBtn;
         private System.Windows.Forms.Button Revert7Btn;
         private System.Windows.Forms.Button btnDefender;
         private System.Windows.Forms.RichTextBox consoleBox;

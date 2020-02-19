@@ -119,7 +119,7 @@ namespace Win10Clean
                     }
 
                     // amd64 system fix
-                    if (amd64) {
+                    if (amd64) { // broken?
                         using (var key = baseReg.OpenSubKey(oneKey, true)) {
                             key.SetValue("System.IsPinnedToNameSpaceTree", 0, RegistryValueKind.DWord);
                             Log("OneDrive removed from Explorer (FileDialog, amd64)!");
@@ -260,19 +260,6 @@ namespace Win10Clean
                     }
                 }
                 baseReg.Dispose();
-            }
-            Enabled = true;
-        }
-
-        private void HomeGroupBtn_Click(object sender, EventArgs e)
-        {
-            Enabled = false;
-            if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
-                CMDHelper.RunCommand(@"sc config ""HomeGroupProvider"" start= disabled"); // stop autorun
-                CMDHelper.RunCommand(@"sc stop ""HomeGroupProvider"""); // stop process now
-                Log("HomeGroup disabled!");
-
-                MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             Enabled = true;
         }
@@ -678,12 +665,6 @@ namespace Win10Clean
 
             } catch { }
 
-            // is homegroup already disabled?
-            var output = CMDHelper.RunCommandReturn("sc query HomeGroupProvider");
-            if (output.Contains("1  STOPPED")) {
-                HomeGroupBtn.Enabled = false; // TODO: enable reverse
-            }
-
             // check internet connection
             if (!NetworkInterface.GetIsNetworkAvailable()) {
                 btnUpdate.Enabled = false;
@@ -711,10 +692,9 @@ namespace Win10Clean
                 if (MessageBox.Show("Are you sure you want to uninstall the following app(s)?" + Environment.NewLine + selectedApps, "Confirm uninstall", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
 
                     foreach (string app in appBox.CheckedItems) {
-                        Task.Run(() => UninstallApp(app));
+                        UninstallApp(app);
                     }
-
-                    Thread.Sleep(700); // workaround (kinda dirty) for MessageBox not appearing?!
+                    
                     RefreshAppList(true); // refresh list when we're done
 
                     foreach (var str in uninstallSuccessList) {
@@ -775,9 +755,7 @@ namespace Win10Clean
             } catch { }
         }
 
-        #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-        private async void UninstallApp(string app)
-        #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+        private void UninstallApp(string app)
         {
             bool error = false;
 

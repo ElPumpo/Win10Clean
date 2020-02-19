@@ -38,7 +38,7 @@ namespace Win10Clean.Common
                     process.StandardInput.WriteLine(command); // run the command
                     process.StandardInput.Close();
                     process.WaitForExit();
-                } catch (Exception ex) { }
+                } catch (Exception) { }
             }
         }
 
