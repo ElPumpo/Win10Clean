@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
 using System.IO;
@@ -8,7 +7,6 @@ using System.Management.Automation;
 using Microsoft.Win32;
 using System.Net.NetworkInformation;
 using System.Collections.Generic;
-using System.Threading;
 using Win10Clean.Common;
 
 /*
@@ -759,14 +757,10 @@ namespace Win10Clean
         {
             bool error = false;
 
-            using (PowerShell script = PowerShell.Create())
-            {
-                if (chkAll.Checked)
-                {
+            using (PowerShell script = PowerShell.Create()) {
+                if (chkAll.Checked) {
                     script.AddScript("Get-AppxPackage -AllUsers " + app + " | Remove-AppxPackage");
-                }
-                else
-                {
+                } else {
                     script.AddScript("Get-AppxPackage " + app + " | Remove-AppxPackage");
                 }
 
@@ -774,13 +768,10 @@ namespace Win10Clean
                 error = script.HadErrors;
             }
 
-            if (error)
-            {
+            if (error) {
                 uninstallFailedList.Add(app);
                 Log("Could not uninstall app: " + app);
-            }
-            else
-            {
+            } else {
                 uninstallSuccessList.Add(app);
                 Log("App uninstalled: " + app);
             }
