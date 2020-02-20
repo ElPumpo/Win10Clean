@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.14.3] - 2020-02-20
+Umm I guess the project has been dead for a long while? I've been busy with other projects..
+### Fixed
+- The windows 10 app uninstaller dialog has been fixed and now properly list the amount of apps uninstalled. This was caused due to it previously being an async task, it's now an sync task so the dialog wont appear til the uninstallation process is complete.
+
+### Removed
+- The context menu for buying music has been removed in the latest Windows installs, so they no longer have to be deleted
+- Removed disabling HomeGroup as it is no longer available in Windows 10
+
 ## [0.14.2] - 2018-06-17
 ### Removed
 - Removed the compatability check
