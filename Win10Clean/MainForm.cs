@@ -117,24 +117,30 @@ namespace Win10Clean
                     }
 
                     // amd64 system fix
-                    if (amd64) { // broken?
+                    if (amd64) {
                         using (var key = baseReg.OpenSubKey(oneKey, true)) {
-                            key.SetValue("System.IsPinnedToNameSpaceTree", 0, RegistryValueKind.DWord);
-                            Log("OneDrive removed from Explorer (FileDialog, amd64)!");
+                            if (key != null) { // removed in latest Windows installs
+                                key.SetValue("System.IsPinnedToNameSpaceTree", 0, RegistryValueKind.DWord);
+                                Log("OneDrive removed from Explorer (FileDialog, amd64)!");
+                            }
                         }
                     }
 
                     // Remove from the alternative file dialog (legacy)
                     using (var key = Registry.ClassesRoot.OpenSubKey(oneKey + "\\ShellFolder", true)) {
-                        key.SetValue("Attributes", byteArray, RegistryValueKind.DWord);
-                        Log("OneDrive removed from Explorer (Legacy FileDialog)!");
+                        if (key != null) { // removed in latest Windows installs
+                            key.SetValue("Attributes", byteArray, RegistryValueKind.DWord);
+                            Log("OneDrive removed from Explorer (Legacy FileDialog)!");
+                        }
                     }
 
                     // amd64 system fix
                     if (amd64) {
                         using (var key = baseReg.OpenSubKey(oneKey + "\\ShellFolder", true)) {
-                            key.SetValue("Attributes", byteArray, RegistryValueKind.DWord);
-                            Log("OneDrive removed from Explorer (Legacy FileDialog, amd64)!");
+                            if (key != null) { // removed in latest Windows installs
+                                key.SetValue("Attributes", byteArray, RegistryValueKind.DWord);
+                                Log("OneDrive removed from Explorer (Legacy FileDialog, amd64)!");
+                            }
                         }
                     }
 

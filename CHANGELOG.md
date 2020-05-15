@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Fixed
+- Issues with disabling OneDrive on latest Windows builds
+
 ## [0.14.3] - 2020-02-20
 Umm I guess the project has been dead for a long while? I've been busy with other projects..
 ### Fixed
