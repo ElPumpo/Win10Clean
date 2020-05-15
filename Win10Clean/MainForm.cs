@@ -236,6 +236,7 @@ namespace Win10Clean
                         } else {
                             defenderPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
                         }
+
                         defenderPath += @"\Windows Defender\shellext.dll";
 
                         if (File.Exists(defenderPath)) {
@@ -732,16 +733,15 @@ namespace Win10Clean
         {
             using (PowerShell script = PowerShell.Create()) {
                 if (chkAll.Checked) {
-                    script.AddScript("Get-AppxPackage -AllUsers | Select Name | Out-String -Stream");
+                    script.AddScript(@"Get-AppxPackage -AllUsers | Where {$_.NonRemovable -like ""False""} | Select -Unique Name | Out-String -Stream");
                 } else {
-                    script.AddScript("Get-AppxPackage | Select Name | Out-String -Stream");
+                    script.AddScript(@"Get-AppxPackage | Where {$_.NonRemovable -like ""False""} | Select -Unique Name | Out-String -Stream");
                 }
 
-                string trimmed = string.Empty;
-                foreach (PSObject x in script.Invoke()) {
-                    trimmed = x.ToString().Trim();
-                    if (!string.IsNullOrEmpty(trimmed) && !trimmed.Contains("---")) {
-                        if (trimmed != "Name") appBox.Items.Add(trimmed);
+                foreach (var psObject in script.Invoke()) {
+                    var appName = psObject.ToString().Trim();
+                    if (!string.IsNullOrEmpty(appName) && !appName.Contains("---") && !appName.Equals("Name")) {
+                        appBox.Items.Add(appName);
                     }
                 }
             }
@@ -765,9 +765,9 @@ namespace Win10Clean
 
             using (PowerShell script = PowerShell.Create()) {
                 if (chkAll.Checked) {
-                    script.AddScript("Get-AppxPackage -AllUsers " + app + " | Remove-AppxPackage");
+                    script.AddScript($"Get-AppxPackage -AllUsers {app} | Remove-AppxPackage");
                 } else {
-                    script.AddScript("Get-AppxPackage " + app + " | Remove-AppxPackage");
+                    script.AddScript($"Get-AppxPackage {app} | Remove-AppxPackage");
                 }
 
                 script.Invoke();

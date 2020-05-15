@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Improved the Win 10 app uninstaller, by only showing apps that can be uninstalled and not showing duplicates
+
 ### Fixed
 - Issues with disabling OneDrive on latest Windows builds
 
