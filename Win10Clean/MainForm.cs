@@ -270,7 +270,7 @@ namespace Win10Clean
                 string finalKey;
                 var baseReg = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64); // we don't want Wow6432Node
 
-                foreach (string guid in guidArray) {
+                foreach (var guid in guidArray) {
                     try {
                         finalKey = libKey + guid + @"\PropertyBag";
                         using (var key = baseReg.CreateSubKey(finalKey, true)) {
@@ -573,6 +573,7 @@ namespace Win10Clean
 
                     Log("Silent Modern App install disabled");
                     MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    btnApps.Enabled = false;
                 } catch (Exception ex) {
                     Log(ex.ToString());
                     MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -592,6 +593,7 @@ namespace Win10Clean
 
                     Log("Start menu ads disabled!");
                     MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    btnStartAds.Enabled = false;
                 } catch (Exception ex) {
                     Log(ex.ToString());
                     MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
