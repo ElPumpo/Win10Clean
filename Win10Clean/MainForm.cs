@@ -196,12 +196,18 @@ namespace Win10Clean
                 var baseReg = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
                 if (!defenderSwitch) {
                     try {
-                        // Disable engine
+                        // Disable active anti malware
                         using (var key = baseReg.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", true)) {
                             key.SetValue("DisableAntiSpyware", 1, RegistryValueKind.DWord);
-                            Log("Disabled main Defender functions!");
+                            Log("Disabled main Defender!");
                         }
+                    } catch (Exception ex) {
+                        // later versions of Defender added anti-tamper protection
+                        Log("Failed to disable Defender active anti malware protection");
+                        MessageBox.Show("Unable to disable the core Defender active anti malware protection. This is probably caused by its own anti-tamper protection. You'll have to disable Defender using the Defender security app instead.", ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
 
+                    try {
                         // Delete Defender from startup / tray icons
                         using (var key = baseReg.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true)) {
                             key.DeleteValue("WindowsDefender", false);
