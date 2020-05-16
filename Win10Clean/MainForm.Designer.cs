@@ -208,6 +208,7 @@
             this.appBox.Location = new System.Drawing.Point(0, 0);
             this.appBox.Name = "appBox";
             this.appBox.Size = new System.Drawing.Size(466, 424);
+            this.appBox.Sorted = true;
             this.appBox.TabIndex = 0;
             // 
             // UninstallBtn
