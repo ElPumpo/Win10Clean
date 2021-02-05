@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Automatic bing search disabled
 
 ### Changed
+- New native app deletion code! It is much faster than the old code. "Fully Delete" and "Delete for all users" features have been both removed
 - Improved the Win 10 app uninstaller, by only showing apps that can be uninstalled and not showing duplicates
 - Improved error message disabling Defender due to the later anti-tamper code MS implemented
 - Sort apps list alfabetically

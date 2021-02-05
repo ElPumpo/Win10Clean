@@ -3,11 +3,13 @@ using System.Windows.Forms;
 using System.Net;
 using System.IO;
 using System.Diagnostics;
-using System.Management.Automation;
 using Microsoft.Win32;
 using System.Net.NetworkInformation;
 using System.Collections.Generic;
 using Win10Clean.Common;
+using Windows.Management.Deployment;
+using Windows.Foundation;
+using System.Threading;
 
 namespace Win10Clean
 {
@@ -19,6 +21,8 @@ namespace Win10Clean
         string releasesUrl = "https://github.com/ElPumpo/Win10Clean/releases";
         bool amd64 = Environment.Is64BitOperatingSystem;
         bool defenderSwitch = false;
+        Dictionary<string, string> appDirectory = new Dictionary<string, string>();
+
 
         /* Metro related */
         List<string> uninstallSuccessList = new List<string>();
@@ -693,8 +697,8 @@ namespace Win10Clean
 
                 if (MessageBox.Show("Are you sure you want to uninstall the following app(s)?" + Environment.NewLine + selectedApps, "Confirm uninstall", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
 
-                    foreach (string app in appBox.CheckedItems) {
-                        UninstallApp(app);
+                    foreach (string packageName in appBox.CheckedItems) {
+                        UninstallApp(packageName);
                     }
                     
                     RefreshAppList(true); // refresh list when we're done
@@ -702,6 +706,7 @@ namespace Win10Clean
                     foreach (var str in uninstallSuccessList) {
                         successList += str + Environment.NewLine;
                     }
+
                     foreach (var str in uninstallFailedList) {
                         failedList += str + Environment.NewLine;
                     }
@@ -726,60 +731,54 @@ namespace Win10Clean
             Enabled = true;
         }
 
-        private void RetrieveApps()
+        private void RetrieveApps(bool reset = false)
         {
-            using (PowerShell script = PowerShell.Create()) {
-                if (chkAll.Checked) {
-                    script.AddScript(@"Get-AppxPackage -AllUsers | Where {$_.NonRemovable -like ""False""} | Select -Unique Name | Out-String -Stream");
-                } else {
-                    script.AddScript(@"Get-AppxPackage | Where {$_.NonRemovable -like ""False""} | Select -Unique Name | Out-String -Stream");
-                }
+            if (reset) {
+                appBox.Items.Clear();
+                appDirectory.Clear();
+            }
+            
+            var packageManager = new PackageManager();
+            var packages = packageManager.FindPackagesForUserWithPackageTypes(string.Empty, PackageTypes.Main);
 
-                foreach (var psObject in script.Invoke()) {
-                    var appName = psObject.ToString().Trim();
-                    if (!string.IsNullOrEmpty(appName) && !appName.Contains("---") && !appName.Equals("Name")) {
-                        appBox.Items.Add(appName);
-                    }
+            foreach (var package in packages) {
+                if (!appDirectory.ContainsKey(package.Id.Name)) {
+                    appDirectory.Add(package.Id.Name, package.Id.FullName);
+                    appBox.Items.Add(package.Id.Name);
                 }
             }
         }
 
         private void RefreshAppList(bool minusOne)
         {
-            appBox.Items.Clear();
-            RetrieveApps();
+            RetrieveApps(true);
 
-            try {
-                if (minusOne) {
-                    appBox.SelectedIndex =- 1;
-                }
-            } catch { }
+            if (minusOne) {
+                try {
+                    appBox.SelectedIndex = -1;
+                } catch { }
+            }
         }
 
-        private void UninstallApp(string app)
+        private void UninstallApp(string packageName)
         {
-            bool error = false;
+            var packageFullName = appDirectory[packageName];
+            var packageManager = new PackageManager();
+            var opCompletedEvent = new ManualResetEvent(false);
+            var deploymentOperation = packageManager.RemovePackageAsync(packageFullName);
 
-            using (PowerShell script = PowerShell.Create()) {
-                if (chkAll.Checked) {
-                    script.AddScript($"Get-AppxPackage -AllUsers {app} | Remove-AppxPackage");
-                } else {
-                    script.AddScript($"Get-AppxPackage {app} | Remove-AppxPackage");
-                }
+            deploymentOperation.Completed = (depProgress, status) => { opCompletedEvent.Set(); };
+            opCompletedEvent.WaitOne();
 
-                script.Invoke();
-                error = script.HadErrors;
-            }
-
-            if (error) {
-                uninstallFailedList.Add(app);
-                Log("Could not uninstall app: " + app);
+            if (deploymentOperation.Status == AsyncStatus.Completed) {
+                uninstallSuccessList.Add(packageFullName);
+                Log($"App successfully uninstalled '{packageFullName}'");
             } else {
-                uninstallSuccessList.Add(app);
-                Log("App uninstalled: " + app);
+                uninstallFailedList.Add(packageFullName);
+                Log($"Error uninstalling app '{packageFullName}', {deploymentOperation.ErrorCode}");
             }
 
-            return;
+            appDirectory.Remove(packageName);
         }
 
         private void chkAll_CheckedChanged(object sender, EventArgs e)

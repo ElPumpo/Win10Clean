@@ -44,8 +44,6 @@
             this.appBox = new System.Windows.Forms.CheckedListBox();
             this.UninstallBtn = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
-            this.chkDelete = new System.Windows.Forms.CheckBox();
-            this.chkAll = new System.Windows.Forms.CheckBox();
             this.tabConsole = new System.Windows.Forms.TabPage();
             this.btnExport = new System.Windows.Forms.Button();
             this.consoleBox = new System.Windows.Forms.RichTextBox();
@@ -179,8 +177,6 @@
             this.tabMetro.Controls.Add(this.appPanel);
             this.tabMetro.Controls.Add(this.UninstallBtn);
             this.tabMetro.Controls.Add(this.btnRefresh);
-            this.tabMetro.Controls.Add(this.chkDelete);
-            this.tabMetro.Controls.Add(this.chkAll);
             this.tabMetro.Location = new System.Drawing.Point(4, 25);
             this.tabMetro.Name = "tabMetro";
             this.tabMetro.Padding = new System.Windows.Forms.Padding(3);
@@ -210,6 +206,7 @@
             this.appBox.Size = new System.Drawing.Size(466, 424);
             this.appBox.Sorted = true;
             this.appBox.TabIndex = 0;
+            this.appBox.UseCompatibleTextRendering = true;
             // 
             // UninstallBtn
             // 
@@ -234,28 +231,6 @@
             this.btnRefresh.Text = "Refresh";
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
-            // 
-            // chkDelete
-            // 
-            this.chkDelete.AutoSize = true;
-            this.chkDelete.Enabled = false;
-            this.chkDelete.Location = new System.Drawing.Point(480, 36);
-            this.chkDelete.Name = "chkDelete";
-            this.chkDelete.Size = new System.Drawing.Size(115, 21);
-            this.chkDelete.TabIndex = 2;
-            this.chkDelete.Text = "Fully uninstall";
-            this.chkDelete.UseVisualStyleBackColor = true;
-            // 
-            // chkAll
-            // 
-            this.chkAll.AutoSize = true;
-            this.chkAll.Location = new System.Drawing.Point(480, 6);
-            this.chkAll.Name = "chkAll";
-            this.chkAll.Size = new System.Drawing.Size(84, 21);
-            this.chkAll.TabIndex = 1;
-            this.chkAll.Text = "All users";
-            this.chkAll.UseVisualStyleBackColor = true;
-            this.chkAll.CheckedChanged += new System.EventHandler(this.chkAll_CheckedChanged);
             // 
             // tabConsole
             // 
@@ -330,7 +305,6 @@
             this.tabControl1.ResumeLayout(false);
             this.tabHome.ResumeLayout(false);
             this.tabMetro.ResumeLayout(false);
-            this.tabMetro.PerformLayout();
             this.appPanel.ResumeLayout(false);
             this.tabConsole.ResumeLayout(false);
             this.tabAbout.ResumeLayout(false);
@@ -356,8 +330,6 @@
         private System.Windows.Forms.RichTextBox consoleBox;
         private System.Windows.Forms.RichTextBox aboutBox;
         private System.Windows.Forms.Button btnExport;
-        private System.Windows.Forms.CheckBox chkDelete;
-        private System.Windows.Forms.CheckBox chkAll;
         private System.Windows.Forms.Panel appPanel;
         private System.Windows.Forms.Button UninstallBtn;
         private System.Windows.Forms.Button btnRefresh;
