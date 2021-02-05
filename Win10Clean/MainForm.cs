@@ -261,9 +261,10 @@ namespace Win10Clean
         {
             Enabled = false;
             if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
-                
-                // Get ride of libary folders in My PC
                 string libKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\";
+                string finalKey;
+                var baseReg = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64); // we don't want Wow6432Node
+
                 string[] guidArray = {
                     "{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}", // Desktop
                     "{7d83ee9b-2244-4e70-b1f5-5393042af1e4}", // Downloads
@@ -273,9 +274,15 @@ namespace Win10Clean
                     "{35286a68-3c57-41a1-bbb1-0eae73d76c95}", // Videos
                     "{31C0DD25-9439-4F12-BF41-7FF4EDA38722}"  // 3D builder
                 };
-                string finalKey;
-                var baseReg = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64); // we don't want Wow6432Node
 
+
+                // Disable bing search
+                using (var key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Policies\Microsoft\Windows\Explorer", true)) {
+                    key.SetValue("DisableSearchBoxSuggestions", 1, RegistryValueKind.DWord);
+                    Log("Disabled bing search in explorer search");
+                }
+
+                // Get ride of libary folders in My PC
                 foreach (var guid in guidArray) {
                     try {
                         finalKey = libKey + guid + @"\PropertyBag";

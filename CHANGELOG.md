@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Automatic bing search disabled
+
 ### Changed
 - Improved the Win 10 app uninstaller, by only showing apps that can be uninstalled and not showing duplicates
 - Improved error message disabling Defender due to the later anti-tamper code MS implemented
