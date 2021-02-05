@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabHome = new System.Windows.Forms.TabPage();
@@ -49,6 +50,7 @@
             this.consoleBox = new System.Windows.Forms.RichTextBox();
             this.tabAbout = new System.Windows.Forms.TabPage();
             this.aboutBox = new System.Windows.Forms.RichTextBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tabControl1.SuspendLayout();
             this.tabHome.SuspendLayout();
             this.tabMetro.SuspendLayout();
@@ -119,6 +121,7 @@
             this.btnContext.Size = new System.Drawing.Size(261, 40);
             this.btnContext.TabIndex = 5;
             this.btnContext.Text = "Cleanup Context Menus";
+            this.toolTip1.SetToolTip(this.btnContext, resources.GetString("btnContext.ToolTip"));
             this.btnContext.UseVisualStyleBackColor = true;
             this.btnContext.Click += new System.EventHandler(this.btnContext_Click);
             // 
@@ -129,6 +132,8 @@
             this.OneDriveBtn.Size = new System.Drawing.Size(261, 40);
             this.OneDriveBtn.TabIndex = 3;
             this.OneDriveBtn.Text = "Uninstall OneDrive";
+            this.toolTip1.SetToolTip(this.OneDriveBtn, "- runs onedrive uninstall setup\r\n- remove all onedrive directories\r\n- remove oned" +
+        "rive from explorer\r\n- remove onedrive startup object\r\n- remove tasks");
             this.OneDriveBtn.UseVisualStyleBackColor = true;
             this.OneDriveBtn.Click += new System.EventHandler(this.OneDriveBtn_Click);
             // 
@@ -139,6 +144,7 @@
             this.btnStartAds.Size = new System.Drawing.Size(261, 40);
             this.btnStartAds.TabIndex = 1;
             this.btnStartAds.Text = "Disable start menu ads";
+            this.toolTip1.SetToolTip(this.btnStartAds, "disable start menu ads, not sure if it\'s still relevant / needed");
             this.btnStartAds.UseVisualStyleBackColor = true;
             this.btnStartAds.Click += new System.EventHandler(this.btnStartAds_Click);
             // 
@@ -149,6 +155,8 @@
             this.btnApps.Size = new System.Drawing.Size(261, 40);
             this.btnApps.TabIndex = 4;
             this.btnApps.Text = "Don\'t reinstall modern apps";
+            this.toolTip1.SetToolTip(this.btnApps, "don\'t reinstall apps that come preinstalled with windows if you recently uninstal" +
+        "led them");
             this.btnApps.UseVisualStyleBackColor = true;
             this.btnApps.Click += new System.EventHandler(this.btnApps_Click);
             // 
@@ -159,6 +167,7 @@
             this.Revert7Btn.Size = new System.Drawing.Size(261, 40);
             this.Revert7Btn.TabIndex = 2;
             this.Revert7Btn.Text = "Revert Explorer to Windows 7 Style";
+            this.toolTip1.SetToolTip(this.Revert7Btn, resources.GetString("Revert7Btn.ToolTip"));
             this.Revert7Btn.UseVisualStyleBackColor = true;
             this.Revert7Btn.Click += new System.EventHandler(this.Revert7Btn_Click);
             // 
@@ -169,6 +178,8 @@
             this.btnDefender.Size = new System.Drawing.Size(261, 40);
             this.btnDefender.TabIndex = 0;
             this.btnDefender.Text = "Disable Windows Defender";
+            this.toolTip1.SetToolTip(this.btnDefender, "- disable active anti malware protection\r\n- delete from startup list\r\n- unregiste" +
+        "r shell extension");
             this.btnDefender.UseVisualStyleBackColor = true;
             this.btnDefender.Click += new System.EventHandler(this.btnDefender_Click);
             // 
@@ -301,6 +312,8 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Win10Clean";
+            this.toolTip1.SetToolTip(this, "- runs onedrive uninstall setup\r\n- remove all onedrive directories\r\n- remove oned" +
+        "rive from explorer\r\n- remove onedrive startup object\r\n- remove tasks");
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabHome.ResumeLayout(false);
@@ -334,6 +347,7 @@
         private System.Windows.Forms.Button UninstallBtn;
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.CheckedListBox appBox;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 

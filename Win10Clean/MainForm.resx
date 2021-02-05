@@ -132,6 +132,19 @@
   <metadata name="btnContext.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="btnContext.ToolTip" xml:space="preserve">
+    <value>- disable print context menu
+- disable edit in notepad context menu
+- disable WMP context menus
+- disable "add to libary" context menu
+- disable troubleshoot compability context menu
+- disable "restore previous version" context menu
+- disable "pin to start" for recycle bin
+- disable share context menu</value>
+  </data>
   <metadata name="OneDriveBtn.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -144,6 +157,15 @@
   <metadata name="Revert7Btn.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="Revert7Btn.ToolTip" xml:space="preserve">
+    <value>- disable bing search, from search
+- remove libary directories from 'My PC' (Win 7 style)
+- re-pin libary directory in explorer (Win 7 style)
+- stop recent directories adding to 'quick access'
+- make explorer open 'My PC' as default
+- remove OneDrive popup
+- hide 'My People' from taskbar</value>
+  </data>
   <metadata name="btnDefender.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -179,18 +201,17 @@
   </metadata>
   <data name="aboutBox.Text" xml:space="preserve">
     <value>Win10Clean - Cleanup your Windows 10 environment
-Copyright (C) 2017-2020 Hawaii_Beach
+Copyright (C) 2017-2021 Hawaii_Beach
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;
+You should have received a copy of the GNU General Public License along with this program.  If not, see http://www.gnu.org/licenses/
 
-Icons by famfamfam &lt;http://famfamfam.com&gt; are licensed under CC BY 3.0 &lt;https://creativecommons.org/licenses/by/3.0/&gt;
+Icons by famfamfam http://famfamfam.com are licensed under CC BY 3.0 https://creativecommons.org/licenses/by/3.0/
 
-Project icon by Maddoc42 &lt;https://github.com/Maddoc42/Android-Material-Icon-Generator&gt; is licensed under CC BY-NC 3.0 &lt;https://creativecommons.org/licenses/by-nc/3.0/&gt;
-</value>
+Project icon by Maddoc42 https://github.com/Maddoc42/Android-Material-Icon-Generator is licensed under CC BY-NC 3.0 https://creativecommons.org/licenses/by-nc/3.0/</value>
   </data>
   <metadata name="$this.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

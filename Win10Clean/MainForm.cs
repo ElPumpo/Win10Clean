@@ -179,7 +179,7 @@ namespace Win10Clean
             var diff = onlineVer.CompareTo(offlineVer);
             if (diff == 0) {
                 Log("Client up-to-date");
-                MessageBox.Show("No new updates were found, you are running the latest version!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("You are up to date!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             } else if (diff < 0) {
                 Log("Client > Remote!");
                 MessageBox.Show("You are running a newer version than remote! This is not normal and there might be a new update available.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -286,7 +286,7 @@ namespace Win10Clean
                     Log("Disabled bing search in explorer search");
                 }
 
-                // Get ride of libary folders in My PC
+                // Get rid of libary folders in My PC
                 foreach (var guid in guidArray) {
                     try {
                         finalKey = libKey + guid + @"\PropertyBag";

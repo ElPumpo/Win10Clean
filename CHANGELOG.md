@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Automatic bing search disabled
+- Tool tips to buttons
 
 ### Changed
 - New native app deletion code! It is much faster than the old code. "Fully Delete" and "Delete for all users" features have been both removed
