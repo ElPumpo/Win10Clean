@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Win10Clean")]
 [assembly: AssemblyDescription("Cleanup your Windows 10 environment")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Hawaii_Beach & deadmoon")]
+[assembly: AssemblyCompany("Hawaii_Beach")]
 [assembly: AssemblyProduct("Win10Clean")]
-[assembly: AssemblyCopyright("Copyright © 2017")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.14.3")]
-[assembly: AssemblyFileVersion("0.14.3")]
+[assembly: AssemblyVersion("1.0.0")]
+[assembly: AssemblyFileVersion("1.0.0")]

@@ -4,7 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.0.0] - 2021-02-05
+Today is a big day for Win10Clean, which is just a normal day for y'all. It's being released as v1.0.0. Some new minor changes are here but it's still what I wanted it to be, and nothing more really.
+It wasn't ever meant to be known by anyone except me. Released it back in 2016 just so I could easily find it on the interwebs. I'm suprised how it was shared like it was on ghacks and majorgeeks. It wasn't ever designed to be customizable, and wont be either. Microsoft haven't changed so much the last couple of years and I'm satisfied on how my installation is so I probably wont release more updates unless things change.
 ### Added
 - Automatic bing search disabled
 - Tool tips to buttons
