@@ -10,14 +10,14 @@ Runnable executables [are available for download](https://github.com/ElPumpo/Win
 
 # Requirements
 + Windows 10
-+ .NET framework 4.6.1
++ .NET framework 4.8
 
 # Legal
 
 ### License
 Win10Clean - Cleanup your Windows 10 environment
 
-Copyright (C) 2016-2020 Hawaii_Beach
+Copyright (C) 2016-2021 Hawaii_Beach
 
 This program Is free software: you can redistribute it And/Or modify it under the terms Of the GNU General Public License As published by the Free Software Foundation, either version 3 Of the License, Or (at your option) any later version.
 
