@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Improved the Win 10 app uninstaller, by only showing apps that can be uninstalled and not showing duplicates
 - Improved error message disabling Defender due to the later anti-tamper code MS implemented
 - Sort apps list alfabetically
+- Bump to use .NET 4.8. For anyone who doesn't like it because of compability then well it's not designed for 'old' Windows installations
 
 ### Fixed
 - Issues with disabling OneDrive on latest Windows builds
