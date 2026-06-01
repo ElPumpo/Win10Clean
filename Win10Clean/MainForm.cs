@@ -754,23 +754,27 @@ namespace Win10Clean
 
         private void UninstallApp(string packageName)
         {
-            var packageFullName = appDirectory[packageName];
-            var packageManager = new PackageManager();
-            var opCompletedEvent = new ManualResetEvent(false);
-            var deploymentOperation = packageManager.RemovePackageAsync(packageFullName);
+            if (appDirectory.ContainsKey(packageName)) {
+                var packageFullName = appDirectory[packageName];
+                var packageManager = new PackageManager();
+                var opCompletedEvent = new ManualResetEvent(false);
+                var deploymentOperation = packageManager.RemovePackageAsync(packageFullName);
 
-            deploymentOperation.Completed = (depProgress, status) => { opCompletedEvent.Set(); };
-            opCompletedEvent.WaitOne();
+                deploymentOperation.Completed = (depProgress, status) => { opCompletedEvent.Set(); };
+                opCompletedEvent.WaitOne();
 
-            if (deploymentOperation.Status == AsyncStatus.Completed) {
-                uninstallSuccessList.Add(packageFullName);
-                Log($"App successfully uninstalled '{packageFullName}'");
+                if (deploymentOperation.Status == AsyncStatus.Completed) {
+                    uninstallSuccessList.Add(packageFullName);
+                    Log($"App successfully uninstalled '{packageFullName}'");
+                } else {
+                    uninstallFailedList.Add(packageFullName);
+                    Log($"Error uninstalling app '{packageFullName}', {deploymentOperation.ErrorCode}");
+                }
+
+                appDirectory.Remove(packageName);
             } else {
-                uninstallFailedList.Add(packageFullName);
-                Log($"Error uninstalling app '{packageFullName}', {deploymentOperation.ErrorCode}");
+                Log($"Missing full name for app '{packageName}'");
             }
-
-            appDirectory.Remove(packageName);
         }
 
         private void chkAll_CheckedChanged(object sender, EventArgs e)
@@ -792,5 +796,45 @@ namespace Win10Clean
             this.Enabled = true;
         }
 
+        private void btnGameBar_Click(object sender, EventArgs e)
+        {
+            Enabled = false;
+            if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                try
+                {
+                    // we don't want Wow6432Node
+                    var baseReg = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
+
+                    using (var key = baseReg.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\GameDVR", true))
+                    {
+                        key.SetValue("AppCaptureEnabled", 0, RegistryValueKind.DWord);
+                    }
+
+                    Log("AppCaptureEnabled disabled!");
+
+                    using (var key = Registry.CurrentUser.OpenSubKey(@"System\GameConfigStore", true))
+                    {
+                        key.SetValue("GameDVR_Enabled", 0, RegistryValueKind.DWord);
+                    }
+
+                    Log("GameDVR_Enabled disabled!");
+
+                    // Uninstall the app
+                    RetrieveApps(); // get app full name
+                    UninstallApp("Microsoft.XboxGamingOverlay");
+
+                    Log("Xbox Game Bar disabled!");
+
+                    MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    Log(ex.ToString());
+                    MessageBox.Show(ex.ToString(), ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            Enabled = true;
+        }
     }
 }

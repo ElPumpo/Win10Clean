@@ -51,6 +51,7 @@
             this.tabAbout = new System.Windows.Forms.TabPage();
             this.aboutBox = new System.Windows.Forms.RichTextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.btnGameBar = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabHome.SuspendLayout();
             this.tabMetro.SuspendLayout();
@@ -71,10 +72,11 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1043, 757);
-            this.tabControl1.TabIndex = 8;
+            this.tabControl1.TabIndex = 9;
             // 
             // tabHome
             // 
+            this.tabHome.Controls.Add(this.btnGameBar);
             this.tabHome.Controls.Add(this.btnExit);
             this.tabHome.Controls.Add(this.btnUpdate);
             this.tabHome.Controls.Add(this.btnContext);
@@ -100,7 +102,7 @@
             this.btnExit.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(126, 64);
-            this.btnExit.TabIndex = 7;
+            this.btnExit.TabIndex = 8;
             this.btnExit.Text = "Exit";
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
@@ -113,7 +115,7 @@
             this.btnUpdate.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(126, 64);
-            this.btnUpdate.TabIndex = 6;
+            this.btnUpdate.TabIndex = 7;
             this.btnUpdate.Text = "Update";
             this.btnUpdate.UseVisualStyleBackColor = true;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
@@ -319,6 +321,18 @@
             this.aboutBox.TabIndex = 1;
             this.aboutBox.Text = resources.GetString("aboutBox.Text");
             // 
+            // btnGameBar
+            // 
+            this.btnGameBar.Location = new System.Drawing.Point(93, 434);
+            this.btnGameBar.Margin = new System.Windows.Forms.Padding(5);
+            this.btnGameBar.Name = "btnGameBar";
+            this.btnGameBar.Size = new System.Drawing.Size(418, 64);
+            this.btnGameBar.TabIndex = 6;
+            this.btnGameBar.Text = "Disable Xbox Game Bar";
+            this.toolTip1.SetToolTip(this.btnGameBar, "Disable Xbox Game Bar");
+            this.btnGameBar.UseVisualStyleBackColor = true;
+            this.btnGameBar.Click += new System.EventHandler(this.btnGameBar_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
@@ -369,6 +383,7 @@
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.CheckedListBox appBox;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button btnGameBar;
     }
 }
 
