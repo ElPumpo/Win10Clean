@@ -158,8 +158,9 @@
     <value>True</value>
   </metadata>
   <data name="Revert7Btn.ToolTip" xml:space="preserve">
-    <value>- disable bing search, from search
-- remove libary directories from 'My PC' (Win 7 style)
+    <value>- disable new style context menu
+- disable bing search, from search
+- remove library directories from 'My PC' (Win 7 style)
 - re-pin libary directory in explorer (Win 7 style)
 - stop recent directories adding to 'quick access'
 - make explorer open 'My PC' as default

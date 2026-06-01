@@ -533,6 +533,15 @@ namespace Win10Clean
                         key.SetValue("{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}", string.Empty);
                         Log("Disabled (old) share!");
                     }
+
+                    // Disable Win11-style context menu
+                    baseReg = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64); // we don't want Wow6432Node
+                    using (var key = baseReg.CreateSubKey(@"Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32", true)) {
+                        key.SetValue(string.Empty, string.Empty, RegistryValueKind.String);
+                        Log("Disabled Win11-style context menu!");
+                    }
+
+                    RestartExplorer();
                 } catch (Exception ex) {
                     Log(ex.ToString());
                     // Ignore errors
