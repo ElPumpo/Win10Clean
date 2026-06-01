@@ -67,9 +67,10 @@
             this.tabControl1.Controls.Add(this.tabAbout);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(652, 473);
+            this.tabControl1.Size = new System.Drawing.Size(1043, 757);
             this.tabControl1.TabIndex = 8;
             // 
             // tabHome
@@ -82,10 +83,11 @@
             this.tabHome.Controls.Add(this.btnApps);
             this.tabHome.Controls.Add(this.Revert7Btn);
             this.tabHome.Controls.Add(this.btnDefender);
-            this.tabHome.Location = new System.Drawing.Point(4, 25);
+            this.tabHome.Location = new System.Drawing.Point(8, 39);
+            this.tabHome.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.tabHome.Name = "tabHome";
-            this.tabHome.Padding = new System.Windows.Forms.Padding(3);
-            this.tabHome.Size = new System.Drawing.Size(644, 444);
+            this.tabHome.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabHome.Size = new System.Drawing.Size(1027, 710);
             this.tabHome.TabIndex = 0;
             this.tabHome.Text = "Home";
             this.tabHome.UseVisualStyleBackColor = true;
@@ -94,9 +96,10 @@
             // 
             this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExit.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnExit.Location = new System.Drawing.Point(557, 392);
+            this.btnExit.Location = new System.Drawing.Point(891, 627);
+            this.btnExit.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(79, 40);
+            this.btnExit.Size = new System.Drawing.Size(126, 64);
             this.btnExit.TabIndex = 7;
             this.btnExit.Text = "Exit";
             this.btnExit.UseVisualStyleBackColor = true;
@@ -106,9 +109,10 @@
             // 
             this.btnUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnUpdate.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnUpdate.Location = new System.Drawing.Point(472, 392);
+            this.btnUpdate.Location = new System.Drawing.Point(755, 627);
+            this.btnUpdate.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(79, 40);
+            this.btnUpdate.Size = new System.Drawing.Size(126, 64);
             this.btnUpdate.TabIndex = 6;
             this.btnUpdate.Text = "Update";
             this.btnUpdate.UseVisualStyleBackColor = true;
@@ -116,9 +120,10 @@
             // 
             // btnContext
             // 
-            this.btnContext.Location = new System.Drawing.Point(325, 225);
+            this.btnContext.Location = new System.Drawing.Point(520, 360);
+            this.btnContext.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.btnContext.Name = "btnContext";
-            this.btnContext.Size = new System.Drawing.Size(261, 40);
+            this.btnContext.Size = new System.Drawing.Size(418, 64);
             this.btnContext.TabIndex = 5;
             this.btnContext.Text = "Cleanup Context Menus";
             this.toolTip1.SetToolTip(this.btnContext, resources.GetString("btnContext.ToolTip"));
@@ -127,9 +132,10 @@
             // 
             // OneDriveBtn
             // 
-            this.OneDriveBtn.Location = new System.Drawing.Point(325, 179);
+            this.OneDriveBtn.Location = new System.Drawing.Point(520, 286);
+            this.OneDriveBtn.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.OneDriveBtn.Name = "OneDriveBtn";
-            this.OneDriveBtn.Size = new System.Drawing.Size(261, 40);
+            this.OneDriveBtn.Size = new System.Drawing.Size(418, 64);
             this.OneDriveBtn.TabIndex = 3;
             this.OneDriveBtn.Text = "Uninstall OneDrive";
             this.toolTip1.SetToolTip(this.OneDriveBtn, "- runs onedrive uninstall setup\r\n- remove all onedrive directories\r\n- remove oned" +
@@ -139,9 +145,10 @@
             // 
             // btnStartAds
             // 
-            this.btnStartAds.Location = new System.Drawing.Point(325, 133);
+            this.btnStartAds.Location = new System.Drawing.Point(520, 213);
+            this.btnStartAds.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.btnStartAds.Name = "btnStartAds";
-            this.btnStartAds.Size = new System.Drawing.Size(261, 40);
+            this.btnStartAds.Size = new System.Drawing.Size(418, 64);
             this.btnStartAds.TabIndex = 1;
             this.btnStartAds.Text = "Disable start menu ads";
             this.toolTip1.SetToolTip(this.btnStartAds, "disable start menu ads, not sure if it\'s still relevant / needed");
@@ -150,9 +157,10 @@
             // 
             // btnApps
             // 
-            this.btnApps.Location = new System.Drawing.Point(58, 225);
+            this.btnApps.Location = new System.Drawing.Point(93, 360);
+            this.btnApps.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.btnApps.Name = "btnApps";
-            this.btnApps.Size = new System.Drawing.Size(261, 40);
+            this.btnApps.Size = new System.Drawing.Size(418, 64);
             this.btnApps.TabIndex = 4;
             this.btnApps.Text = "Don\'t reinstall modern apps";
             this.toolTip1.SetToolTip(this.btnApps, "don\'t reinstall apps that come preinstalled with windows if you recently uninstal" +
@@ -162,9 +170,10 @@
             // 
             // Revert7Btn
             // 
-            this.Revert7Btn.Location = new System.Drawing.Point(58, 179);
+            this.Revert7Btn.Location = new System.Drawing.Point(93, 286);
+            this.Revert7Btn.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.Revert7Btn.Name = "Revert7Btn";
-            this.Revert7Btn.Size = new System.Drawing.Size(261, 40);
+            this.Revert7Btn.Size = new System.Drawing.Size(418, 64);
             this.Revert7Btn.TabIndex = 2;
             this.Revert7Btn.Text = "Revert Explorer to Windows 7 Style";
             this.toolTip1.SetToolTip(this.Revert7Btn, resources.GetString("Revert7Btn.ToolTip"));
@@ -173,9 +182,10 @@
             // 
             // btnDefender
             // 
-            this.btnDefender.Location = new System.Drawing.Point(58, 133);
+            this.btnDefender.Location = new System.Drawing.Point(93, 213);
+            this.btnDefender.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.btnDefender.Name = "btnDefender";
-            this.btnDefender.Size = new System.Drawing.Size(261, 40);
+            this.btnDefender.Size = new System.Drawing.Size(418, 64);
             this.btnDefender.TabIndex = 0;
             this.btnDefender.Text = "Disable Windows Defender";
             this.toolTip1.SetToolTip(this.btnDefender, "- disable active anti malware protection\r\n- delete from startup list\r\n- unregiste" +
@@ -188,10 +198,11 @@
             this.tabMetro.Controls.Add(this.appPanel);
             this.tabMetro.Controls.Add(this.UninstallBtn);
             this.tabMetro.Controls.Add(this.btnRefresh);
-            this.tabMetro.Location = new System.Drawing.Point(4, 25);
+            this.tabMetro.Location = new System.Drawing.Point(8, 39);
+            this.tabMetro.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.tabMetro.Name = "tabMetro";
-            this.tabMetro.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMetro.Size = new System.Drawing.Size(644, 444);
+            this.tabMetro.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabMetro.Size = new System.Drawing.Size(1027, 710);
             this.tabMetro.TabIndex = 1;
             this.tabMetro.Text = "Windows 10 Native Apps";
             this.tabMetro.UseVisualStyleBackColor = true;
@@ -201,9 +212,10 @@
             // 
             this.appPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.appPanel.Controls.Add(this.appBox);
-            this.appPanel.Location = new System.Drawing.Point(6, 6);
+            this.appPanel.Location = new System.Drawing.Point(10, 10);
+            this.appPanel.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.appPanel.Name = "appPanel";
-            this.appPanel.Size = new System.Drawing.Size(468, 426);
+            this.appPanel.Size = new System.Drawing.Size(748, 680);
             this.appPanel.TabIndex = 12;
             // 
             // appBox
@@ -213,8 +225,9 @@
             this.appBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.appBox.FormattingEnabled = true;
             this.appBox.Location = new System.Drawing.Point(0, 0);
+            this.appBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.appBox.Name = "appBox";
-            this.appBox.Size = new System.Drawing.Size(466, 424);
+            this.appBox.Size = new System.Drawing.Size(746, 678);
             this.appBox.Sorted = true;
             this.appBox.TabIndex = 0;
             this.appBox.UseCompatibleTextRendering = true;
@@ -223,9 +236,10 @@
             // 
             this.UninstallBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.UninstallBtn.Cursor = System.Windows.Forms.Cursors.Default;
-            this.UninstallBtn.Location = new System.Drawing.Point(480, 135);
+            this.UninstallBtn.Location = new System.Drawing.Point(768, 216);
+            this.UninstallBtn.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.UninstallBtn.Name = "UninstallBtn";
-            this.UninstallBtn.Size = new System.Drawing.Size(79, 40);
+            this.UninstallBtn.Size = new System.Drawing.Size(126, 64);
             this.UninstallBtn.TabIndex = 11;
             this.UninstallBtn.Text = "Uninstall";
             this.UninstallBtn.UseVisualStyleBackColor = true;
@@ -235,9 +249,10 @@
             // 
             this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRefresh.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnRefresh.Location = new System.Drawing.Point(480, 89);
+            this.btnRefresh.Location = new System.Drawing.Point(768, 142);
+            this.btnRefresh.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(79, 40);
+            this.btnRefresh.Size = new System.Drawing.Size(126, 64);
             this.btnRefresh.TabIndex = 10;
             this.btnRefresh.Text = "Refresh";
             this.btnRefresh.UseVisualStyleBackColor = true;
@@ -247,10 +262,11 @@
             // 
             this.tabConsole.Controls.Add(this.btnExport);
             this.tabConsole.Controls.Add(this.consoleBox);
-            this.tabConsole.Location = new System.Drawing.Point(4, 25);
+            this.tabConsole.Location = new System.Drawing.Point(8, 39);
+            this.tabConsole.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.tabConsole.Name = "tabConsole";
-            this.tabConsole.Padding = new System.Windows.Forms.Padding(3);
-            this.tabConsole.Size = new System.Drawing.Size(644, 444);
+            this.tabConsole.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabConsole.Size = new System.Drawing.Size(1027, 710);
             this.tabConsole.TabIndex = 2;
             this.tabConsole.Text = "Console";
             this.tabConsole.UseVisualStyleBackColor = true;
@@ -259,9 +275,10 @@
             // 
             this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExport.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnExport.Location = new System.Drawing.Point(557, 392);
+            this.btnExport.Location = new System.Drawing.Point(891, 627);
+            this.btnExport.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(79, 40);
+            this.btnExport.Size = new System.Drawing.Size(126, 64);
             this.btnExport.TabIndex = 9;
             this.btnExport.Text = "Export";
             this.btnExport.UseVisualStyleBackColor = true;
@@ -270,20 +287,22 @@
             // consoleBox
             // 
             this.consoleBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.consoleBox.Location = new System.Drawing.Point(8, 6);
+            this.consoleBox.Location = new System.Drawing.Point(13, 10);
+            this.consoleBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.consoleBox.Name = "consoleBox";
             this.consoleBox.ReadOnly = true;
-            this.consoleBox.Size = new System.Drawing.Size(628, 380);
+            this.consoleBox.Size = new System.Drawing.Size(1002, 606);
             this.consoleBox.TabIndex = 0;
             this.consoleBox.Text = "";
             // 
             // tabAbout
             // 
             this.tabAbout.Controls.Add(this.aboutBox);
-            this.tabAbout.Location = new System.Drawing.Point(4, 25);
+            this.tabAbout.Location = new System.Drawing.Point(8, 39);
+            this.tabAbout.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.tabAbout.Name = "tabAbout";
-            this.tabAbout.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAbout.Size = new System.Drawing.Size(644, 444);
+            this.tabAbout.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabAbout.Size = new System.Drawing.Size(1027, 710);
             this.tabAbout.TabIndex = 3;
             this.tabAbout.Text = "About";
             this.tabAbout.UseVisualStyleBackColor = true;
@@ -292,22 +311,24 @@
             // 
             this.aboutBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.aboutBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.aboutBox.Location = new System.Drawing.Point(3, 3);
+            this.aboutBox.Location = new System.Drawing.Point(5, 5);
+            this.aboutBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.aboutBox.Name = "aboutBox";
             this.aboutBox.ReadOnly = true;
-            this.aboutBox.Size = new System.Drawing.Size(638, 438);
+            this.aboutBox.Size = new System.Drawing.Size(1017, 700);
             this.aboutBox.TabIndex = 1;
             this.aboutBox.Text = resources.GetString("aboutBox.Text");
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(652, 473);
+            this.ClientSize = new System.Drawing.Size(1043, 757);
             this.Controls.Add(this.tabControl1);
             this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
