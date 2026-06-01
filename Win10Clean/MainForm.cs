@@ -519,13 +519,7 @@ namespace Win10Clean
                         Log("Disabled Pin to Start for: Recycle Bin!");
                     }
 
-                    // Disable modern share
-                    using (var key = baseReg.OpenSubKey(@"*\shellex\ContextMenuHandlers\ModernSharing", true)) {
-                        key.SetValue(string.Empty, "-{1d27f844-3a1f-4410-85ac-14651078412d}");
-                        Log("Disabled modern share!");
-                    }
-
-                    // Disable share menu
+                    // Disable old share menu
                     baseReg = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
                     string regKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked";
                     baseReg.CreateSubKey(regKey); // doesn't exist as default, normal behaviour
