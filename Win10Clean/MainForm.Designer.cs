@@ -203,7 +203,7 @@
             this.tabMetro.Padding = new System.Windows.Forms.Padding(5);
             this.tabMetro.Size = new System.Drawing.Size(1027, 710);
             this.tabMetro.TabIndex = 1;
-            this.tabMetro.Text = "Windows 10 Native Apps";
+            this.tabMetro.Text = "Native Apps";
             this.tabMetro.UseVisualStyleBackColor = true;
             this.tabMetro.Enter += new System.EventHandler(this.tabMetro_Enter);
             // 
