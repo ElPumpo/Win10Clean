@@ -47,34 +47,64 @@ namespace Win10Clean
 
                 string processName = "OneDrive";
                 int byteArray = BitConverter.ToInt32(BitConverter.GetBytes(0xb090010d), 0);
-                string onePath;
 
+                // Kill process (probably not needed)
                 try {
                     Process.GetProcessesByName(processName)[0].Kill();
-                } catch (Exception) { // Throws IndexOutOfRangeException
+                    Log("Killed OneDrive process");
+                } catch {
                     Log("Could not kill process: " + processName);
-                    // ignore errors
                 }
 
-                if (amd64) {
-                    onePath = Environment.GetFolderPath(Environment.SpecialFolder.SystemX86) + "\\OneDriveSetup.exe";
-                } else {
-                    onePath = Environment.GetFolderPath(Environment.SpecialFolder.System) + "\\OneDriveSetup.exe";
-                }
+                // Run uninstall trough setup
+
+                // If failed, try LocalMachine, too
+                bool failed = false;
 
                 try {
-                    Process.Start(onePath, "/uninstall");
-                    Log("Uninstalled OneDrive using the setup!");
+                    using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Uninstall\OneDriveSetup.exe", false)) {
+                        string uninstallString = key.GetValue("UninstallString").ToString();
+                        Log("Found OneDrive UninstallString: " + uninstallString);
+
+                        // Run uninstall
+                        CMDHelper.RunCommand(uninstallString);
+                        Log("Uninstalled OneDrive using setup (CurrentUser)");
+                    }
                 } catch (Exception ex) {
+                    Log("Could not uninstall/find OneDrive (CurrentUser)");
+                    Log("Trying LocalMachine next...");
+                    failed = true;
                     Log(ex.ToString());
+                }
+
+                // If not found in CurrentUser, try LocalMachine (this is the case when manually installed for all users)
+                if (failed) {
+                    try {
+                        var baseRegLocal = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
+
+                        using (var key = baseRegLocal.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OneDriveSetup.exe", false)) {
+                            string uninstallString = key.GetValue("UninstallString").ToString();
+                            Log("Found OneDrive UninstallString: " + uninstallString);
+
+                            // Run uninstall
+                            CMDHelper.RunCommand(uninstallString);
+                            Log("Uninstalled OneDrive using setup (LocalMachine)");
+                        }
+                    } catch (Exception ex) {
+                        Log("Could not uninstall/find OneDrive (LocalMachine)");
+                        Log(ex.ToString());
+                    }
                 }
 
                 // All the folders to be deleted
                 string[] onePaths = {
-                    Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\OneDrive",
-                    Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.System)) + "OneDriveTemp",
-                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Microsoft\\OneDrive",
-                    Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\\Microsoft OneDrive"
+                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "OneDrive"),
+                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Microsoft\OneDrive"),
+                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), @"Microsoft OneDrive"),
+                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Microsoft OneDrive"),
+                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "OneDriveSetup.exe"),
+                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "OneDrive.ico"),
+                    Path.Combine(Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.System)), "OneDriveTemp")
                 };
 
                 foreach (string dir in onePaths) {
