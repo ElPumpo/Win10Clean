@@ -58,41 +58,53 @@ namespace Win10Clean
 
                 // Run uninstall trough setup
 
-                // If failed, try LocalMachine, too
-                bool failed = false;
+                // If not found, try LocalMachine
+                bool found = false;
 
                 try {
                     using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Uninstall\OneDriveSetup.exe", false)) {
-                        string uninstallString = key.GetValue("UninstallString").ToString();
-                        Log("Found OneDrive UninstallString: " + uninstallString);
-
-                        // Run uninstall
-                        CMDHelper.RunCommand(uninstallString);
-                        Log("Uninstalled OneDrive using setup (CurrentUser)");
-                    }
-                } catch (Exception ex) {
-                    Log("Could not uninstall/find OneDrive (CurrentUser)");
-                    Log("Trying LocalMachine next...");
-                    failed = true;
-                    Log(ex.ToString());
-                }
-
-                // If not found in CurrentUser, try LocalMachine (this is the case when manually installed for all users)
-                if (failed) {
-                    try {
-                        var baseRegLocal = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
-
-                        using (var key = baseRegLocal.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OneDriveSetup.exe", false)) {
+                        if (key != null && key.GetValue("UninstallString") != null)
+                        {
                             string uninstallString = key.GetValue("UninstallString").ToString();
                             Log("Found OneDrive UninstallString: " + uninstallString);
 
                             // Run uninstall
                             CMDHelper.RunCommand(uninstallString);
-                            Log("Uninstalled OneDrive using setup (LocalMachine)");
+                            Log("Uninstalled OneDrive using setup (CurrentUser)");
+                            found = true;
+                        }
+                    }
+                } catch (Exception ex) {
+                    Log("Could not uninstall/find OneDrive (CurrentUser)");
+                    Log("Trying LocalMachine next...");
+                    Log(ex.ToString());
+                    Log("");
+                }
+
+                // If not found in CurrentUser, try LocalMachine (this is the case when manually installed for all users)
+                if (!found) {
+                    Log("Didn't find OneDrive in CurrentUser, now trying LocalMachine");
+                    var baseRegLocal = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
+
+                    try {
+                        using (var key = baseRegLocal.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OneDriveSetup.exe", false)) {
+                            if (key != null && key.GetValue("UninstallString") != null) {
+                                string uninstallString = key.GetValue("UninstallString").ToString();
+                                Log("Found OneDrive UninstallString: " + uninstallString);
+
+                                // Run uninstall
+                                CMDHelper.RunCommand(uninstallString);
+                                Log("Uninstalled OneDrive using setup (LocalMachine)");
+                            } else {
+                                Log("Did not find OneDrive in LocalMachine");
+                            }
                         }
                     } catch (Exception ex) {
                         Log("Could not uninstall/find OneDrive (LocalMachine)");
                         Log(ex.ToString());
+                        Log("");
+                    } finally {
+                        baseRegLocal.Dispose();
                     }
                 }
 
@@ -112,9 +124,8 @@ namespace Win10Clean
                         try {
                             Directory.Delete(dir, true);
                             Log("Folder deleted: " + dir);
-                        } catch (Exception) {
+                        } catch {
                             Log("Could not delete folder: " + dir);
-                            // ignore errors
                         }
                     }
                 }
