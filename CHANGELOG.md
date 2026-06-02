@@ -12,7 +12,11 @@ This update is focusing on Windows 11 compability
 - Disable GameDVR
 
 ### Fixed
+- OneDrive uninstall not working in Windows 11
 - Removed 'disable new share', not working in Windows 11
+
+### Removed
+- Disable Defender automation, not possible anymore with registry keys, that's good for security. Workaround: disable in Defender admin panel
 
 ## [1.0.0] - 2021-02-05
 Today is a big day for Win10Clean, which is just a normal day for y'all. It's being released as v1.0.0. Some new minor changes are here but it's still what I wanted it to be, and nothing more really.
