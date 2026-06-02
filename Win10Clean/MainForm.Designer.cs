@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabHome = new System.Windows.Forms.TabPage();
+            this.btnGameBar = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnContext = new System.Windows.Forms.Button();
@@ -39,7 +40,6 @@
             this.btnStartAds = new System.Windows.Forms.Button();
             this.btnApps = new System.Windows.Forms.Button();
             this.Revert7Btn = new System.Windows.Forms.Button();
-            this.btnDefender = new System.Windows.Forms.Button();
             this.tabMetro = new System.Windows.Forms.TabPage();
             this.appPanel = new System.Windows.Forms.Panel();
             this.appBox = new System.Windows.Forms.CheckedListBox();
@@ -51,7 +51,6 @@
             this.tabAbout = new System.Windows.Forms.TabPage();
             this.aboutBox = new System.Windows.Forms.RichTextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.btnGameBar = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabHome.SuspendLayout();
             this.tabMetro.SuspendLayout();
@@ -68,7 +67,7 @@
             this.tabControl1.Controls.Add(this.tabAbout);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(5);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1043, 757);
@@ -84,22 +83,33 @@
             this.tabHome.Controls.Add(this.btnStartAds);
             this.tabHome.Controls.Add(this.btnApps);
             this.tabHome.Controls.Add(this.Revert7Btn);
-            this.tabHome.Controls.Add(this.btnDefender);
             this.tabHome.Location = new System.Drawing.Point(8, 39);
-            this.tabHome.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabHome.Margin = new System.Windows.Forms.Padding(5);
             this.tabHome.Name = "tabHome";
-            this.tabHome.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabHome.Padding = new System.Windows.Forms.Padding(5);
             this.tabHome.Size = new System.Drawing.Size(1027, 710);
             this.tabHome.TabIndex = 0;
             this.tabHome.Text = "Home";
             this.tabHome.UseVisualStyleBackColor = true;
+            // 
+            // btnGameBar
+            // 
+            this.btnGameBar.Location = new System.Drawing.Point(93, 360);
+            this.btnGameBar.Margin = new System.Windows.Forms.Padding(5);
+            this.btnGameBar.Name = "btnGameBar";
+            this.btnGameBar.Size = new System.Drawing.Size(418, 64);
+            this.btnGameBar.TabIndex = 6;
+            this.btnGameBar.Text = "Disable Xbox Game Bar";
+            this.toolTip1.SetToolTip(this.btnGameBar, "Disable Xbox Game Bar");
+            this.btnGameBar.UseVisualStyleBackColor = true;
+            this.btnGameBar.Click += new System.EventHandler(this.btnGameBar_Click);
             // 
             // btnExit
             // 
             this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExit.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnExit.Location = new System.Drawing.Point(891, 627);
-            this.btnExit.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.btnExit.Margin = new System.Windows.Forms.Padding(5);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(126, 64);
             this.btnExit.TabIndex = 8;
@@ -112,7 +122,7 @@
             this.btnUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnUpdate.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnUpdate.Location = new System.Drawing.Point(755, 627);
-            this.btnUpdate.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.btnUpdate.Margin = new System.Windows.Forms.Padding(5);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(126, 64);
             this.btnUpdate.TabIndex = 7;
@@ -123,7 +133,7 @@
             // btnContext
             // 
             this.btnContext.Location = new System.Drawing.Point(520, 360);
-            this.btnContext.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.btnContext.Margin = new System.Windows.Forms.Padding(5);
             this.btnContext.Name = "btnContext";
             this.btnContext.Size = new System.Drawing.Size(418, 64);
             this.btnContext.TabIndex = 5;
@@ -135,7 +145,7 @@
             // OneDriveBtn
             // 
             this.OneDriveBtn.Location = new System.Drawing.Point(520, 286);
-            this.OneDriveBtn.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.OneDriveBtn.Margin = new System.Windows.Forms.Padding(5);
             this.OneDriveBtn.Name = "OneDriveBtn";
             this.OneDriveBtn.Size = new System.Drawing.Size(418, 64);
             this.OneDriveBtn.TabIndex = 3;
@@ -148,7 +158,7 @@
             // btnStartAds
             // 
             this.btnStartAds.Location = new System.Drawing.Point(520, 213);
-            this.btnStartAds.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.btnStartAds.Margin = new System.Windows.Forms.Padding(5);
             this.btnStartAds.Name = "btnStartAds";
             this.btnStartAds.Size = new System.Drawing.Size(418, 64);
             this.btnStartAds.TabIndex = 1;
@@ -159,8 +169,8 @@
             // 
             // btnApps
             // 
-            this.btnApps.Location = new System.Drawing.Point(93, 360);
-            this.btnApps.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.btnApps.Location = new System.Drawing.Point(93, 286);
+            this.btnApps.Margin = new System.Windows.Forms.Padding(5);
             this.btnApps.Name = "btnApps";
             this.btnApps.Size = new System.Drawing.Size(418, 64);
             this.btnApps.TabIndex = 4;
@@ -172,8 +182,8 @@
             // 
             // Revert7Btn
             // 
-            this.Revert7Btn.Location = new System.Drawing.Point(93, 286);
-            this.Revert7Btn.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.Revert7Btn.Location = new System.Drawing.Point(93, 213);
+            this.Revert7Btn.Margin = new System.Windows.Forms.Padding(5);
             this.Revert7Btn.Name = "Revert7Btn";
             this.Revert7Btn.Size = new System.Drawing.Size(418, 64);
             this.Revert7Btn.TabIndex = 2;
@@ -182,28 +192,15 @@
             this.Revert7Btn.UseVisualStyleBackColor = true;
             this.Revert7Btn.Click += new System.EventHandler(this.Revert7Btn_Click);
             // 
-            // btnDefender
-            // 
-            this.btnDefender.Location = new System.Drawing.Point(93, 213);
-            this.btnDefender.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
-            this.btnDefender.Name = "btnDefender";
-            this.btnDefender.Size = new System.Drawing.Size(418, 64);
-            this.btnDefender.TabIndex = 0;
-            this.btnDefender.Text = "Disable Windows Defender";
-            this.toolTip1.SetToolTip(this.btnDefender, "- disable active anti malware protection\r\n- delete from startup list\r\n- unregiste" +
-        "r shell extension");
-            this.btnDefender.UseVisualStyleBackColor = true;
-            this.btnDefender.Click += new System.EventHandler(this.btnDefender_Click);
-            // 
             // tabMetro
             // 
             this.tabMetro.Controls.Add(this.appPanel);
             this.tabMetro.Controls.Add(this.UninstallBtn);
             this.tabMetro.Controls.Add(this.btnRefresh);
             this.tabMetro.Location = new System.Drawing.Point(8, 39);
-            this.tabMetro.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabMetro.Margin = new System.Windows.Forms.Padding(5);
             this.tabMetro.Name = "tabMetro";
-            this.tabMetro.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabMetro.Padding = new System.Windows.Forms.Padding(5);
             this.tabMetro.Size = new System.Drawing.Size(1027, 710);
             this.tabMetro.TabIndex = 1;
             this.tabMetro.Text = "Windows 10 Native Apps";
@@ -215,7 +212,7 @@
             this.appPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.appPanel.Controls.Add(this.appBox);
             this.appPanel.Location = new System.Drawing.Point(10, 10);
-            this.appPanel.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.appPanel.Margin = new System.Windows.Forms.Padding(5);
             this.appPanel.Name = "appPanel";
             this.appPanel.Size = new System.Drawing.Size(748, 680);
             this.appPanel.TabIndex = 12;
@@ -227,7 +224,7 @@
             this.appBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.appBox.FormattingEnabled = true;
             this.appBox.Location = new System.Drawing.Point(0, 0);
-            this.appBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.appBox.Margin = new System.Windows.Forms.Padding(5);
             this.appBox.Name = "appBox";
             this.appBox.Size = new System.Drawing.Size(746, 678);
             this.appBox.Sorted = true;
@@ -239,7 +236,7 @@
             this.UninstallBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.UninstallBtn.Cursor = System.Windows.Forms.Cursors.Default;
             this.UninstallBtn.Location = new System.Drawing.Point(768, 216);
-            this.UninstallBtn.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.UninstallBtn.Margin = new System.Windows.Forms.Padding(5);
             this.UninstallBtn.Name = "UninstallBtn";
             this.UninstallBtn.Size = new System.Drawing.Size(126, 64);
             this.UninstallBtn.TabIndex = 11;
@@ -252,7 +249,7 @@
             this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRefresh.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnRefresh.Location = new System.Drawing.Point(768, 142);
-            this.btnRefresh.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.btnRefresh.Margin = new System.Windows.Forms.Padding(5);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(126, 64);
             this.btnRefresh.TabIndex = 10;
@@ -265,9 +262,9 @@
             this.tabConsole.Controls.Add(this.btnExport);
             this.tabConsole.Controls.Add(this.consoleBox);
             this.tabConsole.Location = new System.Drawing.Point(8, 39);
-            this.tabConsole.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabConsole.Margin = new System.Windows.Forms.Padding(5);
             this.tabConsole.Name = "tabConsole";
-            this.tabConsole.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabConsole.Padding = new System.Windows.Forms.Padding(5);
             this.tabConsole.Size = new System.Drawing.Size(1027, 710);
             this.tabConsole.TabIndex = 2;
             this.tabConsole.Text = "Console";
@@ -278,7 +275,7 @@
             this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExport.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnExport.Location = new System.Drawing.Point(891, 627);
-            this.btnExport.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.btnExport.Margin = new System.Windows.Forms.Padding(5);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(126, 64);
             this.btnExport.TabIndex = 9;
@@ -290,7 +287,7 @@
             // 
             this.consoleBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.consoleBox.Location = new System.Drawing.Point(13, 10);
-            this.consoleBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.consoleBox.Margin = new System.Windows.Forms.Padding(5);
             this.consoleBox.Name = "consoleBox";
             this.consoleBox.ReadOnly = true;
             this.consoleBox.Size = new System.Drawing.Size(1002, 606);
@@ -301,9 +298,9 @@
             // 
             this.tabAbout.Controls.Add(this.aboutBox);
             this.tabAbout.Location = new System.Drawing.Point(8, 39);
-            this.tabAbout.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabAbout.Margin = new System.Windows.Forms.Padding(5);
             this.tabAbout.Name = "tabAbout";
-            this.tabAbout.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tabAbout.Padding = new System.Windows.Forms.Padding(5);
             this.tabAbout.Size = new System.Drawing.Size(1027, 710);
             this.tabAbout.TabIndex = 3;
             this.tabAbout.Text = "About";
@@ -314,24 +311,12 @@
             this.aboutBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.aboutBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.aboutBox.Location = new System.Drawing.Point(5, 5);
-            this.aboutBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.aboutBox.Margin = new System.Windows.Forms.Padding(5);
             this.aboutBox.Name = "aboutBox";
             this.aboutBox.ReadOnly = true;
             this.aboutBox.Size = new System.Drawing.Size(1017, 700);
             this.aboutBox.TabIndex = 1;
             this.aboutBox.Text = resources.GetString("aboutBox.Text");
-            // 
-            // btnGameBar
-            // 
-            this.btnGameBar.Location = new System.Drawing.Point(93, 434);
-            this.btnGameBar.Margin = new System.Windows.Forms.Padding(5);
-            this.btnGameBar.Name = "btnGameBar";
-            this.btnGameBar.Size = new System.Drawing.Size(418, 64);
-            this.btnGameBar.TabIndex = 6;
-            this.btnGameBar.Text = "Disable Xbox Game Bar";
-            this.toolTip1.SetToolTip(this.btnGameBar, "Disable Xbox Game Bar");
-            this.btnGameBar.UseVisualStyleBackColor = true;
-            this.btnGameBar.Click += new System.EventHandler(this.btnGameBar_Click);
             // 
             // MainForm
             // 
@@ -342,7 +327,7 @@
             this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.Margin = new System.Windows.Forms.Padding(5);
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -374,7 +359,6 @@
         private System.Windows.Forms.Button btnStartAds;
         private System.Windows.Forms.Button btnApps;
         private System.Windows.Forms.Button Revert7Btn;
-        private System.Windows.Forms.Button btnDefender;
         private System.Windows.Forms.RichTextBox consoleBox;
         private System.Windows.Forms.RichTextBox aboutBox;
         private System.Windows.Forms.Button btnExport;

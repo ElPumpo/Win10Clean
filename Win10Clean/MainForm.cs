@@ -1,15 +1,15 @@
-﻿using System;
-using System.Windows.Forms;
-using System.Net;
-using System.IO;
-using System.Diagnostics;
-using Microsoft.Win32;
-using System.Net.NetworkInformation;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
-using Win10Clean.Common;
-using Windows.Management.Deployment;
-using Windows.Foundation;
+using System.Diagnostics;
+using System.IO;
+using System.Net;
+using System.Net.NetworkInformation;
 using System.Threading;
+using System.Windows.Forms;
+using Win10Clean.Common;
+using Windows.Foundation;
+using Windows.Management.Deployment;
 
 namespace Win10Clean
 {
@@ -20,7 +20,6 @@ namespace Win10Clean
         string serverUrl = "https://ElPumpo.github.io/Win10Clean/version2.txt";
         string releasesUrl = "https://github.com/ElPumpo/Win10Clean/releases";
         bool amd64 = Environment.Is64BitOperatingSystem;
-        bool defenderSwitch = false;
         Dictionary<string, string> appDirectory = new Dictionary<string, string>();
 
 
@@ -190,74 +189,6 @@ namespace Win10Clean
                 }
             }
             Log(string.Format("Offline: v{0} | Online: v{1} | Diff: {2}", offlineVer, onlineVer, diff));
-            Enabled = true;
-        }
-
-        private void btnDefender_Click(object sender, EventArgs e)
-        {
-            Enabled = false;
-            if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
-                var baseReg = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
-                if (!defenderSwitch) {
-                    try {
-                        // Disable active anti malware
-                        using (var key = baseReg.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", true)) {
-                            key.SetValue("DisableAntiSpyware", 1, RegistryValueKind.DWord);
-                            Log("Disabled main Defender!");
-                        }
-                    } catch (Exception ex) {
-                        // later versions of Defender added anti-tamper protection
-                        Log("Failed to disable Defender active anti malware protection");
-                        MessageBox.Show("Unable to disable the core Defender active anti malware protection. This is probably caused by its own anti-tamper protection. You'll have to disable Defender using the Defender security app instead.", ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-
-                    try {
-                        // Delete Defender from startup / tray icons
-                        using (var key = baseReg.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true)) {
-                            key.DeleteValue("WindowsDefender", false);
-                            key.DeleteValue("SecurityHealth", false);
-                            Log("Windows Defender removed from startup!");
-                        }
-
-                        // Unregister Defender shell extension
-                        // not really needed anymore as it seems like Defender disables the shell extention by its own now (not sure how) when disabled
-                        string defenderPath;
-
-                        if (amd64) {
-                            defenderPath = Environment.ExpandEnvironmentVariables("%ProgramW6432%");
-                        } else {
-                            defenderPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
-                        }
-
-                        defenderPath += @"\Windows Defender\shellext.dll";
-
-                        if (File.Exists(defenderPath)) {
-                            CMDHelper.RunCommand(@"regsvr32 /u /s """ + defenderPath + "\"");
-                            Log("Windows Defender shell addons unregistered!");
-                        } else {
-                            Log("Could not unregister the Defender shell extention!");
-                        }
-
-                        MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    } catch (Exception ex) {
-                        Log(ex.ToString());
-                        MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                } else { // re-enable Defender
-                    try {
-                        using (var key = baseReg.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", true)) {
-                            key.SetValue("DisableAntiSpyware", 0, RegistryValueKind.DWord);
-                            Log("Main Windows Defender functions enabled!");
-                        }
-
-                        MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    } catch (Exception ex) {
-                        Log(ex.ToString());
-                        MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                baseReg.Dispose();
-            }
             Enabled = true;
         }
 
@@ -535,6 +466,24 @@ namespace Win10Clean
                         Log("Disabled Win11-style context menu!");
                     }
 
+                    // Disable Defender shell extension
+                    string defenderPath;
+
+                    if (amd64) {
+                        defenderPath = Environment.ExpandEnvironmentVariables("%ProgramW6432%");
+                    } else {
+                        defenderPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+                    }
+
+                    defenderPath += @"\Windows Defender\shellext.dll";
+
+                    if (File.Exists(defenderPath)) {
+                        CMDHelper.RunCommand(@"regsvr32 /u /s """ + defenderPath + "\"");
+                        Log("Windows Defender shell addons unregistered!");
+                    } else {
+                        Log("Could not unregister Defender shell extention!");
+                    }
+
                     RestartExplorer();
                 } catch (Exception ex) {
                     Log(ex.ToString());
@@ -644,14 +593,6 @@ namespace Win10Clean
         {
             // various checks
             try {
-
-                // check defender state
-                using (var key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows Defender", false)) {
-                    if ((int)key.GetValue("DisableAntiSpyware", 0) == 1) {
-                        defenderSwitch = true;
-                        btnDefender.Text = "Enable Windows Defender";
-                    }
-                }
 
                 using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", false)) {
                     if ((int)key.GetValue("SilentInstalledAppsEnabled", 1) == 0) {
