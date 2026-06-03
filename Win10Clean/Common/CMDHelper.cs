@@ -5,7 +5,7 @@ namespace Win10Clean.Common
 {
     class CMDHelper
     {
-        public static void RunCommand(string command)
+        public static int RunCommand(string command)
         {
             using (var process = new Process()) {
                 process.StartInfo.FileName = "cmd.exe";
@@ -20,8 +20,12 @@ namespace Win10Clean.Common
                     process.StandardInput.WriteLine(command); // run the command
                     process.StandardInput.Close();
                     process.WaitForExit();
+
+                    return process.ExitCode;
                 } catch (Exception) { }
             }
+
+            return -1;
         }
 
         public static string RunCommandReturn(string command)

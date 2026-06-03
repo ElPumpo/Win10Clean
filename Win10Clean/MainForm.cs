@@ -705,6 +705,55 @@ namespace Win10Clean
             Enabled = true;
         }
 
+        private void btnUninstallEdge_Click(object sender, EventArgs e)
+        {
+            Enabled = false;
+            // TODO implement file change automation
+
+            // Workaround: MsgBox asking if file has been changed
+            if (MessageBox.Show("Are you sure? IntegratedServicesRegionPolicySet.json must be modified for this to work. See Wiki for more info.", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) {
+                Enabled = true;
+                return;
+            }
+
+            //string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "IntegratedServicesRegionPolicySet.json");
+
+            try {
+                using (var key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Microsoft Edge", true)) {
+                    if (key == null) {
+                        MessageBox.Show("Did not find Edge in registry", "Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Log("Did not find Edge in registry");
+                        return;
+                    }
+
+                    // Remove NoRemove restriction
+                    key.SetValue("NoRemove", 0, RegistryValueKind.DWord);
+                    Log("Removed NoRemove restriction for Edge");
+
+                    object uninstallValue = key.GetValue("UninstallString");
+
+                    if (uninstallValue == null) {
+                        MessageBox.Show("Edge UninstallString not found in registry", "Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Log("Edge UninstallString not found in registry");
+                        return;
+                    }
+
+                    string uninstallString = uninstallValue.ToString();
+                    Log("Found Edge UninstallString: " + uninstallString);
+ 
+                    CMDHelper.RunCommand(uninstallString);
+                    Log("Ran Edge Uninstall using setup");
+
+                    MessageBox.Show("OK!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            } catch (Exception ex) {
+                Log(ex.ToString());
+                MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            } finally {
+                Enabled = true;
+            }
+        }
+
         private void RetrieveApps(bool reset = false)
         {
             if (reset) {

@@ -4,10 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-[Unreleased]
+## [Unreleased]
 This update is focusing on Windows 11 compability
 
 ### Added
+- Uninstall Edge
 - Disable Windows 11-style context menu
 - Disable GameDVR
 

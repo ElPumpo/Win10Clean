@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabHome = new System.Windows.Forms.TabPage();
+            this.btnUninstallEdge = new System.Windows.Forms.Button();
             this.btnGameBar = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
@@ -71,10 +72,11 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1043, 757);
-            this.tabControl1.TabIndex = 9;
+            this.tabControl1.TabIndex = 10;
             // 
             // tabHome
             // 
+            this.tabHome.Controls.Add(this.btnUninstallEdge);
             this.tabHome.Controls.Add(this.btnGameBar);
             this.tabHome.Controls.Add(this.btnExit);
             this.tabHome.Controls.Add(this.btnUpdate);
@@ -92,13 +94,24 @@
             this.tabHome.Text = "Home";
             this.tabHome.UseVisualStyleBackColor = true;
             // 
+            // btnUninstallEdge
+            // 
+            this.btnUninstallEdge.Location = new System.Drawing.Point(93, 434);
+            this.btnUninstallEdge.Margin = new System.Windows.Forms.Padding(5);
+            this.btnUninstallEdge.Name = "btnUninstallEdge";
+            this.btnUninstallEdge.Size = new System.Drawing.Size(418, 64);
+            this.btnUninstallEdge.TabIndex = 7;
+            this.btnUninstallEdge.Text = "Uninstall Edge";
+            this.btnUninstallEdge.UseVisualStyleBackColor = true;
+            this.btnUninstallEdge.Click += new System.EventHandler(this.btnUninstallEdge_Click);
+            // 
             // btnGameBar
             // 
             this.btnGameBar.Location = new System.Drawing.Point(93, 360);
             this.btnGameBar.Margin = new System.Windows.Forms.Padding(5);
             this.btnGameBar.Name = "btnGameBar";
             this.btnGameBar.Size = new System.Drawing.Size(418, 64);
-            this.btnGameBar.TabIndex = 6;
+            this.btnGameBar.TabIndex = 5;
             this.btnGameBar.Text = "Disable Xbox Game Bar";
             this.toolTip1.SetToolTip(this.btnGameBar, "Disable Xbox Game Bar");
             this.btnGameBar.UseVisualStyleBackColor = true;
@@ -112,7 +125,7 @@
             this.btnExit.Margin = new System.Windows.Forms.Padding(5);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(126, 64);
-            this.btnExit.TabIndex = 8;
+            this.btnExit.TabIndex = 9;
             this.btnExit.Text = "Exit";
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
@@ -125,7 +138,7 @@
             this.btnUpdate.Margin = new System.Windows.Forms.Padding(5);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(126, 64);
-            this.btnUpdate.TabIndex = 7;
+            this.btnUpdate.TabIndex = 8;
             this.btnUpdate.Text = "Update";
             this.btnUpdate.UseVisualStyleBackColor = true;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
@@ -136,7 +149,7 @@
             this.btnContext.Margin = new System.Windows.Forms.Padding(5);
             this.btnContext.Name = "btnContext";
             this.btnContext.Size = new System.Drawing.Size(418, 64);
-            this.btnContext.TabIndex = 5;
+            this.btnContext.TabIndex = 6;
             this.btnContext.Text = "Cleanup Context Menus";
             this.toolTip1.SetToolTip(this.btnContext, resources.GetString("btnContext.ToolTip"));
             this.btnContext.UseVisualStyleBackColor = true;
@@ -148,7 +161,7 @@
             this.OneDriveBtn.Margin = new System.Windows.Forms.Padding(5);
             this.OneDriveBtn.Name = "OneDriveBtn";
             this.OneDriveBtn.Size = new System.Drawing.Size(418, 64);
-            this.OneDriveBtn.TabIndex = 3;
+            this.OneDriveBtn.TabIndex = 4;
             this.OneDriveBtn.Text = "Uninstall OneDrive";
             this.toolTip1.SetToolTip(this.OneDriveBtn, "- runs onedrive uninstall setup\r\n- remove all onedrive directories\r\n- remove oned" +
         "rive from explorer\r\n- remove onedrive startup object\r\n- remove tasks");
@@ -161,7 +174,7 @@
             this.btnStartAds.Margin = new System.Windows.Forms.Padding(5);
             this.btnStartAds.Name = "btnStartAds";
             this.btnStartAds.Size = new System.Drawing.Size(418, 64);
-            this.btnStartAds.TabIndex = 1;
+            this.btnStartAds.TabIndex = 2;
             this.btnStartAds.Text = "Disable start menu ads";
             this.toolTip1.SetToolTip(this.btnStartAds, "disable start menu ads, not sure if it\'s still relevant / needed");
             this.btnStartAds.UseVisualStyleBackColor = true;
@@ -173,7 +186,7 @@
             this.btnApps.Margin = new System.Windows.Forms.Padding(5);
             this.btnApps.Name = "btnApps";
             this.btnApps.Size = new System.Drawing.Size(418, 64);
-            this.btnApps.TabIndex = 4;
+            this.btnApps.TabIndex = 3;
             this.btnApps.Text = "Don\'t reinstall modern apps";
             this.toolTip1.SetToolTip(this.btnApps, "don\'t reinstall apps that come preinstalled with windows if you recently uninstal" +
         "led them");
@@ -186,7 +199,7 @@
             this.Revert7Btn.Margin = new System.Windows.Forms.Padding(5);
             this.Revert7Btn.Name = "Revert7Btn";
             this.Revert7Btn.Size = new System.Drawing.Size(418, 64);
-            this.Revert7Btn.TabIndex = 2;
+            this.Revert7Btn.TabIndex = 1;
             this.Revert7Btn.Text = "Revert Explorer to Windows 7 Style";
             this.toolTip1.SetToolTip(this.Revert7Btn, resources.GetString("Revert7Btn.ToolTip"));
             this.Revert7Btn.UseVisualStyleBackColor = true;
@@ -368,6 +381,7 @@
         private System.Windows.Forms.CheckedListBox appBox;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button btnGameBar;
+        private System.Windows.Forms.Button btnUninstallEdge;
     }
 }
 
