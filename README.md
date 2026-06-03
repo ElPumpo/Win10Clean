@@ -9,13 +9,13 @@ Check out the [wiki](https://github.com/ElPumpo/Win10Clean/wiki) for more inform
 Runnable executables [are available for download](https://github.com/ElPumpo/Win10Clean/releases)
 
 # Requirements
-+ Windows 10
++ Windows 11/10
 + .NET framework 4.8
 
 # Legal
 
 ### License
-Win10Clean - Cleanup your Windows 10 environment
+Win10Clean - Cleanup your Windows 11 environment
 
 Copyright (C) Hawaii_Beach
 
