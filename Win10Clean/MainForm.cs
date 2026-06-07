@@ -840,9 +840,10 @@ namespace Win10Clean
                     using (var key = baseReg.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\GameDVR", true))
                     {
                         key.SetValue("AppCaptureEnabled", 0, RegistryValueKind.DWord);
+                        key.SetValue("NoWinKeys", 1, RegistryValueKind.DWord); // Disable ms-gamebar on controller connection
                     }
 
-                    Log("AppCaptureEnabled disabled!");
+                    Log("AppCaptureEnabled & NoWinKeys disabled!");
 
                     using (var key = Registry.CurrentUser.OpenSubKey(@"System\GameConfigStore", true))
                     {
